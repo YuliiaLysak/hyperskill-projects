@@ -1,0 +1,15 @@
+span {
+    color: green;
+}
+pre {
+    background: lightgray;
+    width: 50%;
+    border: solid gray;
+    padding: 10px;
+}
+
+textarea {
+    width: 50%;
+    height: 150px;
+    margin-bottom: 10px;
+}
