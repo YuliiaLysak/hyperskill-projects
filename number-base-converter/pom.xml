@@ -2,16 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>hyperskill-projects</artifactId>
+        <groupId>edu.lysak</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>edu.lysak</groupId>
-    <artifactId>hyperskill-projects</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>code-sharing-platform</module>
-        <module>number-base-converter</module>
-    </modules>
+    <artifactId>number-base-converter</artifactId>
 
     <properties>
         <maven.compiler.source>14</maven.compiler.source>
