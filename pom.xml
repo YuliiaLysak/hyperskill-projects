@@ -11,6 +11,7 @@
     <modules>
         <module>code-sharing-platform</module>
         <module>number-base-converter</module>
+        <module>cinema-room-rest-service</module>
     </modules>
 
     <properties>
