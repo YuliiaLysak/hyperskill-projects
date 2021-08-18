@@ -8,5 +8,7 @@ public class Main {
         NumberChecker checker = new NumberChecker();
         InputHandler inputHandler = new InputHandler(scanner, checker);
         inputHandler.proceed();
+
+        System.out.println("Hello, Jenkins!");
     }
 }
