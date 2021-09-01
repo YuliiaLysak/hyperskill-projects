@@ -1,0 +1,6 @@
+Total words: 7.
+-2: 1 time(s), 20%
+3: 1 time(s), 20%
+42: 1 time(s), 20%
+55: 1 time(s), 20%
+1: 3 time(s), 60%

@@ -1,4 +1,4 @@
-package edu.lysak;
+package edu.lysak.sorting1;
 
 public class NoDataTypeException extends RuntimeException {
     @Override

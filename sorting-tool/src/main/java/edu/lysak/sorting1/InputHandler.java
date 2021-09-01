@@ -1,4 +1,4 @@
-package edu.lysak;
+package edu.lysak.sorting1;
 
 import java.io.File;
 import java.io.IOException;

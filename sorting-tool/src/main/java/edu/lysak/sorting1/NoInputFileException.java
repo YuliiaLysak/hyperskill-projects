@@ -1,4 +1,4 @@
-package edu.lysak;
+package edu.lysak.sorting1;
 
 public class NoInputFileException extends RuntimeException {
     @Override
