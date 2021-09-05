@@ -15,6 +15,7 @@
         <module>amazing-numbers</module>
         <module>recipes</module>
         <module>sorting-tool</module>
+        <module>simple-search-engine</module>
     </modules>
 
     <properties>
