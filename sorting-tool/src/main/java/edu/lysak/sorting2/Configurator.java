@@ -49,13 +49,11 @@ public class Configurator {
     }
 
     private Sorter getSorter(String sortingType) {
-        switch (sortingType) {
-            case "natural":
-                return new NaturalSorter();
-            case "byCount":
-                return new ByCountSorter();
-        }
-        return null;
+        return switch (sortingType) {
+            case "natural" -> new NaturalSorter();
+            case "byCount" -> new ByCountSorter();
+            default -> null;
+        };
     }
 
     private InputStream getInputStream() throws FileNotFoundException {
@@ -143,26 +141,20 @@ public class Configurator {
     }
 
     private DataWriter getDataWriter(String dataType, PrintStream printStream) {
-        switch (dataType) {
-            case "long":
-                return new NumberWriter(printStream);
-            case "line":
-                return new LineWriter(printStream);
-            case "word":
-                return new WordWriter(printStream);
-        }
-        return null;
+        return switch (dataType) {
+            case "long" -> new NumberWriter(printStream);
+            case "line" -> new LineWriter(printStream);
+            case "word" -> new WordWriter(printStream);
+            default -> null;
+        };
     }
 
     private DataReader getDataReader(String dataType, InputStream readStream) {
-        switch (dataType) {
-            case "long":
-                return new NumberReader(readStream);
-            case "line":
-                return new LineReader(readStream);
-            case "word":
-                return new WordReader(readStream);
-        }
-        return null;
+        return switch (dataType) {
+            case "long" -> new NumberReader(readStream);
+            case "line" -> new LineReader(readStream);
+            case "word" -> new WordReader(readStream);
+            default -> null;
+        };
     }
 }
