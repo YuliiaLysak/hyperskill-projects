@@ -16,6 +16,7 @@
         <module>recipes</module>
         <module>sorting-tool</module>
         <module>simple-search-engine</module>
+        <module>music-advisor</module>
     </modules>
 
     <properties>
