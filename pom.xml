@@ -17,6 +17,7 @@
         <module>sorting-tool</module>
         <module>simple-search-engine</module>
         <module>music-advisor</module>
+        <module>web-quiz-engine</module>
     </modules>
 
     <properties>
