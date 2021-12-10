@@ -16,6 +16,7 @@
         <module>recipes</module>
         <module>sorting-tool</module>
         <module>simple-search-engine</module>
+        <module>smart-calculator</module>
         <module>music-advisor</module>
         <module>web-quiz-engine</module>
     </modules>
