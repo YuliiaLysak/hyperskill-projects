@@ -1,5 +1,6 @@
 package edu.lysak.calculator;
 
+import java.math.BigInteger;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Map;
@@ -7,9 +8,9 @@ import java.util.Map;
 public class ExpressionParser {
     private final Deque<String> deque = new ArrayDeque<>();
     private final StringBuilder postfixExpression = new StringBuilder();
-    private final Map<String, Integer> variables;
+    private final Map<String, BigInteger> variables;
 
-    public ExpressionParser(Map<String, Integer> variables) {
+    public ExpressionParser(Map<String, BigInteger> variables) {
         this.variables = variables;
     }
 
@@ -44,13 +45,12 @@ public class ExpressionParser {
             }
             if (isVariable(token)) {
                 newBlock = false;
-                Integer val = variables.get(token);
+                BigInteger val = variables.get(token);
                 if (nextDigitIsNegative) {
-                    val = -val;
+                    val = val.negate();
                     nextDigitIsNegative = false;
                 }
                 postfixExpression.append(val).append(" ");
-//                postfixExpression.append(variables.get(token)).append(" ");
                 continue;
             }
 

@@ -1,5 +1,6 @@
 package edu.lysak.calculator;
 
+import java.math.BigInteger;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
@@ -8,9 +9,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Calculator {
-    private final Map<String, Integer> variables = new HashMap<>();
+    private final Map<String, BigInteger> variables = new HashMap<>();
 
-    public int processExpression(String line) {
+    public BigInteger processExpression(String line) {
         ExpressionParser expressionParser = new ExpressionParser(variables);
         String postfixExpression = expressionParser.getConvertedLineFromInfixToPostfix(line.trim());
         return getPostfixResult(postfixExpression);
@@ -34,7 +35,7 @@ public class Calculator {
             }
 
             try {
-                variables.put(variableName, Integer.parseInt(variableValue));
+                variables.put(variableName, new BigInteger(variableValue));
             } catch (NumberFormatException e) {
                 if (variables.containsKey(variableValue)) {
                     variables.put(variableName, variables.get(variableValue));
@@ -65,17 +66,17 @@ public class Calculator {
         }
     }
 
-    private int getPostfixResult(String line) {
+    private BigInteger getPostfixResult(String line) {
         String[] tokens = line.split(" ");
-        Deque<Integer> resultDeque = new ArrayDeque<>();
+        Deque<BigInteger> resultDeque = new ArrayDeque<>();
         for (String token : tokens) {
             if (isDigit(token)) {
-                resultDeque.offerLast(Integer.parseInt(token));
+                resultDeque.offerLast(new BigInteger(token));
                 continue;
             }
-            Integer secondOperand = resultDeque.pollLast();
-            Integer firstOperand = resultDeque.pollLast();
-            int result = getBinaryResult(firstOperand, secondOperand, token);
+            BigInteger secondOperand = resultDeque.pollLast();
+            BigInteger firstOperand = resultDeque.pollLast();
+            BigInteger result = getBinaryResult(firstOperand, secondOperand, token);
             resultDeque.offerLast(result);
         }
         if (!resultDeque.isEmpty()) {
@@ -84,23 +85,19 @@ public class Calculator {
         throw new IllegalStateException("Wrong expression '" + line + "'");
     }
 
-    private int getBinaryResult(Integer firstOperand, Integer secondOperand, String operator) {
+    private BigInteger getBinaryResult(BigInteger firstOperand, BigInteger secondOperand, String operator) {
         switch (operator) {
             case "+":
-                return firstOperand + secondOperand;
+                return firstOperand.add(secondOperand);
             case "-":
-                return firstOperand - secondOperand;
+                return firstOperand.subtract(secondOperand);
             case "*":
-                return firstOperand * secondOperand;
+                return firstOperand.multiply(secondOperand);
             case "/":
-                return firstOperand / secondOperand;
+                return firstOperand.divide(secondOperand);
             case "^":
-                return (int) Math.pow(firstOperand, secondOperand);
-//                int result = 1;
-//                for (int i = 0; i < secondOperand; i++) {
-//                    result *= firstOperand;
-//                }
-//                return result;
+                return firstOperand.pow(secondOperand.intValue());
+//                return pow(firstOperand, secondOperand);
         }
         throw new IllegalStateException("Operation is not possible");
     }
@@ -116,5 +113,15 @@ public class Calculator {
             }
         }
         return true;
+    }
+
+    private BigInteger pow(BigInteger base, BigInteger exponent) {
+        BigInteger result = BigInteger.ONE;
+        while (exponent.signum() > 0) {
+            if (exponent.testBit(0)) result = result.multiply(base);
+            base = base.multiply(base);
+            exponent = exponent.shiftRight(1);
+        }
+        return result;
     }
 }

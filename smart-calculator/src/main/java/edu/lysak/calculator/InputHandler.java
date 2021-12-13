@@ -58,9 +58,6 @@ public class InputHandler {
             return;
         }
 
-//        if (line.startsWith("-")) {
-//            line = 0 + " " + line;
-//        }
         line = normalizeToken(line);
 
 
