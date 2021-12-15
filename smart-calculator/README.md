@@ -6,6 +6,6 @@ Calculators are a very helpful tool that we all use on a regular basis. Why not 
 ### Learning outcomes
 Apart from writing a useful program (everyone uses calculators!), you will learn a lot about arrays, stacks, strings, and queues. You will also get closer experience with 2 important data structures: the stack and the queue. You will also get a closer experience with BigInteger class that allows storing large volumes of data with precision for geo-data or physical quantities.
 
-[Link to the project on Hyperskill](https://hyperskill.org/projects/42?track=12)
+[Link to the project on Hyperskill](https://hyperskill.org/projects/42)
 
 [My profile on Hyperskill](https://hyperskill.org/profile/43632084)
