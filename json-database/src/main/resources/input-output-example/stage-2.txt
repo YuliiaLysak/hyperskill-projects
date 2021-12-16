@@ -1,0 +1,14 @@
+Example
+
+The server should output something like this:
+
+Server started!
+Received: Give me a record # 12
+Sent: A record # 12 was sent!
+
+
+The client should output something like this:
+
+Client started!
+Sent: Give me a record # 12
+Received: A record # 12 was sent!
