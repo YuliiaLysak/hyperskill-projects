@@ -1,0 +1,46 @@
+Example
+To send a request to the server, the client should get all the information through command-line arguments.
+The greater-than symbol followed by a space (> ) represents the user input.
+Note that it's not part of the input.
+
+Starting the server:
+> java Main
+Server started!
+
+
+Starting the clients:
+
+> java Main -t get -i 1
+Client started!
+Sent: get 1
+Received: ERROR
+
+> java Main -t set -i 1 -m "Hello world!"
+Client started!
+Sent: set 1 Hello world!
+Received: OK
+
+> java Main -t set -i 1 -m HelloWorld!
+Client started!
+Sent: set 1 HelloWorld!
+Received: OK
+
+> java Main -t get -i 1
+Client started!
+Sent: get 1
+Received: HelloWorld!
+
+> java Main -t delete -i 1
+Client started!
+Sent: delete 1
+Received: OK
+
+> java Main -t get -i 1
+Client started!
+Sent: get 1
+Received: ERROR
+
+> java Main -t exit
+Client started!
+Sent: exit
+Received: OK
