@@ -6,21 +6,21 @@ public class Arguments {
     @Parameter(names = {"-t"}, description = "Type of the request")
     private String requestType;
 
-    @Parameter(names = {"-i"}, description = "Index of the cell")
-    private int index;
+    @Parameter(names = {"-k"}, description = "Key")
+    private String key;
 
-    @Parameter(names = "-m", description = "Value to save in the database (only in case of a 'set' request")
-    private String text;
+    @Parameter(names = "-v", description = "Value to save in the database (only in case of a 'set' request")
+    private String value;
 
     public String getRequestType() {
         return requestType;
     }
 
-    public int getIndex() {
-        return index;
+    public String getKey() {
+        return key;
     }
 
-    public String getText() {
-        return text;
+    public String getValue() {
+        return value;
     }
 }

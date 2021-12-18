@@ -1,38 +1,21 @@
 package edu.lysak.server;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JsonDatabase {
-    private final String[] database = new String[100];
+    private final Map<String, String> database = new HashMap<>();
 
-    {
-        Arrays.fill(database, "");
+    public void set(String key, String value) {
+        database.put(key, value);
     }
 
-    public boolean set(int index, String text) {
-        if (isInvalid(index)) {
-            return false;
-        }
-        database[index - 1] = text;
-        return true;
+    public String get(String key) {
+        return database.get(key);
     }
 
-    public String get(int index) {
-        if (isInvalid(index) || database[index - 1].isEmpty()) {
-            return null;
-        }
-        return database[index - 1];
-    }
-
-    public boolean delete(int index) {
-        if (isInvalid(index)) {
-            return false;
-        }
-        database[index - 1] = "";
-        return true;
-    }
-
-    private boolean isInvalid(int index) {
-        return index < 1 || index > 100;
+    public boolean delete(String key) {
+        String deletedValue = database.remove(key);
+        return deletedValue != null;
     }
 }

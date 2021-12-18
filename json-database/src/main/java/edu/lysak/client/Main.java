@@ -1,6 +1,7 @@
 package edu.lysak.client;
 
 import com.beust.jcommander.JCommander;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 
@@ -15,7 +16,8 @@ public class Main {
                 .build()
                 .parse(args);
 
-        MyClientSocket client = new MyClientSocket(ADDRESS, PORT);
-        client.run(arguments.getRequestType(), arguments.getIndex(), arguments.getText());
+        RequestHandler requestHandler = new RequestHandler(new Gson());
+        MyClientSocket client = new MyClientSocket(requestHandler, ADDRESS, PORT);
+        client.run(arguments.getRequestType(), arguments.getKey(), arguments.getValue());
     }
 }

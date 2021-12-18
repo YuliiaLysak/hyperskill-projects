@@ -1,5 +1,7 @@
 package edu.lysak.server;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 
 public class Main {
@@ -8,8 +10,8 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         JsonDatabase jsonDatabase = new JsonDatabase();
-        RequestHandler requestHandler = new RequestHandler(jsonDatabase);
-        MyServerSocket server = new MyServerSocket(requestHandler, ADDRESS, PORT);
+        ResponseHandler responseHandler = new ResponseHandler(jsonDatabase, new Gson());
+        MyServerSocket server = new MyServerSocket(responseHandler, ADDRESS, PORT);
         server.run();
     }
 }
