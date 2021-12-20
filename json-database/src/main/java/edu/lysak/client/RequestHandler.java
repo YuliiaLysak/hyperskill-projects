@@ -1,7 +1,8 @@
 package edu.lysak.client;
 
 import com.google.gson.Gson;
-import edu.lysak.protocol.Request;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,7 +20,7 @@ public class RequestHandler {
     public String createRequest(Arguments arguments) throws IOException {
         String inputFile = arguments.getInputFile();
 
-        Request request;
+        JsonObject request;
         if (inputFile == null) {
             request = createRequestFromArgs(arguments);
         } else {
@@ -29,24 +30,24 @@ public class RequestHandler {
         return gson.toJson(request);
     }
 
-    private Request createRequestFromArgs(Arguments arguments) {
+    private JsonObject createRequestFromArgs(Arguments arguments) {
         String requestType = arguments.getRequestType();
         String key = arguments.getKey();
         String value = arguments.getValue();
 
-        Request request = new Request();
-        request.setType(requestType);
+        JsonObject request = new JsonObject();
+        request.addProperty("type", requestType);
         if (key != null) {
-            request.setKey(key);
+            request.addProperty("key", key);
         }
         if (value != null) {
-            request.setValue(value);
+            request.addProperty("value", value);
         }
         return request;
     }
 
-    private Request createRequestFromFile(String inputFile) throws IOException {
+    private JsonObject createRequestFromFile(String inputFile) throws IOException {
         String fileContent = new String(Files.readAllBytes(Path.of(INPUT_FILE_DIR + inputFile)));
-        return gson.fromJson(fileContent, Request.class);
+        return JsonParser.parseString(fileContent).getAsJsonObject();
     }
 }

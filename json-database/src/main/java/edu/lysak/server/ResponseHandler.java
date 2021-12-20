@@ -1,14 +1,21 @@
 package edu.lysak.server;
 
 import com.google.gson.Gson;
-import edu.lysak.protocol.Request;
-import edu.lysak.protocol.Response;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import java.io.IOException;
 
 public class ResponseHandler {
+    private static final String TYPE = "type";
+    private static final String KEY = "key";
+    private static final String VALUE = "value";
+    private static final String RESPONSE = "response";
     private static final String OK = "OK";
     private static final String ERROR = "ERROR";
+    private static final String REASON = "reason";
+    private static final String NO_SUCH_KEY = "No such key";
 
     private final JsonDatabase jsonDatabase;
     private final Gson gson;
@@ -18,46 +25,60 @@ public class ResponseHandler {
         this.gson = gson;
     }
 
-    public String getJsonResponse(Request request) throws IOException {
-        Response response = new Response();
-        switch (request.getType()) {
-            case "exit" -> response.setResponse(OK);
+    public JsonObject getRequest(String command) {
+        return gson.fromJson(command, JsonObject.class);
+    }
+
+    public String getJsonResponse(JsonObject request) throws IOException {
+        JsonObject response = new JsonObject();
+        switch (request.get(TYPE).getAsString()) {
+            case "exit" -> response.addProperty(RESPONSE, OK);
             case "set" -> executeSetCommand(request, response);
             case "get" -> executeGetCommand(request, response);
             case "delete" -> executeDeleteCommand(request, response);
             default -> throw new IllegalArgumentException(
-                    String.format("Command %s is not supported", request.getType())
+                    String.format("Command %s is not supported", request.get(TYPE))
             );
         }
         return gson.toJson(response);
     }
 
-    public Request getRequest(String command) {
-        return gson.fromJson(command, Request.class);
+    private void executeSetCommand(JsonObject request, JsonObject response) throws IOException {
+        JsonArray keys = getKeysAsJsonArray(request);
+        jsonDatabase.set(keys, request.get(VALUE));
+        response.addProperty(RESPONSE, OK);
     }
 
-    private void executeSetCommand(Request request, Response response) throws IOException {
-        jsonDatabase.set(request.getKey(), request.getValue());
-        response.setResponse(OK);
-    }
-
-    private void executeGetCommand(Request request, Response response) throws IOException {
-        String value = jsonDatabase.get(request.getKey());
+    private void executeGetCommand(JsonObject request, JsonObject response) throws IOException {
+        JsonArray keys = getKeysAsJsonArray(request);
+        JsonElement value = jsonDatabase.get(keys);
         if (value != null) {
-            response.setResponse(OK);
-            response.setValue(value);
+            response.addProperty(RESPONSE, OK);
+            response.add(VALUE, value);
         } else {
-            response.setResponse(ERROR);
-            response.setReason("No such key");
+            response.addProperty(RESPONSE, ERROR);
+            response.addProperty(REASON, NO_SUCH_KEY);
         }
     }
 
-    private void executeDeleteCommand(Request request, Response response) throws IOException {
-        if (jsonDatabase.delete(request.getKey())) {
-            response.setResponse(OK);
+    private void executeDeleteCommand(JsonObject request, JsonObject response) throws IOException {
+        JsonArray keys = getKeysAsJsonArray(request);
+        if (jsonDatabase.delete(keys)) {
+            response.addProperty(RESPONSE, OK);
         } else {
-            response.setResponse(ERROR);
-            response.setReason("No such key");
+            response.addProperty(RESPONSE, ERROR);
+            response.addProperty(REASON, NO_SUCH_KEY);
         }
+    }
+
+    private JsonArray getKeysAsJsonArray(JsonObject request) {
+        JsonArray keys;
+        if (!request.get(KEY).isJsonArray()) {
+            keys = new JsonArray();
+            keys.add(request.get(KEY));
+        } else {
+            keys = request.get(KEY).getAsJsonArray();
+        }
+        return keys;
     }
 }

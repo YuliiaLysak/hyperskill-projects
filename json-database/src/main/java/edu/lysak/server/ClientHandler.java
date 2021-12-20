@@ -1,6 +1,6 @@
 package edu.lysak.server;
 
-import edu.lysak.protocol.Request;
+import com.google.gson.JsonObject;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -28,12 +28,12 @@ public class ClientHandler implements Runnable {
             String command = input.readUTF(); // reading a message
             System.out.println("Received: " + command);
 
-            Request request = responseHandler.getRequest(command);
+            JsonObject request = responseHandler.getRequest(command);
             String jsonResponse = responseHandler.getJsonResponse(request);
             output.writeUTF(jsonResponse); // resend it to the client
             System.out.println("Sent: " + jsonResponse);
 
-            if ("exit".equals(request.getType())) {
+            if ("exit".equals(request.get("type").getAsString())) {
                 server.close();
             }
         } catch (Exception e) {
