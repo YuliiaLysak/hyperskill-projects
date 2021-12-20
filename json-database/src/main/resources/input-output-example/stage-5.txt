@@ -1,0 +1,53 @@
+Here are some examples of the input file contents:
+
+{"type":"set","key":"name","value":"Kate"}
+{"type":"get","key":"name"}
+{"type":"delete","key":"name"}
+
+
+Example
+The greater-than symbol followed by a space (> ) represents the user input.
+Note that it's not part of the input.
+
+Starting the server:
+
+> java Main
+Server started!
+
+
+Starting the clients:
+
+> java Main -t get -k 1
+Client started!
+Sent: {"type":"get","key":"1"}
+Received: {"response":"ERROR","reason":"No such key"}
+
+> java Main -t set -k 1 -v HelloWorld!
+Client started!
+Sent: {"type":"set","key":"1","value":"HelloWorld!"}
+Received: {"response":"OK"}
+
+> java Main -t get -k 1
+Client started!
+Sent: {"type":"get","key":"1"}
+Received: {"response":"OK","value":"HelloWorld!"}
+
+> java Main -in testSet.json
+Client started!
+Sent: {"type":"set","key":"name","value":"Kate"}
+Received: {"response":"OK"}
+
+> java Main -in testGet.json
+Client started!
+Sent: {"type":"get","key":"name"}
+Received: {"response":"OK","value":"Kate"}
+
+> java Main -in testDelete.json
+Client started!
+Sent: {"type":"delete","key":"name"}
+Received: {"response":"OK"}
+
+> java Main -t exit
+Client started!
+Sent: {"type":"exit"}
+Received: {"response":"OK"}
