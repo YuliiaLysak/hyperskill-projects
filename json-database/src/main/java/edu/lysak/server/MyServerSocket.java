@@ -1,13 +1,11 @@
 package edu.lysak.server;
 
-import edu.lysak.protocol.Request;
-
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MyServerSocket {
     private final ResponseHandler responseHandler;
@@ -23,25 +21,24 @@ public class MyServerSocket {
     public void run() throws IOException {
         try (ServerSocket server = new ServerSocket(port, 50, InetAddress.getByName(address))) {
             System.out.println("Server started!");
-            while (true) {
-                try (
-                        Socket socket = server.accept(); // accepting a new client
-                        DataInputStream input = new DataInputStream(socket.getInputStream());
-                        DataOutputStream output = new DataOutputStream(socket.getOutputStream())
-                ) {
-                    String command = input.readUTF(); // reading a message
-                    System.out.println("Received: " + command);
-
-                    Request request = responseHandler.getRequest(command);
-                    String jsonResponse = responseHandler.getJsonResponse(request);
-                    output.writeUTF(jsonResponse); // resend it to the client
-                    System.out.println("Sent: " + jsonResponse);
-
-                    if ("exit".equals(request.getType())) {
-                        break;
-                    }
+            ExecutorService executor = Executors.newFixedThreadPool(4);
+            while (!Thread.interrupted()) {
+                Socket socket = acceptClientSocket(server);  // accepting a new client
+                if (socket == null) {
+                    executor.shutdownNow();
+                    break;
                 }
+
+                executor.submit(() -> new ClientHandler(responseHandler, server, socket).run());
             }
+        }
+    }
+
+    private Socket acceptClientSocket(ServerSocket server) {
+        try {
+            return server.accept();
+        } catch (IOException e) {
+            return null;
         }
     }
 }

@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import edu.lysak.protocol.Request;
 import edu.lysak.protocol.Response;
 
+import java.io.IOException;
+
 public class ResponseHandler {
     private static final String OK = "OK";
     private static final String ERROR = "ERROR";
@@ -16,7 +18,7 @@ public class ResponseHandler {
         this.gson = gson;
     }
 
-    public String getJsonResponse(Request request) {
+    public String getJsonResponse(Request request) throws IOException {
         Response response = new Response();
         switch (request.getType()) {
             case "exit" -> response.setResponse(OK);
@@ -34,12 +36,12 @@ public class ResponseHandler {
         return gson.fromJson(command, Request.class);
     }
 
-    private void executeSetCommand(Request request, Response response) {
+    private void executeSetCommand(Request request, Response response) throws IOException {
         jsonDatabase.set(request.getKey(), request.getValue());
         response.setResponse(OK);
     }
 
-    private void executeGetCommand(Request request, Response response) {
+    private void executeGetCommand(Request request, Response response) throws IOException {
         String value = jsonDatabase.get(request.getKey());
         if (value != null) {
             response.setResponse(OK);
@@ -50,7 +52,7 @@ public class ResponseHandler {
         }
     }
 
-    private void executeDeleteCommand(Request request, Response response) {
+    private void executeDeleteCommand(Request request, Response response) throws IOException {
         if (jsonDatabase.delete(request.getKey())) {
             response.setResponse(OK);
         } else {

@@ -9,8 +9,9 @@ public class Main {
     private static final int PORT = 34522;
 
     public static void main(String[] args) throws IOException {
-        JsonDatabase jsonDatabase = new JsonDatabase();
-        ResponseHandler responseHandler = new ResponseHandler(jsonDatabase, new Gson());
+        Gson gson = new Gson();
+        JsonDatabase jsonDatabase = new JsonDatabase(gson);
+        ResponseHandler responseHandler = new ResponseHandler(jsonDatabase, gson);
         MyServerSocket server = new MyServerSocket(responseHandler, ADDRESS, PORT);
         server.run();
     }

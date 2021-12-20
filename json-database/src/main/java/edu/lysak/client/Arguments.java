@@ -12,6 +12,9 @@ public class Arguments {
     @Parameter(names = "-v", description = "Value to save in the database (only in case of a 'set' request")
     private String value;
 
+    @Parameter(names = {"-in"}, description = "Input file")
+    private String inputFile;
+
     public String getRequestType() {
         return requestType;
     }
@@ -22,5 +25,9 @@ public class Arguments {
 
     public String getValue() {
         return value;
+    }
+
+    public String getInputFile() {
+        return inputFile;
     }
 }

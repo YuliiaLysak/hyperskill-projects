@@ -18,6 +18,6 @@ public class Main {
 
         RequestHandler requestHandler = new RequestHandler(new Gson());
         MyClientSocket client = new MyClientSocket(requestHandler, ADDRESS, PORT);
-        client.run(arguments.getRequestType(), arguments.getKey(), arguments.getValue());
+        client.run(arguments);
     }
 }
