@@ -12,6 +12,7 @@
         <module>amazing-numbers</module>
         <module>cinema-room-rest-service</module>
         <module>code-sharing-platform</module>
+        <module>contacts</module>
         <module>json-database</module>
         <module>music-advisor</module>
         <module>number-base-converter</module>
