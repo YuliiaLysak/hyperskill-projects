@@ -1,0 +1,60 @@
+Examples
+Below is an example of how your output might look. The symbol > represents the user input.
+
+Example 1:
+
+Enter action (add, remove, edit, count, list, exit): > count
+The Phone Book has 0 records.
+Enter action (add, remove, edit, count, list, exit): > edit
+No records to edit!
+Enter action (add, remove, edit, count, list, exit): > remove
+No records to remove!
+Enter action (add, remove, edit, count, list, exit): > add
+Enter the name: > John
+Enter the surname: > Smith
+Enter the number: > +0 (123) 456-789-ABcd
+The record added.
+Enter action (add, remove, edit, count, list, exit): > add
+Enter the name: > Adam
+Enter the surname: > Jones
+Enter the number: > +0(123)456-789-9999
+Wrong number format!
+The record added.
+Enter action (add, remove, edit, count, list, exit): > list
+1. John Smith, +0 (123) 456-789-ABcd
+2. Adam Jones, [no number]
+Enter action (add, remove, edit, count, list, exit): > edit
+1. John Smith, +0 (123) 456-789-ABcd
+2. Adam Jones, [no number]
+Select a record: > 2
+Select a field (name, surname, number): > number
+Enter number: > (123) 234 345-456
+The record updated!
+Enter action (add, remove, edit, count, list, exit): > list
+1. John Smith, +0 (123) 456-789-ABcd
+2. Adam Jones, (123) 234 345-456
+Enter action (add, remove, edit, count, list, exit): > remove
+1. John Smith, +0 (123) 456-789-ABcd
+2. Adam Jones, (123) 234 345-456
+Select a record: > 1
+The record removed!
+Enter action (add, remove, edit, count, list, exit): > list
+1. Adam Jones, (123) 234 345-456
+Enter action (add, remove, edit, count, list, exit): > exit
+Example 2:
+
+Enter action (add, remove, edit, count, list, exit): > add
+Enter the name: > John
+Enter the surname: > Smith
+Enter the number: > +0 (123) 456-789-ABcd
+The record added.
+Enter action (add, remove, edit, count, list, exit): > edit
+1. John Smith, +0 (123) 456-789-ABcd
+Select a record: > 1
+Select a field (name, surname, number): > number
+Enter number: > ()()
+Wrong number format!
+The record updated!
+Enter action (add, remove, edit, count, list, exit): > list
+1. John Smith, [no number]
+Enter action (add, remove, edit, count, list, exit): > exit
