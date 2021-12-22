@@ -1,13 +1,42 @@
 package edu.lysak.contacts;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PhoneBook {
-    private final List<Contact> contacts = new ArrayList<>();
+    private List<Contact> contacts;
+    private String filePath;
+    private final String[] args;
+
+    public PhoneBook(String[] args) {
+        this.args = args;
+    }
+
+    public void init() {
+        try {
+            if (args.length > 0) {
+                filePath = "contacts/src/main/resources/" + args[0];
+
+                if (Files.exists(Path.of(filePath))) {
+                    contacts = (List<Contact>) SerializationUtils.deserialize(filePath);
+                    System.err.println("Loaded Phone Book from " + args[0] + ". File will be updated in case of new changes.");
+                } else {
+                    contacts = new ArrayList<>();
+                    System.err.println("File " + args[0] + " doesn't exist. All changes will be saved to the newly created file.");
+                }
+            } else {
+                contacts = new ArrayList<>();
+                System.err.println("File is not provided - contacts will be kept in memory");
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public void addPerson(
             String name,
@@ -19,7 +48,7 @@ public class PhoneBook {
         PersonalContact person = new PersonalContact();
         person.setName(name);
         person.setSurname(surname);
-        person.setBirthDate(parseBirthDate(birthDate));
+        person.setBirthDate(birthDate);
         person.setGender(gender);
         person.setPhoneNumber(phone);
         contacts.add(person);
@@ -37,30 +66,8 @@ public class PhoneBook {
         contacts.add(org);
     }
 
-    public void remove(int index) {
-        contacts.remove(index);
-    }
-
-    public void editPerson(int index, String fieldName, String newValue) {
-        PersonalContact person = (PersonalContact) contacts.get(index);
-        person.setEdited(LocalDateTime.now());
-        switch (fieldName) {
-            case "name" -> person.setName(newValue);
-            case "surname" -> person.setSurname(newValue);
-            case "birth" -> person.setBirthDate(parseBirthDate(newValue));
-            case "gender" -> person.setGender(getGender(newValue));
-            case "number" -> person.setPhoneNumber(newValue);
-        }
-    }
-
-    public void editOrganization(int index, String fieldName, String newValue) {
-        OrganizationalContact org = (OrganizationalContact) contacts.get(index);
-        org.setEdited(LocalDateTime.now());
-        switch (fieldName) {
-            case "name" -> org.setName(newValue);
-            case "address" -> org.setAddress(newValue);
-            case "number" -> org.setPhoneNumber(newValue);
-        }
+    public void remove(Contact contact) {
+        contacts.remove(contact);
     }
 
     public int count() {
@@ -71,24 +78,15 @@ public class PhoneBook {
         return List.copyOf(contacts);
     }
 
-    private LocalDate parseBirthDate(String birthDate) {
-        try {
-            return LocalDate.parse(birthDate);
-        } catch (DateTimeParseException exception) {
-            return null;
-        }
+    public List<Contact> getSearchResult(String query) {
+        return contacts.stream()
+                .filter(it -> it.getConcatenatedFields().toLowerCase().contains(query.toLowerCase()))
+                .collect(Collectors.toList());
     }
 
-    public boolean isPerson(int index) {
-        Contact contact = contacts.get(index);
-        return contact.isPerson();
-    }
-
-    public String getGender(String gender) {
-        if ("M".equals(gender) || "F".equals(gender)) {
-            return gender;
+    public void updateFile() throws IOException {
+        if (filePath != null) {
+            SerializationUtils.serialize(contacts, filePath);
         }
-        System.out.println("Bad gender!");
-        return "";
     }
 }
