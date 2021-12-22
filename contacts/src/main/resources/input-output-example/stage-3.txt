@@ -1,0 +1,52 @@
+Example
+Below is an example of how your output might look. The symbol > represents the user input.
+
+Enter action (add, remove, edit, count, info, exit): > add
+Enter the type (person, organization): > person
+Enter the name: > John
+Enter the surname: > Smith
+Enter the birth date: >
+Bad birth date!
+Enter the gender (M, F): >
+Bad gender!
+Enter the number: > +0 (123) 456-789-ABcd
+The record added.
+
+Enter action (add, remove, edit, count, info, exit): > add
+Enter the type (person, organization): > organization
+Enter the organization name: > Pizza Shop
+Enter the address: > Wall St. 1
+Enter the number: > +0 (123) 456-789-9999
+The record added.
+
+Enter action (add, remove, edit, count, info, exit): > info
+1. John Smith
+2. Pizza Shop
+Enter index to show info: > 2
+Organization name: Pizza shop
+Address: Wall St. 1
+Number: +0 (123) 456-789-9999
+Time created: 2018-01-01T00:00
+Time last edit: 2018-01-01T00:00
+
+Enter action (add, remove, edit, count, info, exit): > edit
+1. John Smith
+2. Pizza Shop
+Select a record: > 1
+Select a field (name, surname, birth, gender, number): > number
+Enter number: > (123) 234 345-456
+The record updated!
+
+Enter action (add, remove, edit, count, info, exit): > info
+1. John Smith
+2. Pizza Shop
+Select a record: > 1
+Name: John
+Surname: Smith
+Birth date: [no data]
+Gender: [no data]
+Number: (123) 234 345-456
+Time created: 2018-01-01T00:00
+Time last edit: 2018-01-01T00:01
+
+Enter action (add, remove, edit, count, info, exit): > exit
