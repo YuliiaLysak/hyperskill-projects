@@ -1,0 +1,22 @@
+Example
+Below is an output example of the described program. Try to output all the messages from the example.
+
+The greater-than symbol followed by a space (> ) represents the user input. Note that it's not part of the input.
+
+> add file1
+The file file1 added successfully
+> add file1
+Cannot add the file file1
+> add file11
+Cannot add the file file11
+> get file1
+The file file1 was sent
+> get file2
+The file file2 not found
+> get abcd1
+The file abcd1 not found
+> delete file2
+The file file2 not found
+> delete file1
+The file file1 was deleted
+> exit
