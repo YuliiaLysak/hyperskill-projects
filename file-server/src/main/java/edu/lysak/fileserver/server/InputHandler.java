@@ -1,4 +1,4 @@
-package edu.lysak.server;
+package edu.lysak.fileserver.server;
 
 import java.util.HashSet;
 import java.util.Scanner;

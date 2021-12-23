@@ -1,0 +1,28 @@
+Objectives
+
+In this stage, your client-side program should:
+1.Print Client started! when the program starts.
+2.Send the message Give me everything you have! to the server.
+3.Receive a response message from the server.
+
+Your server-side program should:
+1.Print Server started! when the program starts.
+2.Receive a message from the client.
+3.Send the response message All files were sent! to the client.
+
+Be sure to print the sent and received messages in both programs.
+
+
+
+
+Example
+The server output should look like this:
+
+Server started!
+Received: Give me everything you have!
+Sent: All files were sent!
+The client output should be as follows:
+
+Client started!
+Sent: Give me everything you have!
+Received: All files were sent!
