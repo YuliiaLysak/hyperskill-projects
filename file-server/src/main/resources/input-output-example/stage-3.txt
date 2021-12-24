@@ -1,0 +1,62 @@
+Objectives
+
+In this stage, your client-side program should:
+1. Prompt the user to enter an action.
+2. Prompt the user for the name of the file to be created, sent, or deleted.
+3. Prompt the user to enter the content of the file (when applicable).
+4. Send the request to the server and receive a response from the server.
+5. Print the respective message after receiving the response.
+6. Disconnect from the server and terminate.
+
+Your server-side program should:
+1. Print Server started! when the program starts.
+2. Receive a request from the client and respond accordingly.
+    - For a PUT request, send a status code 200 if the file is created successfully; otherwise, send a status code 403.
+    - For a GET request, send a 200 status code and the FILE_CONTENT separated by a single space if the file exists; otherwise, send a 404 status code.
+    - For a DELETE request, send a 200 status code if the file is deleted successfully; otherwise, send a 404 status code.
+3. Server program should not terminate until it receives the exit command.
+
+
+
+Examples
+
+The greater-than symbol followed by a space (> ) represents the user input.
+Note that it's not part of the input.
+
+The first execution of the client program should produce the following output:
+
+Enter action (1 - get a file, 2 - create a file, 3 - delete a file): > 2
+Enter filename: > 123.txt
+Enter file content: > This is the first file on the server!
+The request was sent.
+The response says that file was created!
+Then, the server should create a file on the disk drive with the text "This is the first file on the server!". You should be able to access this file even after restarting the server.
+
+After the second execution, the output of the client program should be the following:
+
+Enter action (1 - get a file, 2 - create a file, 3 - delete a file): > 1
+Enter filename: > 123.txt
+The request was sent.
+The content of the file is: This is the first file on the server!
+Here is an example of the output after deleting the file:
+
+Enter action (1 - get a file, 2 - create a file, 3 - delete a file): > 3
+Enter filename: > 123.txt
+The request was sent.
+The response says that the file was successfully deleted!
+After attempting to delete the same file again, the output should be the following:
+
+Enter action (1 - get a file, 2 - create a file, 3 - delete a file): > 3
+Enter filename: > 123.txt
+The request was sent.
+The response says that the file was not found!
+After attempting to get a file that doesn't exist, the output should be the following:
+
+Enter action (1 - get a file, 2 - create a file, 3 - delete a file): > 1
+Enter filename: > file_that_doesnt_exist.txt
+The request was sent.
+The response says that the file was not found!
+Here is an example of the output after stopping the server:
+
+Enter action (1 - get a file, 2 - create a file, 3 - delete a file): > exit
+The request was sent.

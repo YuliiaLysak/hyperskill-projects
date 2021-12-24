@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 public class MyClientSocket {
     private final String address;
@@ -15,21 +16,17 @@ public class MyClientSocket {
         this.port = port;
     }
 
-    public void start() throws IOException {
+    public String sendRequest(String request) throws IOException {
         try (
                 Socket socket = new Socket(InetAddress.getByName(address), port);
                 DataInputStream input = new DataInputStream(socket.getInputStream());
                 DataOutputStream output = new DataOutputStream(socket.getOutputStream())
         ) {
-            System.out.println("Client started!");
+            output.writeUTF(request);
+//            output.write(request.getBytes(StandardCharsets.UTF_8));
 
-            String message = "Give me everything you have!";
-            output.writeUTF(message); // sending message to the server
-            System.out.println("Sent: " + message);
-
-//            String receivedMessage = new String(input.readAllBytes(), StandardCharsets.UTF_8); // response message
-            String receivedMessage = input.readUTF(); // response message
-            System.out.println("Received: " + receivedMessage);
+            return new String(input.readAllBytes(), StandardCharsets.UTF_8);
+//            return input.readUTF();
         }
     }
 }
