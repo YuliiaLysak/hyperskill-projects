@@ -2,13 +2,16 @@ package edu.lysak.fileserver.server;
 
 import java.io.IOException;
 
-public class Main {
-    private static final String ADDRESS = "127.0.0.1";
-    private static final int PORT = 23456;
+import static edu.lysak.fileserver.util.Constants.ADDRESS;
+import static edu.lysak.fileserver.util.Constants.PORT;
 
-    public static void main(String[] args) throws IOException {
+public class Main {
+
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         FileStorage fileStorage = new FileStorage();
-        MyServerSocket server = new MyServerSocket(ADDRESS, PORT, fileStorage);
+        fileStorage.init();
+        ResponseHandler responseHandler = new ResponseHandler(fileStorage);
+        MyServerSocket server = new MyServerSocket(ADDRESS, PORT, responseHandler);
         server.start();
     }
 }
