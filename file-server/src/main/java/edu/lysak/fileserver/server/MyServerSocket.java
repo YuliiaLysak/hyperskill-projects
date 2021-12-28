@@ -31,7 +31,7 @@ public class MyServerSocket {
                     break;
                 }
 
-                executor.submit(() -> new ClientHandler(responseHandler, server, socket).run());
+                executor.submit(new ClientHandler(responseHandler, server, socket));
             }
         }
     }

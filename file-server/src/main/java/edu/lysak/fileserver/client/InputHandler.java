@@ -36,22 +36,12 @@ public class InputHandler {
     }
 
     private void processGetRequest(MyClientSocket client) throws IOException {
-        System.out.println("Do you want to get the file by name or by id (1 - name, 2 - id):");
-        String option = scanner.nextLine();
-        String request;
-        switch (option) {
-            case "1" -> {
-                System.out.println("Enter name:");
-                String fileName = scanner.nextLine();
-                request = String.format("%s %s %s", GET, BY_NAME, fileName);
-            }
-            case "2" -> {
-                System.out.println("Enter id:");
-                int fileId = Integer.parseInt(scanner.nextLine());
-                request = String.format("%s %s %s", GET, BY_ID, fileId);
-            }
+        String option = getOption("get");
+        String request = switch (option) {
+            case "1" -> String.format("%s %s %s", GET, BY_NAME, getFileName());
+            case "2" -> String.format("%s %s %s", GET, BY_ID, getFileId());
             default -> throw new IllegalArgumentException(option + " option is not supported");
-        }
+        };
 
         byte[] fileBytes = client.sendGetRequest(request);
         System.out.println("The request was sent.");
@@ -89,22 +79,12 @@ public class InputHandler {
     }
 
     private void processDeleteRequest(MyClientSocket client) throws IOException {
-        System.out.println("Do you want to delete the file by name or by id (1 - name, 2 - id):");
-        String option = scanner.nextLine();
-        String request;
-        switch (option) {
-            case "1" -> {
-                System.out.println("Enter name:");
-                String fileName = scanner.nextLine();
-                request = String.format("%s %s %s", DELETE, BY_NAME, fileName);
-            }
-            case "2" -> {
-                System.out.println("Enter id:");
-                int fileId = Integer.parseInt(scanner.nextLine());
-                request = String.format("%s %s %s", DELETE, BY_ID, fileId);
-            }
+        String option = getOption("delete");
+        String request = switch (option) {
+            case "1" -> String.format("%s %s %s", DELETE, BY_NAME, getFileName());
+            case "2" -> String.format("%s %s %s", DELETE, BY_ID, getFileId());
             default -> throw new IllegalArgumentException(option + " option is not supported");
-        }
+        };
 
         String response = client.sendDeleteRequest(request);
         System.out.println("The request was sent.");
@@ -114,5 +94,20 @@ public class InputHandler {
         } else if (NOT_FOUND.equals(response)) {
             System.out.println("The response says that this file is not found!");
         }
+    }
+
+    private String getFileName() {
+        System.out.println("Enter name:");
+        return scanner.nextLine();
+    }
+
+    private int getFileId() {
+        System.out.println("Enter id:");
+        return Integer.parseInt(scanner.nextLine());
+    }
+
+    private String getOption(String action) {
+        System.out.printf("Do you want to %s the file by name or by id (1 - name, 2 - id):%n", action);
+        return scanner.nextLine();
     }
 }

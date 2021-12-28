@@ -9,22 +9,30 @@ import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
-import static edu.lysak.fileserver.util.Constants.SERVER_STORAGE_FOLDER;
-
 public class FileStorage {
+    private final String identifiersFileName;
+    private final String baseServerStorageFolder;
     private Map<Integer, String> identifiers;
 
+    public FileStorage(String identifiersFileName, String baseServerStorageFolder) {
+        this.identifiersFileName = identifiersFileName;
+        this.baseServerStorageFolder = baseServerStorageFolder;
+    }
+
     public int addFile(String fileName, byte[] fileBytes) throws IOException {
+        if (identifiersFileName.equals(fileName)) {
+            throw new IllegalArgumentException("This file name is reserved for internal use.");
+        }
         int id = getId();
         identifiers.put(id, fileName);
         updateIdentifiersFile();
-        Files.write(Path.of(SERVER_STORAGE_FOLDER + fileName), fileBytes);
+        Files.write(Path.of(baseServerStorageFolder + fileName), fileBytes);
         return id;
     }
 
     public byte[] getFileById(int id) throws IOException {
         String fileName = identifiers.get(id);
-        Path filePath = Path.of(SERVER_STORAGE_FOLDER + fileName);
+        Path filePath = Path.of(baseServerStorageFolder + fileName);
         if (fileName != null && Files.exists(filePath)) {
             return Files.readAllBytes(filePath);
         }
@@ -33,8 +41,8 @@ public class FileStorage {
 
     public byte[] getFileByName(String fileName) throws IOException {
         System.out.println("FILE_NAME = " + fileName);
-        Path filePath = Path.of(SERVER_STORAGE_FOLDER + fileName);
-        if (Files.exists(filePath)) {
+        Path filePath = Path.of(baseServerStorageFolder + fileName);
+        if (Files.exists(filePath) && !identifiersFileName.equals(fileName)) {
             return Files.readAllBytes(filePath);
         }
         return null;
@@ -42,19 +50,19 @@ public class FileStorage {
 
     public boolean deleteFileById(int id) throws IOException {
         String fileName = identifiers.remove(id);
-        boolean isDeleted = Files.deleteIfExists(Path.of(SERVER_STORAGE_FOLDER + fileName));
+        boolean isDeleted = Files.deleteIfExists(Path.of(baseServerStorageFolder + fileName));
         updateIdentifiersFile();
         return isDeleted;
     }
 
     public boolean deleteFileByName(String fileName) throws IOException {
-        boolean isDeleted = Files.deleteIfExists(Path.of(SERVER_STORAGE_FOLDER + fileName));
+        boolean isDeleted = Files.deleteIfExists(Path.of(baseServerStorageFolder + fileName));
         updateIdentifiersFile();
         return isDeleted;
     }
 
     public boolean contains(String fileName) {
-        return Files.exists(Path.of(SERVER_STORAGE_FOLDER + fileName));
+        return Files.exists(Path.of(baseServerStorageFolder + fileName));
     }
 
     private int getId() {
@@ -66,12 +74,12 @@ public class FileStorage {
     }
 
     private void updateIdentifiersFile() throws IOException {
-        String filePath = SERVER_STORAGE_FOLDER + "identifiers.txt";
+        String filePath = baseServerStorageFolder + identifiersFileName;
         SerializationUtils.serialize(identifiers, filePath);
     }
 
     public void init() throws IOException, ClassNotFoundException {
-        String filePath = SERVER_STORAGE_FOLDER + "identifiers.txt";
+        String filePath = baseServerStorageFolder + identifiersFileName;
         if (Files.exists(Path.of(filePath))) {
             identifiers = (Map<Integer, String>) SerializationUtils.deserialize(filePath);
         } else {
