@@ -2,6 +2,8 @@ package edu.lysak.platform.controllers;
 
 import edu.lysak.platform.entities.CodeSnippet;
 import edu.lysak.platform.services.CodeSnippetService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping(produces = MediaType.TEXT_HTML_VALUE)
+@Tag(name = "WEB Controller", description = "WEB Controller API")
 public class CodeWebController {
     private final CodeSnippetService codeSnippetService;
 
@@ -23,6 +26,7 @@ public class CodeWebController {
     }
 
     @GetMapping("/code/{uuid}")
+    @Operation(summary = "Get code snippet by id")
     public String getWebCode(Model model, @PathVariable String uuid) {
         CodeSnippet codeSnippet = codeSnippetService.getCodeByUuid(uuid);
         if (codeSnippet == null) {
@@ -41,6 +45,7 @@ public class CodeWebController {
     }
 
     @GetMapping("/code/latest")
+    @Operation(summary = "Get latest code snippet")
     public String getWebCode(Model model) {
         List<CodeSnippet> codeSnippets = codeSnippetService.findLastCodeSnippets(10);
         model.addAttribute("codeSnippets", codeSnippets);
@@ -48,6 +53,7 @@ public class CodeWebController {
     }
 
     @GetMapping("/code/new")
+    @Operation(summary = "Add new code snippet")
     public String getNewWebCode() {
         return "create";
     }
