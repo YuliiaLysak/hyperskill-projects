@@ -15,6 +15,7 @@
         <module>contacts</module>
         <module>file-server</module>
         <module>json-database</module>
+        <module>maze-runner</module>
         <module>music-advisor</module>
         <module>number-base-converter</module>
         <module>recipes</module>
