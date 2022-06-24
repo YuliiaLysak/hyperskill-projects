@@ -3,7 +3,10 @@ package edu.lysak.tracker;
 public enum Command {
     EXIT("exit"),
     BACK("back"),
+    LIST("list"),
+    FIND("find"),
     ADD_STUDENTS("add students"),
+    ADD_POINTS("add points"),
     NO_SUCH_COMMAND(null);
 
     private final String commandName;
