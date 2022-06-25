@@ -1,5 +1,7 @@
 package edu.lysak.tracker;
 
+import edu.lysak.tracker.statistic.CourseStatistic;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,17 +9,17 @@ public class Student {
     private final String firstName;
     private final String lastName;
     private final String email;
-    private final Map<Course, Integer> coursesPoints;
+    private final Map<Course, CourseStatistic> coursesStatistics;
 
     public Student(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        coursesPoints = new HashMap<>(Map.of(
-                Course.JAVA, 0,
-                Course.DSA, 0,
-                Course.DATABASES, 0,
-                Course.SPRING, 0
+        coursesStatistics = new HashMap<>(Map.of(
+                Course.JAVA, new CourseStatistic(0, 0),
+                Course.DSA, new CourseStatistic(0, 0),
+                Course.DATABASES, new CourseStatistic(0, 0),
+                Course.SPRING, new CourseStatistic(0, 0)
         ));
     }
 
@@ -33,7 +35,7 @@ public class Student {
         return email;
     }
 
-    public Map<Course, Integer> getCoursesPoints() {
-        return coursesPoints;
+    public Map<Course, CourseStatistic> getCoursesStatistics() {
+        return coursesStatistics;
     }
 }

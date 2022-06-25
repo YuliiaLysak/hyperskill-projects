@@ -1,5 +1,7 @@
 package edu.lysak.tracker;
 
+import edu.lysak.tracker.statistic.CourseStatistic;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,13 +64,13 @@ public class StudentService {
         return true;
     }
 
-    public void updatePoints(String studentId, List<Integer> points) {
+    public void updatePointsAndTasks(String studentId, List<Integer> points) {
         Student student = students.get(Integer.parseInt(studentId));
-        Map<Course, Integer> coursesPoints = student.getCoursesPoints();
-        coursesPoints.merge(Course.JAVA, points.get(0), Integer::sum);
-        coursesPoints.merge(Course.DSA, points.get(1), Integer::sum);
-        coursesPoints.merge(Course.DATABASES, points.get(2), Integer::sum);
-        coursesPoints.merge(Course.SPRING, points.get(3), Integer::sum);
+        Map<Course, CourseStatistic> coursesStatistics = student.getCoursesStatistics();
+        coursesStatistics.get(Course.JAVA).updateCoursePointsAndTasks(points.get(0));
+        coursesStatistics.get(Course.DSA).updateCoursePointsAndTasks(points.get(1));
+        coursesStatistics.get(Course.DATABASES).updateCoursePointsAndTasks(points.get(2));
+        coursesStatistics.get(Course.SPRING).updateCoursePointsAndTasks(points.get(3));
     }
 
     private boolean isEmailTaken(String email) {

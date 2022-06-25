@@ -5,6 +5,7 @@ public enum Command {
     BACK("back"),
     LIST("list"),
     FIND("find"),
+    STATISTICS("statistics"),
     ADD_STUDENTS("add students"),
     ADD_POINTS("add points"),
     NO_SUCH_COMMAND(null);

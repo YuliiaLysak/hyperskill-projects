@@ -1,5 +1,9 @@
 package edu.lysak.tracker;
 
+import edu.lysak.tracker.statistic.CourseStatistic;
+import edu.lysak.tracker.statistic.StatisticService;
+import edu.lysak.tracker.statistic.StudentStatistic;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,10 +15,12 @@ public class InputHandler {
     private static final String SPACE = " ";
     private final Scanner scanner;
     private final StudentService studentService;
+    private final StatisticService statisticService;
 
-    public InputHandler(Scanner scanner, StudentService studentService) {
+    public InputHandler(Scanner scanner, StudentService studentService, StatisticService statisticService) {
         this.scanner = scanner;
         this.studentService = studentService;
+        this.statisticService = statisticService;
     }
 
     public void process() {
@@ -32,6 +38,7 @@ public class InputHandler {
                 case FIND -> findStudent();
                 case ADD_STUDENTS -> addStudents();
                 case ADD_POINTS -> addPoints();
+                case STATISTICS -> showStatistics();
                 case EXIT -> isAppRunning = false;
                 case BACK -> System.out.println("Enter 'exit' to exit the program.");
                 default -> System.out.println("Error: unknown command!");
@@ -65,13 +72,13 @@ public class InputHandler {
                 System.out.printf("No student is found for id=%s.%n", studentId);
                 continue;
             }
-            Map<Course, Integer> coursesPoints = student.getCoursesPoints();
+            Map<Course, CourseStatistic> coursesStatistics = student.getCoursesStatistics();
             System.out.printf("%s points: Java=%s; DSA=%s; Databases=%s; Spring=%s%n",
                     studentId,
-                    coursesPoints.get(Course.JAVA),
-                    coursesPoints.get(Course.DSA),
-                    coursesPoints.get(Course.DATABASES),
-                    coursesPoints.get(Course.SPRING)
+                    coursesStatistics.get(Course.JAVA).getCoursePoints(),
+                    coursesStatistics.get(Course.DSA).getCoursePoints(),
+                    coursesStatistics.get(Course.DATABASES).getCoursePoints(),
+                    coursesStatistics.get(Course.SPRING).getCoursePoints()
             );
         }
     }
@@ -120,8 +127,42 @@ public class InputHandler {
                 continue;
             }
 
-            studentService.updatePoints(studentId, points);
+            studentService.updatePointsAndTasks(studentId, points);
             System.out.println("Points updated.");
+        }
+    }
+
+    private void showStatistics() {
+        statisticService.initStatistics();
+        System.out.println("Type the name of a course to see details or 'back' to quit:");
+        System.out.printf("Most popular: %s%n", statisticService.getMostPopular());
+        System.out.printf("Least popular: %s%n", statisticService.getLeastPopular());
+        System.out.printf("Highest activity: %s%n", statisticService.getHighestActivity());
+        System.out.printf("Lowest activity: %s%n", statisticService.getLowestActivity());
+        System.out.printf("Easiest course: %s%n", statisticService.getEasiestCourse());
+        System.out.printf("Hardest course: %s%n", statisticService.getHardestCourse());
+
+        while (true) {
+            String input = scanner.nextLine();
+            if (input.equals(Command.BACK.getCommandName())) {
+                break;
+            }
+            switch (Course.valueFrom(input)) {
+                case JAVA -> showCourseStatistic(Course.JAVA);
+                case DSA -> showCourseStatistic(Course.DSA);
+                case DATABASES -> showCourseStatistic(Course.DATABASES);
+                case SPRING -> showCourseStatistic(Course.SPRING);
+                default -> System.out.println("Unknown course.");
+            }
+        }
+    }
+
+    private void showCourseStatistic(Course course) {
+        System.out.println(course.getName());
+        System.out.println("id\tpoints\tcompleted");
+        List<StudentStatistic> studentsByCourse = statisticService.getStudentsByCourse(course);
+        if (!studentsByCourse.isEmpty()) {
+            studentsByCourse.forEach(it -> System.out.printf("%s\t%s\t%s%%%n", it.getStudentId(), it.getEarnedPoints(), it.getCompleted()));
         }
     }
 
