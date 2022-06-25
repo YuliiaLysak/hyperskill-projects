@@ -10,6 +10,7 @@ public class Student {
     private final String lastName;
     private final String email;
     private final Map<Course, CourseStatistic> coursesStatistics;
+    private boolean notified = false;
 
     public Student(String firstName, String lastName, String email) {
         this.firstName = firstName;
@@ -37,5 +38,13 @@ public class Student {
 
     public Map<Course, CourseStatistic> getCoursesStatistics() {
         return coursesStatistics;
+    }
+
+    public boolean isNotified() {
+        return notified;
+    }
+
+    public void setNotified(boolean notified) {
+        this.notified = notified;
     }
 }

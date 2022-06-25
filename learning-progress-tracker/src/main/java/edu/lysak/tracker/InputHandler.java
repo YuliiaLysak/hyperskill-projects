@@ -39,6 +39,7 @@ public class InputHandler {
                 case ADD_STUDENTS -> addStudents();
                 case ADD_POINTS -> addPoints();
                 case STATISTICS -> showStatistics();
+                case NOTIFY -> notifyStudents();
                 case EXIT -> isAppRunning = false;
                 case BACK -> System.out.println("Enter 'exit' to exit the program.");
                 default -> System.out.println("Error: unknown command!");
@@ -157,12 +158,36 @@ public class InputHandler {
         }
     }
 
+    private void notifyStudents() {
+        Map<Student, List<Course>> studentsWithCompletedCourses = studentService.getStudentsWithCompletedCourses();
+        studentsWithCompletedCourses.forEach(this::notifyStudent);
+        System.out.printf("Total %s students have been notified.%n", studentsWithCompletedCourses.size());
+    }
+
+    private void notifyStudent(Student student, List<Course> courses) {
+        courses.forEach(course -> {
+            System.out.printf("To: %s%n", student.getEmail());
+            System.out.println("Re: Your Learning Progress");
+            System.out.printf(
+                    "Hello, %s %s! You have accomplished our %s course!%n",
+                    student.getFirstName(),
+                    student.getLastName(),
+                    course.getName()
+            );
+        });
+        student.setNotified(true);
+    }
+
     private void showCourseStatistic(Course course) {
         System.out.println(course.getName());
         System.out.println("id\tpoints\tcompleted");
         List<StudentStatistic> studentsByCourse = statisticService.getStudentsByCourse(course);
         if (!studentsByCourse.isEmpty()) {
-            studentsByCourse.forEach(it -> System.out.printf("%s\t%s\t%s%%%n", it.getStudentId(), it.getEarnedPoints(), it.getCompleted()));
+            studentsByCourse.forEach(it -> System.out.printf("%s\t%s\t%s%%%n",
+                    it.getStudentId(),
+                    it.getEarnedPoints(),
+                    it.getCompleted()
+            ));
         }
     }
 

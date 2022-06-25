@@ -2,6 +2,7 @@ package edu.lysak.tracker;
 
 import edu.lysak.tracker.statistic.CourseStatistic;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +63,32 @@ public class StudentService {
         );
         students.put(studentCount++, student);
         return true;
+    }
+
+    public Map<Student, List<Course>> getStudentsWithCompletedCourses() {
+        Map<Student, List<Course>> studentsWithCompletedCourses = new HashMap<>();
+        students.entrySet().stream()
+                .filter(it -> !it.getValue().isNotified())
+                .forEach(it -> {
+                    Student student = it.getValue();
+                    Map<Course, CourseStatistic> coursesStatistics = student.getCoursesStatistics();
+                    for (var courseEntry : coursesStatistics.entrySet()) {
+                        int earnedPoints = courseEntry.getValue().getCoursePoints();
+                        int totalPoints = courseEntry.getKey().getTotalPoints();
+                        if (earnedPoints >= totalPoints) {
+                            studentsWithCompletedCourses.merge(
+                                    student,
+                                    new ArrayList<>(List.of(courseEntry.getKey())),
+                                    (oldValue, newValue) -> {
+                                        oldValue.addAll(newValue);
+                                        return oldValue;
+                                    }
+                            );
+                        }
+                    }
+                });
+
+        return studentsWithCompletedCourses;
     }
 
     public void updatePointsAndTasks(String studentId, List<Integer> points) {
