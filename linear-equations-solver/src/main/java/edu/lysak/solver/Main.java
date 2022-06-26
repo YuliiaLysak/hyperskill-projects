@@ -7,9 +7,14 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        List<Double> numbers = Arrays.stream(scanner.nextLine().split(" "))
-                .map(Double::parseDouble)
-                .toList();
-        System.out.printf("%f", numbers.get(1) / numbers.get(0));
+        double a = scanner.nextDouble();
+        double b = scanner.nextDouble();
+        double c = scanner.nextDouble();
+        double d = scanner.nextDouble();
+        double e = scanner.nextDouble();
+        double f = scanner.nextDouble();
+        double y = (f - c * d / a) / (e - b * d / a);
+        double x = (c - b * y) / a;
+        System.out.printf("%f %f", x, y);
     }
 }
