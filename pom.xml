@@ -16,6 +16,7 @@
         <module>file-server</module>
         <module>json-database</module>
         <module>learning-progress-tracker</module>
+        <module>linear-equations-solver</module>
         <module>maze-runner</module>
         <module>music-advisor</module>
         <module>number-base-converter</module>
