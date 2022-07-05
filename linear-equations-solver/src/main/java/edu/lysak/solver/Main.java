@@ -1,5 +1,6 @@
 package edu.lysak.solver;
 
+import edu.lysak.solver.complexnumbers.ComplexNumberApplication;
 import edu.lysak.solver.v2.Application;
 
 import java.io.BufferedWriter;
@@ -17,7 +18,8 @@ public class Main {
         String inputFilePath = Utils.getInputFile(args);
         String outputFilePath = Utils.getOutputFile(args);
 //        solveV1(inputFilePath, outputFilePath);
-        solveV2(inputFilePath, outputFilePath);
+//        solveV2(inputFilePath, outputFilePath);
+        solveWithComplexNumbers(inputFilePath, outputFilePath);
     }
 
     private static void solveV1(String inputFilePath, String outputFilePath) throws IOException {
@@ -46,6 +48,14 @@ public class Main {
              var output = new PrintWriter(outputFilePath)
         ) {
             new Application(input, output).run();
+        }
+    }
+
+    private static void solveWithComplexNumbers(String inputFilePath, String outputFilePath) throws FileNotFoundException {
+        try (var input = new Scanner(new File(inputFilePath));
+             var output = new PrintWriter(outputFilePath)
+        ) {
+            new ComplexNumberApplication(input, output).run();
         }
     }
 }
