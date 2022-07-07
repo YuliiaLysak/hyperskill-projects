@@ -20,6 +20,7 @@
         <module>maze-runner</module>
         <module>music-advisor</module>
         <module>number-base-converter</module>
+        <module>phone-book</module>
         <module>recipes</module>
         <module>simple-search-engine</module>
         <module>smart-calculator</module>
