@@ -1,11 +1,8 @@
 package edu.lysak.phonebook;
 
 public class SearchResult {
-    private int all;
-    private int found;
-
-    public SearchResult() {
-    }
+    private final int all;
+    private final int found;
 
     public SearchResult(int all, int found) {
         this.all = all;

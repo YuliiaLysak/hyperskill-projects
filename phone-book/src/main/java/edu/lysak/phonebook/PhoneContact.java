@@ -1,6 +1,6 @@
 package edu.lysak.phonebook;
 
-public class PhoneContact {
+public class PhoneContact implements Comparable<PhoneContact> {
     private String fullName;
     private String phoneNumber;
 
@@ -18,5 +18,10 @@ public class PhoneContact {
 
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    @Override
+    public int compareTo(PhoneContact other) {
+        return this.getFullName().compareTo(other.getFullName());
     }
 }
