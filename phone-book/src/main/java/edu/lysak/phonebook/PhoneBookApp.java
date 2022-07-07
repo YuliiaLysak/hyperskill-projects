@@ -1,5 +1,9 @@
 package edu.lysak.phonebook;
 
+import edu.lysak.phonebook.model.SearchResult;
+import edu.lysak.phonebook.util.FileUtils;
+
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class PhoneBookApp {
@@ -10,15 +14,17 @@ public class PhoneBookApp {
     }
 
     public void run(String findFileName) {
-        long linearSearchTimeDifference = linearSearch(findFileName);
-        bubbleSortAndJumpSearch(findFileName, linearSearchTimeDifference);
+        List<String> contactsToFind = FileUtils.getDataFromFile(findFileName);
+        long linearSearchTimeDifference = linearSearch(contactsToFind);
+        bubbleSortAndJumpSearch(contactsToFind, linearSearchTimeDifference);
+        quickSortAndBinarySearch(contactsToFind);
     }
 
-    private long linearSearch(String findFileName) {
+    private long linearSearch(List<String> contactsToFind) {
         System.out.println("Start searching (linear search)...");
 
         long before = System.currentTimeMillis();
-        SearchResult searchResult = phoneBook.linearSearchPhoneNumbers(findFileName);
+        SearchResult searchResult = phoneBook.linearSearchPhoneNumbers(contactsToFind);
         long after = System.currentTimeMillis();
 
         long takenTime = after - before;
@@ -26,7 +32,7 @@ public class PhoneBookApp {
         return takenTime;
     }
 
-    private void bubbleSortAndJumpSearch(String findFileName, long linearSearchTime) {
+    private void bubbleSortAndJumpSearch(List<String> contactsToFind, long linearSearchTime) {
         System.out.println("\nStart searching (bubble sort + jump search)...");
 
         long beforeBubbleSort = System.currentTimeMillis();
@@ -35,7 +41,7 @@ public class PhoneBookApp {
 
         if (sorted) {
             long beforeJumpSearch = System.currentTimeMillis();
-            SearchResult searchResult = phoneBook.jumpSearchPhoneNumbers(findFileName);
+            SearchResult searchResult = phoneBook.jumpSearchPhoneNumbers(contactsToFind);
             long afterJumpSearch = System.currentTimeMillis();
 
             printTakenTime(afterJumpSearch - beforeBubbleSort, searchResult);
@@ -45,12 +51,28 @@ public class PhoneBookApp {
         }
 
         long beforeLinearSearch = System.currentTimeMillis();
-        SearchResult searchResult = phoneBook.linearSearchPhoneNumbers(findFileName);
+        SearchResult searchResult = phoneBook.linearSearchPhoneNumbers(contactsToFind);
         long afterLinearSearch = System.currentTimeMillis();
 
         printTakenTime(afterLinearSearch - beforeBubbleSort, searchResult);
         System.out.printf("Sorting time: %s - STOPPED, moved to linear search%n", getTakenTimeString(afterBubbleSort - beforeBubbleSort));
         System.out.printf("Searching time: %s%n", getTakenTimeString(afterLinearSearch - beforeLinearSearch));
+    }
+
+    private void quickSortAndBinarySearch(List<String> contactsToFind) {
+        System.out.println("\nStart searching (quick sort + binary search)...");
+
+        long beforeQuickSort = System.currentTimeMillis();
+        phoneBook.quickSortPhoneNumbers();
+        long afterQuickSort = System.currentTimeMillis();
+
+        long beforeBinarySearch = System.currentTimeMillis();
+        SearchResult searchResult = phoneBook.binarySearchPhoneNumbers(contactsToFind);
+        long afterBinarySearch = System.currentTimeMillis();
+
+        printTakenTime(afterBinarySearch - beforeQuickSort, searchResult);
+        System.out.printf("Sorting time: %s%n", getTakenTimeString(afterQuickSort - beforeQuickSort));
+        System.out.printf("Searching time: %s%n", getTakenTimeString(afterBinarySearch - beforeBinarySearch));
     }
 
     private void printTakenTime(long takenTime, SearchResult searchResult) {

@@ -1,4 +1,4 @@
-package edu.lysak.phonebook;
+package edu.lysak.phonebook.model;
 
 public class SearchResult {
     private final int all;

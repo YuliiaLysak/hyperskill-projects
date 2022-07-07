@@ -1,4 +1,4 @@
-package edu.lysak.phonebook;
+package edu.lysak.phonebook.model;
 
 public class PhoneContact implements Comparable<PhoneContact> {
     private String fullName;
