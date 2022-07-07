@@ -7,6 +7,7 @@ import edu.lysak.phonebook.service.SortingService;
 import edu.lysak.phonebook.util.FileUtils;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,6 +16,8 @@ public class PhoneBook {
     private final List<PhoneContact> contacts = new ArrayList<>();
     private List<PhoneContact> bubbleSortedContacts;
     private List<PhoneContact> quickSortedContacts;
+    private Hashtable<String, PhoneContact> contactsHashTable;
+
     private final SortingService sortingService;
     private final SearchingService searchingService;
 
@@ -36,6 +39,11 @@ public class PhoneBook {
         sortingService.quickSortPhoneNumbers(quickSortedContacts, 0, quickSortedContacts.size() - 1);
     }
 
+    public void createAndFillHashTable() {
+        contactsHashTable = new Hashtable<>();
+        contacts.forEach(contact -> contactsHashTable.put(contact.getFullName(), contact));
+    }
+
     public SearchResult linearSearchPhoneNumbers(List<String> contactsToFind) {
         return searchingService.linearSearchPhoneNumbers(contacts, contactsToFind);
     }
@@ -46,6 +54,10 @@ public class PhoneBook {
 
     public SearchResult binarySearchPhoneNumbers(List<String> contactsToFind) {
         return searchingService.binarySearchPhoneNumbers(quickSortedContacts, contactsToFind);
+    }
+
+    public SearchResult hashTableSearch(List<String> contactsToFind) {
+        return searchingService.hashTableSearch(contactsHashTable, contactsToFind);
     }
 
     private void loadContacts(String directoryFileName) {

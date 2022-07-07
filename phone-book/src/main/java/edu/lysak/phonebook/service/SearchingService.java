@@ -3,6 +3,7 @@ package edu.lysak.phonebook.service;
 import edu.lysak.phonebook.model.PhoneContact;
 import edu.lysak.phonebook.model.SearchResult;
 
+import java.util.Hashtable;
 import java.util.List;
 
 public class SearchingService {
@@ -120,5 +121,15 @@ public class SearchingService {
         } else {
             return binarySearchRecursive(quickSortedContacts, fullName, mid + 1, right); // go to the right subarray
         }
+    }
+
+    public SearchResult hashTableSearch(Hashtable<String, PhoneContact> contactsHashTable, List<String> contactsToFind) {
+        int found = 0;
+        for (String fullName : contactsToFind) {
+            if (contactsHashTable.containsKey(fullName)) {
+                found++;
+            }
+        }
+        return new SearchResult(contactsToFind.size(), found);
     }
 }

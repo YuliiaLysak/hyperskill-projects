@@ -18,6 +18,7 @@ public class PhoneBookApp {
         long linearSearchTimeDifference = linearSearch(contactsToFind);
         bubbleSortAndJumpSearch(contactsToFind, linearSearchTimeDifference);
         quickSortAndBinarySearch(contactsToFind);
+        hashTableSearch(contactsToFind);
     }
 
     private long linearSearch(List<String> contactsToFind) {
@@ -73,6 +74,22 @@ public class PhoneBookApp {
         printTakenTime(afterBinarySearch - beforeQuickSort, searchResult);
         System.out.printf("Sorting time: %s%n", getTakenTimeString(afterQuickSort - beforeQuickSort));
         System.out.printf("Searching time: %s%n", getTakenTimeString(afterBinarySearch - beforeBinarySearch));
+    }
+
+    private void hashTableSearch(List<String> contactsToFind) {
+        System.out.println("\nStart searching (hash table)...");
+
+        long beforeHashTableCreation = System.currentTimeMillis();
+        phoneBook.createAndFillHashTable();
+        long afterHashTableCreation = System.currentTimeMillis();
+
+        long beforeSearchInHashTable = System.currentTimeMillis();
+        SearchResult searchResult = phoneBook.hashTableSearch(contactsToFind);
+        long afterSearchInHashTable = System.currentTimeMillis();
+
+        printTakenTime(afterSearchInHashTable - beforeHashTableCreation, searchResult);
+        System.out.printf("Creating time: %s%n", getTakenTimeString(afterHashTableCreation - beforeHashTableCreation));
+        System.out.printf("Searching time: %s%n", getTakenTimeString(afterSearchInHashTable - beforeSearchInHashTable));
     }
 
     private void printTakenTime(long takenTime, SearchResult searchResult) {

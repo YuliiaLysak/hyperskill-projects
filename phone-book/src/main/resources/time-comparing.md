@@ -10,3 +10,8 @@ Searching time: 0 min. 4 sec. 44 ms.
 Found 500 / 500 entries. Time taken: 0 min. 1 sec. 524 ms.
 Sorting time: 0 min. 1 sec. 520 ms.
 Searching time: 0 min. 0 sec. 4 ms.
+
+**HashTable search:**<br>
+Found 500 / 500 entries. Time taken: 0 min. 0 sec. 423 ms.
+Creating time: 0 min. 0 sec. 422 ms.
+Searching time: 0 min. 0 sec. 1 ms.
