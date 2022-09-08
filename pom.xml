@@ -14,6 +14,7 @@
         <module>code-sharing-platform</module>
         <module>contacts</module>
         <module>file-server</module>
+        <module>file-type-analyzer</module>
         <module>json-database</module>
         <module>learning-progress-tracker</module>
         <module>linear-equations-solver</module>

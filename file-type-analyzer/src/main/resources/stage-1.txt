@@ -1,0 +1,9 @@
+Your program should accept three arguments: the file to check (relative path), the pattern string (P), and the result string (R)
+
+Examples:
+
+java Main doc.pdf "%PDF-" "PDF document"
+Output: PDF document
+
+java Main picture.jpg "%PDF-" "PDF document"
+Output: Unknown file type
