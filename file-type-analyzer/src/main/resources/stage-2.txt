@@ -1,0 +1,19 @@
+First, we've checked the naive implementation, and it took roughly 5 seconds. Then KMP showed 5 times better performance. You should expect similar behavior from your program.
+
+Examples:
+
+java Main --naive huge_doc.pdf "%PDF-" "PDF document"
+PDF document
+It took 5.011 seconds
+
+java Main --KMP huge_doc.pdf "%PDF-" "PDF document"
+PDF document
+It took 1.037 seconds
+
+java Main --naive pic.png "%PDF-" "PDF document"
+Unknown file type
+It took 3.641 seconds
+
+java Main --KMP pic.png "%PDF-" "PDF document"
+Unknown file type
+It took 0.469 seconds
