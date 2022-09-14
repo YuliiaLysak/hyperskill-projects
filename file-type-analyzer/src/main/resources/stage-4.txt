@@ -1,0 +1,21 @@
+The patterns.db consist of patterns with their priorities. You can download it here. For example:
+4;"PK";"Zip archive"
+7;"word/_rels";"MS Office Word 2007+"
+7;"ppt/_rels";"MS Office PowerPoint 2007+"
+7;"xl/_rels";"MS Office Excel 2007+"
+
+A higher value means higher priority. In this example, the "Zip archive" is a container for multiple files.
+However, Microsoft Office files are also stored as Zip archives, you can clearly see this if you rename
+file "file.docx" to "file.zip". If you unzip it, you'll see that it contains a bunch of folders and
+a bunch of XMLs. So, a Word file contains both "PK" indicating that this is a Zip archive and
+"word/_rels" indicating that this is a Word document. In this situation, you should choose a pattern
+with higher priority, which is "MS Office Word 2007+".
+
+
+
+Examples:
+
+java Main test_files patterns.db
+test_filesdoc_0.doc: MS Office Word 2003
+doc_1.ppt: MS Office PowerPoint 2003
+file.zip: Zip archive
