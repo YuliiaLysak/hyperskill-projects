@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Callable;
@@ -15,6 +16,7 @@ import java.util.concurrent.Future;
 import java.util.stream.IntStream;
 
 public class FileTypeAnalyzer {
+    private static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(10);
 
     public String analyzeFile(String algorithm, String filePath, String pattern, String result) throws IOException {
         return switch (Algorithm.valueFrom(algorithm)) {
@@ -25,16 +27,17 @@ public class FileTypeAnalyzer {
         };
     }
 
-    public List<FileResult> analyzeFilesAsync(String folderPath, String pattern, String resultString) throws InterruptedException {
+    public List<FileResult> analyzeFilesAsyncWithDb(String folderPath, String dbPath) throws IOException, InterruptedException {
+        List<PatternInfo> patternInfoList = initDb(dbPath);
+
         File folder = new File(folderPath);
         File[] files = folder.listFiles();
-        List<Analyzer> analyzers = Arrays.stream(Objects.requireNonNull(files))
-                .map(file -> new Analyzer(file, pattern, resultString))
+        List<AnalyzerDb> analyzers = Arrays.stream(Objects.requireNonNull(files))
+                .map(it -> new AnalyzerDb(it, patternInfoList))
                 .toList();
 
-        ExecutorService executor = Executors.newFixedThreadPool(10);
-        List<Future<FileResult>> futures = executor.invokeAll(analyzers);
-        executor.shutdown();
+        List<Future<FileResult>> futures = EXECUTOR.invokeAll(analyzers);
+        EXECUTOR.shutdown();
 
         return futures.stream()
                 .map(future -> {
@@ -46,6 +49,50 @@ public class FileTypeAnalyzer {
                     }
                 })
                 .toList();
+    }
+
+    private List<PatternInfo> initDb(String dbPath) throws IOException {
+        List<String> strings = Files.readAllLines(Path.of(dbPath));
+        return strings.stream()
+                .map(line -> line.split(";"))
+                .map(FileTypeAnalyzer::buildPatternInfo)
+                .toList();
+    }
+
+    public List<FileResult> analyzeFilesAsync(String folderPath, String pattern, String resultString) throws InterruptedException {
+        File folder = new File(folderPath);
+        File[] files = folder.listFiles();
+        List<Analyzer> analyzers = Arrays.stream(Objects.requireNonNull(files))
+                .map(file -> new Analyzer(file, pattern, resultString))
+                .toList();
+
+        List<Future<FileResult>> futures = EXECUTOR.invokeAll(analyzers);
+        EXECUTOR.shutdown();
+
+        return futures.stream()
+                .map(future -> {
+                    try {
+                        return future.get();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return new FileResult();
+                    }
+                })
+                .toList();
+    }
+
+    private String analyzeKMPWithDb(String filePath, List<PatternInfo> patternInfoList) {
+        try {
+            String target = new String(Files.readAllBytes(Path.of(filePath)));
+            return patternInfoList.stream()
+                    .filter(it -> findPatternInText(it.getPattern(), target) >= 0)
+                    .max(Comparator.comparing(PatternInfo::getPriority))
+                    .map(PatternInfo::getResultString)
+                    .orElse(FileType.UNKNOWN_FILE_TYPE.getResultString());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return FileType.UNKNOWN_FILE_TYPE.getResultString();
+        }
     }
 
     private String analyzeKMP(String filePath, String pattern, String result) {
@@ -170,6 +217,13 @@ public class FileTypeAnalyzer {
                 .toList();
     }
 
+    private static PatternInfo buildPatternInfo(String[] array) {
+        int priority = Integer.parseInt(array[0]);
+        String pattern = array[1].substring(1, array[1].length() - 1);
+        String resultString = array[2].substring(1, array[2].length() - 1);
+        return new PatternInfo(priority, pattern, resultString);
+    }
+
     class Analyzer implements Callable<FileResult> {
         private final File file;
         private final String pattern;
@@ -184,6 +238,22 @@ public class FileTypeAnalyzer {
         @Override
         public FileResult call() {
             String output = analyzeKMP(file.getPath(), pattern, resultString);
+            return new FileResult(file.getName(), output);
+        }
+    }
+
+    class AnalyzerDb implements Callable<FileResult> {
+        private final File file;
+        private final List<PatternInfo> patternInfoList;
+
+        AnalyzerDb(File file, List<PatternInfo> patternInfoList) {
+            this.file = file;
+            this.patternInfoList = patternInfoList;
+        }
+
+        @Override
+        public FileResult call() {
+            String output = analyzeKMPWithDb(file.getPath(), patternInfoList);
             return new FileResult(file.getName(), output);
         }
     }

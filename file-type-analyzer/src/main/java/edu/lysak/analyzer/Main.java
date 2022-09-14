@@ -7,7 +7,15 @@ public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
         FileTypeAnalyzer fileTypeAnalyzer = new FileTypeAnalyzer();
 //        processFile(args, fileTypeAnalyzer);
-        processFilesAsync(args, fileTypeAnalyzer);
+//        processFilesAsync(args, fileTypeAnalyzer);
+        processFilesAsyncWithDb(args, fileTypeAnalyzer);
+    }
+
+    private static void processFilesAsyncWithDb(String[] args, FileTypeAnalyzer fileTypeAnalyzer) throws IOException, InterruptedException {
+        String folderPath = args[0];
+        String dbPath = args[1];
+        List<FileResult> results = fileTypeAnalyzer.analyzeFilesAsyncWithDb(folderPath, dbPath);
+        results.forEach((it) -> System.out.printf("%s: %s%n", it.getFileName(), it.getFileType()));
     }
 
     private static void processFilesAsync(String[] args, FileTypeAnalyzer fileTypeAnalyzer) throws InterruptedException {

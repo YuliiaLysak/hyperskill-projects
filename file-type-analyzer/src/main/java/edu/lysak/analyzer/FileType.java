@@ -2,6 +2,8 @@ package edu.lysak.analyzer;
 
 public enum FileType {
     PDF("PDF document"),
+    PEM("PEM certificate"),
+    DOC("DOC document"),
     UNKNOWN_FILE_TYPE("Unknown file type");
 
     private final String resultString;
