@@ -23,8 +23,53 @@ public class FileTypeAnalyzer {
             case NAIVE -> analyzeNaive(filePath, pattern, result);
             case KMP -> analyzeKMP(filePath, pattern, result);
 //            case KMP -> analyzeUsingCollections(filePath, pattern, result);
+            case RK -> analyzeRK(filePath, pattern, result);
             case UNKNOWN_ALGORITHM -> FileType.UNKNOWN_FILE_TYPE.getResultString();
         };
+    }
+
+    private String analyzeRK(String filePath, String pattern, String result) throws IOException {
+        String txt = new String(Files.readAllBytes(Path.of(filePath)));
+        int m = pattern.length();
+        int n = txt.length();
+        int i, j;
+        int p = 0;
+        int t = 0;
+        int h = 1;
+
+        int q = 13;
+        int d = txt.length();
+
+        for (i = 0; i < m - 1; i++)
+            h = (h * d) % q;
+
+        // Calculate hash value for pattern and text
+        for (i = 0; i < m; i++) {
+            p = (d * p + pattern.charAt(i)) % q;
+            t = (d * t + txt.charAt(i)) % q;
+        }
+
+        // Find the match
+        for (i = 0; i <= n - m; i++) {
+            if (p == t) {
+                for (j = 0; j < m; j++) {
+                    if (txt.charAt(i + j) != pattern.charAt(j))
+                        break;
+                }
+
+                if (j == m) {
+                    System.out.println("Pattern is found at position: " + (i + 1));
+                    return result;
+                }
+            }
+
+            if (i < n - m) {
+                t = (d * (t - txt.charAt(i) * h) + txt.charAt(i + m)) % q;
+                if (t < 0)
+                    t = (t + q);
+            }
+        }
+        return FileType.UNKNOWN_FILE_TYPE.getResultString();
     }
 
     public List<FileResult> analyzeFilesAsyncWithDb(String folderPath, String dbPath) throws IOException, InterruptedException {

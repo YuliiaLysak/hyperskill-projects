@@ -2,7 +2,8 @@ package edu.lysak.analyzer;
 
 public enum Algorithm {
     NAIVE("--naive"),
-    KMP("--KMP"),
+    KMP("--KMP"), // Knuth-Morris-Pratt
+    RK("--RK"), // Rabin-Karp
     UNKNOWN_ALGORITHM("Unknown algorithm");
 
     private final String algorithmName;
