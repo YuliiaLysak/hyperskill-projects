@@ -12,7 +12,7 @@ Hammersmith - Westbourne-park - depot
 Example 2
 
 > java metro.Main test-file.json
-> /add Hammersmith-and-City "Test station"
+> /append Hammersmith-and-City "Test station"
 > /output Hammersmith-and-City
 depot - Hammersmith - Westbourne-park
 Hammersmith - Westbourne-park - Test station

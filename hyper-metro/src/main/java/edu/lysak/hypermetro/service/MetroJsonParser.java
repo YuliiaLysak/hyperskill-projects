@@ -1,5 +1,6 @@
 package edu.lysak.hypermetro.service;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
@@ -7,12 +8,14 @@ import com.google.gson.JsonParser;
 import edu.lysak.hypermetro.exception.MetroException;
 import edu.lysak.hypermetro.model.MetroLine;
 import edu.lysak.hypermetro.model.Station;
+import edu.lysak.hypermetro.model.Transfer;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -46,9 +49,20 @@ public class MetroJsonParser {
     }
 
     private static Station parseStation(Map.Entry<String, JsonElement> station) {
+        JsonObject stationObject = station.getValue().getAsJsonObject();
+        String stationName = stationObject.get("name").getAsString();
+        JsonArray transferArray = stationObject.getAsJsonArray("transfer");
+        List<Transfer> transfers = new ArrayList<>();
+        for (JsonElement jsonElement : transferArray) {
+            String line = jsonElement.getAsJsonObject().get("line").getAsString();
+            String transferStation = jsonElement.getAsJsonObject().get("station").getAsString();
+            transfers.add(new Transfer(line, transferStation));
+        }
+
         return new Station(
                 Integer.parseInt(station.getKey()),
-                station.getValue().getAsString()
+                stationName,
+                transfers
         );
     }
 }

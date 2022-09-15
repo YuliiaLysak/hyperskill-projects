@@ -7,8 +7,10 @@ import lombok.Setter;
 @Setter
 public class Command {
     private CommandType commandType;
-    private String lineName;
-    private String stationName;
+    private String lineName1;
+    private String stationName1;
+    private String lineName2;
+    private String stationName2;
 
     public Command(CommandType commandType) {
         this.commandType = commandType;

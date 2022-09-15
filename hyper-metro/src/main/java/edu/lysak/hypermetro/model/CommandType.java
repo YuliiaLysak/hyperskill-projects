@@ -7,6 +7,7 @@ public enum CommandType {
     APPEND("/append"),
     ADD_HEAD("/add-head"),
     REMOVE("/remove"),
+    CONNECT("/connect"),
     OUTPUT("/output"),
     EXIT("/exit"),
     INVALID("Invalid command");
