@@ -1,61 +1,30 @@
 package edu.lysak.converter;
 
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import edu.lysak.converter.converter.Converter;
+import edu.lysak.converter.converter.JsonConverter;
+import edu.lysak.converter.converter.XmlConverter;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        String input = scanner.nextLine().trim();
+    public static void main(String[] args) throws IOException, URISyntaxException {
+        URL resource = Main.class.getClassLoader().getResource("test.txt");
+        String input = Files.readString(Path.of(resource.toURI()))
+                .replace(System.lineSeparator(), "");
+        Converter converter;
         if (input.startsWith("<")) {
-            parseXml(input);
+            converter = new XmlConverter();
         } else if (input.startsWith("{")) {
-            parseJson(input);
+            converter = new JsonConverter();
         } else {
             System.out.println("Invalid input");
+            return;
         }
-    }
 
-    private static void parseXml(String input) {
-        String regex = "^<(?<key>[^<>]*)>(?<value>[^<>]*)</[^<>]*>|<(?<keyForEmptyValue>[^<>]*)/>$";
-        Pattern xmlPattern = Pattern.compile(regex);
-        Matcher matcher = xmlPattern.matcher(input);
-        if (matcher.find()) {
-            String key = matcher.group("key");
-            String value = matcher.group("value");
-            if (value == null) {
-                key = matcher.group("keyForEmptyValue");
-                value = "";
-            }
-            System.out.println(convertXmlToJson(key, value));
-        }
-    }
-
-    private static String convertXmlToJson(String key, String value) {
-        if (value.isEmpty()) {
-            return String.format("{\"%s\":%s}", key, null);
-        } else {
-            return String.format("{\"%s\":\"%s\"}", key, value);
-        }
-    }
-
-    private static void parseJson(String input) {
-        String regex = "^\\{\"(?<key>.+)\"\\s?:\\s?\"?(?<value>[^\"]+)\"?}$";
-        Pattern jsonPattern = Pattern.compile(regex);
-        Matcher matcher = jsonPattern.matcher(input);
-        if (matcher.find()) {
-            String key = matcher.group("key");
-            String value = matcher.group("value");
-            System.out.println(convertJsonToXml(key, value));
-        }
-    }
-
-    private static String convertJsonToXml(String key, String value) {
-        if ("null".equals(value)) {
-            return String.format("<%s/>", key);
-        } else {
-            return String.format("<%s>%s</%s>", key, value, key);
-        }
+        System.out.println(converter.convert(input));
     }
 }
