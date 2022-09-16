@@ -16,6 +16,7 @@
         <module>file-server</module>
         <module>file-type-analyzer</module>
         <module>json-database</module>
+        <module>json-xml-converter</module>
         <module>learning-progress-tracker</module>
         <module>linear-equations-solver</module>
         <module>maze-runner</module>
