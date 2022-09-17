@@ -5,7 +5,7 @@ import java.util.List;
 public class Element {
     private String key;
     private String value;
-    private List<Attribute> attributes;
+    private List<XmlAttribute> attributes;
 
     public String getKey() {
         return key;
@@ -23,11 +23,11 @@ public class Element {
         this.value = value;
     }
 
-    public List<Attribute> getAttributes() {
+    public List<XmlAttribute> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(List<Attribute> attributes) {
+    public void setAttributes(List<XmlAttribute> attributes) {
         this.attributes = attributes;
     }
 }

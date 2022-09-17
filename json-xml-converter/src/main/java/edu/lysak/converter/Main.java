@@ -1,19 +1,26 @@
 package edu.lysak.converter;
 
-import edu.lysak.converter.converter.Converter;
-import edu.lysak.converter.converter.JsonConverter;
-import edu.lysak.converter.converter.XmlConverter;
+import edu.lysak.converter.model.XmlElement;
+import edu.lysak.converter.service.Converter;
+import edu.lysak.converter.service.JsonConverter;
+import edu.lysak.converter.service.XmlConverter;
+import edu.lysak.converter.service.XmlParser;
 
+import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws IOException, URISyntaxException {
-        URL resource = Main.class.getClassLoader().getResource("test.txt");
-        String input = Files.readString(Path.of(resource.toURI()))
+    public static void main(String[] args) throws Exception {
+        String fileName = "test-3.txt";
+//        executeConverting(fileName);
+        executeParsing(fileName);
+    }
+
+    private static void executeConverting(String fileName) throws IOException {
+        String input = Files.readString(Path.of(fileName))
                 .replace(System.lineSeparator(), "");
         Converter converter;
         if (input.startsWith("<")) {
@@ -27,4 +34,11 @@ public class Main {
 
         System.out.println(converter.convert(input));
     }
+
+    private static void executeParsing(String fileName) throws XMLStreamException {
+        XmlParser xmlParser = new XmlParser(fileName);
+        List<XmlElement> xmlElements = xmlParser.parseXml();
+        xmlParser.printElements(xmlElements);
+    }
+
 }

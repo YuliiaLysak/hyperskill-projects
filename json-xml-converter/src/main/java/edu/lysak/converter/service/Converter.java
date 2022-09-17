@@ -1,6 +1,6 @@
-package edu.lysak.converter.converter;
+package edu.lysak.converter.service;
 
-import edu.lysak.converter.model.Attribute;
+import edu.lysak.converter.model.XmlAttribute;
 import edu.lysak.converter.model.Element;
 
 import java.util.ArrayList;
@@ -29,14 +29,14 @@ public interface Converter {
         return element;
     }
 
-    default List<Attribute> parseAttributes(String allAttributes, String regex) {
-        ArrayList<Attribute> attributes = new ArrayList<>();
+    default List<XmlAttribute> parseAttributes(String allAttributes, String regex) {
+        ArrayList<XmlAttribute> attributes = new ArrayList<>();
         Pattern attributesPattern = Pattern.compile(regex);
         Matcher matcher = attributesPattern.matcher(allAttributes);
         while (matcher.find()) {
             String attrKey = matcher.group("attrKey");
             String attrValue = matcher.group("attrValue");
-            attributes.add(new Attribute(attrKey, attrValue));
+            attributes.add(new XmlAttribute(attrKey, attrValue));
         }
         return attributes;
     }

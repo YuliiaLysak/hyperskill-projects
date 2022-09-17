@@ -1,6 +1,6 @@
-package edu.lysak.converter.converter;
+package edu.lysak.converter.service;
 
-import edu.lysak.converter.model.Attribute;
+import edu.lysak.converter.model.XmlAttribute;
 import edu.lysak.converter.model.Element;
 
 import java.util.List;
@@ -34,8 +34,8 @@ public class JsonConverter implements Converter {
         return element;
     }
 
-    private List<Attribute> getAttributes(String input) {
-        List<Attribute> attributes;
+    private List<XmlAttribute> getAttributes(String input) {
+        List<XmlAttribute> attributes;
         if (input.contains("@")) {
             attributes = parseAttributes(
                     input.substring(input.indexOf("@") - 1, input.indexOf("#") - 1),
@@ -51,7 +51,7 @@ public class JsonConverter implements Converter {
     private String convertJsonToXml(Element jsonElement) {
         String key = jsonElement.getKey();
         String value = jsonElement.getValue();
-        List<Attribute> attributes = jsonElement.getAttributes();
+        List<XmlAttribute> attributes = jsonElement.getAttributes();
         if (attributes.isEmpty()) {
             return getResultWithoutAttributes(key, value);
         }
@@ -67,7 +67,7 @@ public class JsonConverter implements Converter {
         }
     }
 
-    private String getResultWithAttributes(String key, String value, List<Attribute> attributes) {
+    private String getResultWithAttributes(String key, String value, List<XmlAttribute> attributes) {
         StringBuilder aggregatedAttributes = new StringBuilder();
         attributes.forEach(a -> aggregatedAttributes.append(String.format(
                 "%s = \"%s\" ",

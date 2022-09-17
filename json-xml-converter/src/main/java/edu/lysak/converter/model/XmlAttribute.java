@@ -1,10 +1,10 @@
 package edu.lysak.converter.model;
 
-public class Attribute {
+public class XmlAttribute {
     private final String attrKey;
     private final String attrValue;
 
-    public Attribute(String attrKey, String attrValue) {
+    public XmlAttribute(String attrKey, String attrValue) {
         this.attrKey = attrKey;
         this.attrValue = attrValue;
     }
