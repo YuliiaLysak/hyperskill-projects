@@ -1,0 +1,25 @@
+The greater-than symbol followed by a space (> ) represents the user input. Note that it's not part of the input.
+
+Example
+
+> java metro.Main test-file.json
+> /output Hammersmith-and-City
+depot
+Hammersmith
+Westbourne-park
+Baker-street - Baker-street (Metro-Railway line)
+depot
+> /connect Hammersmith-and-City Hammersmith Metro-Railway "Edgver road"
+> /output Hammersmith-and-City
+depot
+Hammersmith - Edgver road (Metro-Railway line)
+Westbourne-park
+Baker-street - Baker-street (Metro-Railway line)
+depot
+> /output Metro-Railway
+depot
+Bishops-road
+Edgver road - Hammersmith (Hammersmith-and-City)
+Baker-street - Baker-street (Hammersmith-and-City)
+depot
+> /exit

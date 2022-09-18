@@ -1,0 +1,25 @@
+The greater-than symbol followed by a space (> ) represents the user input. Note that it's not part of the input.
+
+Example
+
+> java metro.Main london_underground.json
+> /route "Piccadilly line" Ickenham "Central line" "North Acton"
+Ickenham
+Ruislip
+Ruislip Manor
+Eastcote
+Rayners Lane
+South Harrow
+Sudbury Hill
+Sudbury Town
+Alperton
+Park Royal
+North Ealing
+Ealing Common
+Transition to District line
+Ealing Common
+Ealing Broadway
+Transition to Central line
+Ealing Broadway
+West Acton
+North Acton
