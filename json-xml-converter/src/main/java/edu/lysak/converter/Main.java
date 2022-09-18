@@ -14,7 +14,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        String fileName = "test-3.txt";
+        String fileName = "test-stage3-xml.txt";
 //        executeConverting(fileName);
         executeParsing(fileName);
     }

@@ -1,0 +1,10 @@
+{
+    "transaction": {
+        "id": "6753322",
+        "number": {
+            "@region": "Ukraine",
+            "#number": "+380 44 888 88 88"
+        },
+        "amount": null
+    }
+}

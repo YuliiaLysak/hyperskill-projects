@@ -144,7 +144,7 @@ public class XmlParser {
     // ****************************************
     private static void parseXmlViaDOM() throws Exception {
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document document = builder.parse(new File("test-3.txt"));
+        Document document = builder.parse(new File("test-stage3-xml.txt"));
         document.getDocumentElement().normalize();
         Element root = document.getDocumentElement();
 
