@@ -1,0 +1,79 @@
+#1----------start-input-----------
+<employee department = "manager">Garry Smith</employee>
+-----------end-input---------
+
+#1----------start-output-----------
+{
+"employee" : {
+"@department" : "manager",
+"#employee" : "Garry Smith"
+}
+}
+-----------end-output---------
+
+#2----------start-input-----------
+<person rate = "1" name = "Torvalds" />
+-----------end-input---------
+
+#2----------start-output-----------
+{
+"person" : {
+"@rate" : "1",
+"@name" : "Torvalds",
+"#person" : null
+}
+}
+-----------end-output---------
+
+#3----------start-input-----------
+{
+    "employee" : {
+        "@department" : "manager",
+        "#employee" : "Garry Smith"
+    }
+}
+-----------end-input---------
+
+#3----------start-output-----------
+<employee department = "manager">Garry Smith</employee>
+-----------end-output---------
+
+#4----------start-input-----------
+{
+    "person" : {
+        "@rate" : 1,
+        "@name" : "Torvalds",
+        "#person" : null
+    }
+}
+-----------end-input---------
+
+#4----------start-output-----------
+<person rate = "1" name = "Torvalds"/>
+-----------end-output---------
+
+#5----------start-input-----------
+{
+    "pizza" : {
+        "@size" : 20,
+        "#pizza" : 123
+    }
+}
+-----------end-input---------
+
+#5----------start-output-----------
+<pizza size = "20">123</pizza>
+-----------end-output---------
+
+#6----------start-input-----------
+<pizza size = "20">123</pizza>
+-----------end-input---------
+
+#6----------start-output-----------
+{
+"pizza" : {
+"@size" : "20",
+"#pizza" : "123"
+}
+}
+-----------end-output---------
