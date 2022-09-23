@@ -11,6 +11,7 @@
     <modules>
         <module>amazing-numbers</module>
         <module>cinema-room-rest-service</module>
+        <module>cli-bash</module>
         <module>code-sharing-platform</module>
         <module>contacts</module>
         <module>file-server</module>

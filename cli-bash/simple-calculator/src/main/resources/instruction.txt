@@ -1,0 +1,17 @@
+Run a shell script
+
+There are three ways to run a shell script:
+1) You can open the corresponding directory with your file and type 'bash hello_world.sh'
+ This way requires only one command, but do not forget to specify that you want to launch
+  the script with Bash.
+
+2) You can make the file executable by typing 'chmod +x hello_world.sh'
+ Then you can run it using ./hello_world.sh also from its directory.
+  Here, you can skip specifying Bash, but remember to make the file executable.
+
+3) You can replace the file with bin by sudo cp hello_world.sh /usr/local/bin
+ and then use only the filename hello_world.sh to run the script.
+  As you can see, you may also need sudo (superuser access) to put your file
+   in the right place. This way implies that you know how to change a directory
+    in Bash and what sudo mode is. And the advantage of this is that the final
+     command consists of a filename only.
