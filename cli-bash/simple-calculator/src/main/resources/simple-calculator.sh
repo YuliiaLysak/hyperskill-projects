@@ -14,11 +14,11 @@
 
 echo "Enter an arithmetic operation:"
 read number1 operator number2
-number_regex='^-?[-0-9]+$'
-operator_regex='^[-+*/]$'
+number_regex='^-?[0-9]+\.?[0-9]*$'
+operator_regex='^[-+*/^]$'
 if [[ "$number1" =~ $number_regex ]] && [[ "$number2" =~ $number_regex ]] && [[ "$operator" =~ $operator_regex ]]; then
 #  calculate
-  arithmetic_result=$(( $number1 $operator $number2))
+  arithmetic_result=$(echo "scale=2; $number1 $operator $number2" | bc -l)
   printf "%s\n" "$arithmetic_result"
 else
   echo "Operation check failed!"
