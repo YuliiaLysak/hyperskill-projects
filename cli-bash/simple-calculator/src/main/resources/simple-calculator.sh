@@ -1,25 +1,18 @@
 #!/usr/bin/env bash
 
-#calculate() {
-#  if [ "$operator" = "+" ]; then
-#    arithmetic_result=$((number1 + number2))
-#  elif [ "$operator" = "-" ]; then
-#    arithmetic_result=$((number1 - number2))
-#  elif [ "$operator" = "*" ]; then
-#    arithmetic_result=$((number1 * number2))
-#  elif [ "$operator" = "/" ]; then
-#    arithmetic_result=$((number1 / number2))
-#  fi
-#}
-
-echo "Enter an arithmetic operation:"
-read number1 operator number2
-number_regex='^-?[0-9]+\.?[0-9]*$'
-operator_regex='^[-+*/^]$'
-if [[ "$number1" =~ $number_regex ]] && [[ "$number2" =~ $number_regex ]] && [[ "$operator" =~ $operator_regex ]]; then
-#  calculate
-  arithmetic_result=$(echo "scale=2; $number1 $operator $number2" | bc -l)
-  printf "%s\n" "$arithmetic_result"
-else
-  echo "Operation check failed!"
-fi
+regex='^(-?[0-9]+\.?[0-9]*) [-+*\/^] (-?[0-9]+\.?[0-9]*)$'
+echo "Welcome to the basic calculator!" | tee operation_history.txt
+while true; do
+  echo "Enter an arithmetic operation or type 'quit' to quit:" | tee -a operation_history.txt
+  read -r input
+  echo "$input" >> operation_history.txt
+  if [[ "$input" =~ "quit" ]]; then
+    echo "Goodbye!" | tee -a operation_history.txt
+    break
+  elif [[ "$input" =~ $regex ]]; then
+    arithmetic_result=$(echo "scale=2; $input" | bc -l)
+    printf "%s\n" "$arithmetic_result" | tee -a operation_history.txt
+  else
+    echo "Operation check failed!" | tee -a operation_history.txt
+  fi
+done

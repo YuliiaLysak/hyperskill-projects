@@ -1,0 +1,31 @@
+Welcome to the basic calculator!
+Enter an arithmetic operation or type 'quit' to quit:
+a * 3
+Operation check failed!
+Enter an arithmetic operation or type 'quit' to quit:
+4 / c
+Operation check failed!
+Enter an arithmetic operation or type 'quit' to quit:
+2 ^ 5
+32
+Enter an arithmetic operation or type 'quit' to quit:
+2 * -18
+-36
+Enter an arithmetic operation or type 'quit' to quit:
+15 * -5
+-75
+Enter an arithmetic operation or type 'quit' to quit:
+-5 * -5
+25
+Enter an arithmetic operation or type 'quit' to quit:
+22 / 7
+3.14
+Enter an arithmetic operation or type 'quit' to quit:
+1.3 * 7.8
+10.14
+Enter an arithmetic operation or type 'quit' to quit:
+-5 * 1.8
+-9.0
+Enter an arithmetic operation or type 'quit' to quit:
+quit
+Goodbye!

@@ -41,11 +41,53 @@ personal_data() {
 
 solve() {
     # add your solution here
-    if [ "$1" -ge 500 ] -a [ "$1" -le 1000 ]; then
+    if [ $1 -ge 500 ] && [ $1 -le 1000 ]; then
         echo "Good Job!"
     else
         echo "Revise the essay"
     fi
 }
 
+loop() {
+  for i in 1 2 3 4 5; do
+    echo $i;
+  done
+}
+
+loop2() {
+  for i in John Jack Mary; do
+      echo "Here is $i";
+  done
+}
+
+loop_with_sequence() {
+  for i in $(seq 1 2 5); do  # seq [start] [incr] [stop]
+      echo "Number: $i";
+  done
+}
+
+loop_while() {
+  i=1
+  while [ $i -le 3 ]; do
+    echo "I is $i";
+    i=$(($i+1));
+  done
+}
+
+loop_infinite() {
+  while true; do
+    echo "To stop execution of a loop, use CTRL+C"
+  done
+}
+
+
+
 solve 350
+#loop
+#loop2
+#seq 4
+#seq -f %f 5 # "-f" is for formatting (default "%g")
+#seq -s " | " 5 # "-s" is a separator (default "\n")
+#loop_with_sequence
+
+#loop_while
