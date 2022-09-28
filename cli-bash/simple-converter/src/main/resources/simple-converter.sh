@@ -18,7 +18,7 @@ process_option() {
     quit=true
     ;;
   "1")
-    echo "Not implemented!"
+    convert_units
     ;;
   "2")
     add_definition
@@ -30,6 +30,55 @@ process_option() {
     echo "Invalid option!"
     ;;
   esac
+}
+
+convert_units() {
+  if [ -s "$file_name" ]; then
+    output_file_content "convert units"
+    convert_value
+  else
+    echo "Please add a definition first!"
+  fi
+}
+
+convert_value() {
+  while true; do
+    read -r user_line_number
+    if [[ $user_line_number == '0' ]]; then
+      break
+    elif [[ $user_line_number =~ $constant_regex ]] && [[ $user_line_number -ge 1 ]] && [[ $user_line_number -le $total_lines ]]; then
+      line=$(sed "${user_line_number}!d" "$file_name")
+      read -r -a array <<< "$line"
+      constant="${array[1]}"
+      echo "Enter a value to convert:"
+      while true; do
+        is_valid_value=false
+        read -r value
+        validate_value "$value" "$constant_regex"
+        if $is_valid_value; then
+          break
+        fi
+      done
+
+      #result=$(echo "scale=2; $constant * $value" | bc -l)
+      #printf "Result: %s\n" "$result"
+      echo "Result: $(bc -l <<<"$value"*"$constant")"
+
+      break
+    else
+      echo "Enter a valid line number!"
+    fi
+  done
+}
+
+validate_value() {
+  value="$1"
+  regex="$2"
+  if [[ "$value" =~ $regex ]]; then
+    is_valid_value=true
+  else
+    echo "Enter a float or integer value!"
+  fi
 }
 
 add_definition() {
@@ -47,16 +96,6 @@ add_definition() {
   done
 }
 
-#validate_value() {
-#  value="$1"
-#  regex="$2"
-#  if [[ "$value" =~ $regex ]]; then
-#    is_valid_value=true
-#  else
-#    echo "Enter a float or integer value!"
-#  fi
-#}
-
 check_definition() {
   array=("$@")
   array_length="${#array[@]}"
@@ -71,14 +110,25 @@ check_definition() {
 
 delete_definition() {
   if [ -s "$file_name" ]; then
-    process_file_content
+    output_file_content "delete"
+    delete_definition_from_file
   else
     echo "Please add a definition first!"
   fi
 }
 
-process_file_content() {
-  output_file_content
+output_file_content() {
+  echo "Type the line number to $1 or '0' to return"
+  # read info about file (lineCount, wordCount, bytes) | get rid of repeated spaces | split by space and take lineCount
+  total_lines=$(wc "$file_name" | tr -s "[:space:]" | cut -d ' ' -f 2)
+  line_number=1
+  while read -r line; do
+    echo "$line_number. $line";
+    ((line_number++))
+  done < "$file_name"
+}
+
+delete_definition_from_file() {
   while true; do
     read -r user_line_number
     if [[ $user_line_number == '0' ]]; then
@@ -96,17 +146,6 @@ process_file_content() {
   done
 }
 
-output_file_content() {
-  echo "Type the line number to delete or '0' to return"
-  # read info about file (lineCount, wordCount, bytes) | get rid of repeated spaces | split by space and take lineCount
-  total_lines=$(wc "$file_name" | tr -s "[:space:]" | cut -d ' ' -f 2)
-  line_number=1
-  while read -r line; do
-    echo "$line_number. $line";
-    ((line_number++))
-  done < "$file_name"
-}
-
 
 echo "Welcome to the Simple converter!"
 while true; do
@@ -120,17 +159,3 @@ while true; do
 done
 
 echo "Goodbye!"
-
-#echo "Enter a value to convert:"
-#while true; do
-#  is_valid_value=false
-#  read -r value
-#  validate_value "$value" "$constant_regex"
-#  if $is_valid_value; then
-#    break
-#  fi
-#done
-
-#result=$(echo "scale=2; $constant * $value" | bc -l)
-#printf "Result: %s\n" "$result"
-#echo "Result: $(bc -l <<<"$value"*"$constant")"
