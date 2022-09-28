@@ -1,0 +1,2 @@
+meter_to_cm 100
+miles_to_km 1.6

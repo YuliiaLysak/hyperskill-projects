@@ -1,0 +1,4 @@
+Winter: white: Weather: cold
+Spring: green: Snow:melted
+Summer: bright: Temperature: hot
+Autumn: yellow: Leaves: cool

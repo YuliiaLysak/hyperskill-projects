@@ -14,24 +14,37 @@
 # Then the result of the first command is taken as the input by the second one, and so on.
 #echo -e "Hmm...\nBrr...\nMmm..." | grep "m"
 
-answers=("a" "d" "c" "a" "a")
-total_score=0
+#answers=("a" "d" "c" "a" "a")
+#total_score=0
+#
+#for (( i = 0; i < 5; i++));
+#do
+#    case "${1}" in
+#
+#        ${answers[i]})
+#            ((total_score++))
+#            ;;
+#        "-"|"--")
+#            ;;
+#        *)
+#            ((total_score--))
+#            ;;
+#
+#    esac
+#    shift 1
+#done
+#
+#echo "Total score is: $total_score"
 
-for (( i = 0; i < 5; i++));
-do
-    case "${1}" in
+#display some basic text statistics
+echo "Hello world" | wc
 
-        ${answers[i]})
-            ((total_score++))
-            ;;
-        "-"|"--")
-            ;;
-        *)
-            ((total_score--))
-            ;;
+#cut out parts of text
+echo "The sky is blue" | cut -d ' ' -f 1-2
+cut -d ':' -f 1 seasons.txt
 
-    esac
-    shift 1
-done
-
-echo "Total score is: $total_score"
+#translate, squeeze, and delete characters
+echo lalala | tr a o #replace characters "a" with "o"
+echo 'Linux Ubuntu' | tr -d 'u' #delete all the "u" characters
+echo 'Linux Ubuntu' | tr -dc 'u' #keep only the character you deleted
+echo 'Repeated  spaces in  line' | tr -s [:space:] #removes duplicates. For example, with this option we can get rid of repeated spaces
