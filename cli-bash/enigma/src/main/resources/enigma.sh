@@ -144,7 +144,7 @@ decrypt() {
   echo "$result"
 }
 
-stage_4() {
+stage_4_5() {
   echo "Welcome to the Enigma!"
   while true; do
     print_menu
@@ -178,10 +178,48 @@ stage_4() {
       fi
       ;;
     "3")
-      echo "Not implemented!"
+      echo "Enter the filename:"
+      read -r file_name
+      if [ -s "$file_name" ]; then
+        echo "Enter password:"
+        read -r password
+        output_file="${file_name}.enc"
+        # TODO: code example from hyperskill, doesn't work for me locally
+        #openssl enc -aes-256-cbc -e -pbkdf2 -nosalt -in "$file_name" -out "${file_name}.enc" -pass pass:"$password" &>/dev/null
+        openssl enc -aes-256-cbc -nosalt -in "$file_name" -out "$output_file" -pass pass:"$password" &>/dev/null
+        # &>/dev/null is used for not showing error in the stdout (like decrypt error)
+        exit_code=$?
+        if [[ $exit_code -eq 0 ]]; then
+          echo "Success"
+          rm "$file_name"
+        else
+          echo "Fail"
+        fi
+      else
+        echo "File not found!"
+      fi
       ;;
     "4")
-      echo "Not implemented!"
+      echo "Enter the filename:"
+      read -r file_name
+      if [ -s "$file_name" ]; then
+        echo "Enter password:"
+        read -r password
+        output_file=$(echo "$file_name" | rev | cut -c5- | rev)
+        # TODO: code example from hyperskill, doesn't work for me locally
+        #openssl enc -aes-256-cbc -d -pbkdf2 -nosalt -in "$file_name" -out "$output_file" -pass pass:"$password" &>/dev/null
+        openssl enc -d -aes-256-cbc -nosalt -in "$file_name" -out "$output_file" -pass pass:"$password" &>/dev/null
+        # &>/dev/null is used for not showing error in the stdout (like decrypt error)
+        exit_code=$?
+        if [[ $exit_code -eq 0 ]]; then
+          echo "Success"
+          rm "$file_name"
+        else
+          echo "Fail"
+        fi
+      else
+        echo "File not found!"
+      fi
       ;;
     *)
       echo "Invalid option!"
@@ -210,4 +248,4 @@ check_filename() {
 #stage_1
 #stage_2
 #stage_3
-stage_4
+stage_4_5
