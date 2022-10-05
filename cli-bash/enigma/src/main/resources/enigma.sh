@@ -2,6 +2,7 @@
 
 constant_key=3
 message_regex='^[A-Z ]+$'
+filename_regex='^[A-Za-z.]+$'
 
 stage_1() {
   echo "Enter a message:"
@@ -143,6 +144,70 @@ decrypt() {
   echo "$result"
 }
 
+stage_4() {
+  echo "Welcome to the Enigma!"
+  while true; do
+    print_menu
+    read -r option
+    case $option in
+    "0")
+      echo "See you later!"
+      exit
+      ;;
+    "1")
+      echo "Enter the filename:"
+      read -r filename
+      is_valid_filename=$(check_filename $filename)
+      if $is_valid_filename; then
+        echo "Enter message:"
+        read -r message
+        touch "$filename"
+        echo "$message" >> "$filename"
+      else
+        echo "File name can contain letters and dots only!"
+      fi
+      ;;
+    "2")
+      echo "Enter the filename:"
+      read -r filename
+      if [ -s "$filename" ]; then
+        read -r file_content < "$filename"
+        echo "$file_content"
+      else
+        echo "File not found!"
+      fi
+      ;;
+    "3")
+      echo "Not implemented!"
+      ;;
+    "4")
+      echo "Not implemented!"
+      ;;
+    *)
+      echo "Invalid option!"
+      ;;
+    esac
+  done
+}
+
+print_menu() {
+  echo -e "\n0. Exit"
+  echo "1. Create a file"
+  echo "2. Read a file"
+  echo "3. Encrypt a file"
+  echo "4. Decrypt a file"
+  echo "Enter an option:"
+}
+
+check_filename() {
+  if [[ $1 =~ $filename_regex ]]; then
+    echo "true"
+  else
+    echo "false"
+  fi
+}
+
 #stage_1
 #stage_2
-stage_3
+#stage_3
+stage_4
