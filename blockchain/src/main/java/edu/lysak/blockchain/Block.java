@@ -1,34 +1,48 @@
 package edu.lysak.blockchain;
 
-public class Block {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class Block implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private final int id;
     private final long timestamp;
-    private String blockHash;
-    private String prevBlockHash;
+    private final String prevHash;
 
-    public Block(int id, long timestamp) {
+    private int magicNumber;
+    private String hash;
+    private long generationTime;
+
+    public Block(int id, long timestamp, String prevHash) {
         this.id = id;
         this.timestamp = timestamp;
+        this.prevHash = prevHash;
     }
 
-    public String getBlockHash() {
-        return blockHash;
+    public String getHash() {
+        return hash;
     }
 
-    public String getPrevBlockHash() {
-        return prevBlockHash;
+    public String getPrevHash() {
+        return prevHash;
     }
 
-    public void setBlockHash(String blockHash) {
-        this.blockHash = blockHash;
+    public void setMagicNumber(int magicNumber) {
+        this.magicNumber = magicNumber;
     }
 
-    public void setPrevBlockHash(String prevBlockHash) {
-        this.prevBlockHash = prevBlockHash;
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+
+    public void setGenerationTime(long generationTime) {
+        this.generationTime = generationTime;
     }
 
     public String asStringForHash() {
-        return "" + id + timestamp + prevBlockHash;
+        return "" + id + timestamp + magicNumber + prevHash;
     }
 
     @Override
@@ -36,8 +50,10 @@ public class Block {
         return "Block:" +
                 "\nId: " + id +
                 "\nTimestamp: " + timestamp +
-                "\nHash of the previous block:\n" + prevBlockHash +
-                "\nHash of the block:\n" + blockHash +
+                "\nMagic number: " + magicNumber +
+                "\nHash of the previous block:\n" + prevHash +
+                "\nHash of the block:\n" + hash +
+                "\nBlock was generating for " + generationTime + " seconds" +
                 '\n';
     }
 }
