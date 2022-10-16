@@ -2,6 +2,7 @@ package edu.lysak.blockchain;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 
 public class Block implements Serializable {
     @Serial
@@ -13,6 +14,7 @@ public class Block implements Serializable {
 
     private int magicNumber;
     private String hash;
+    private List<String> data;
     private long generationTime;
     private long minerId;
 
@@ -30,6 +32,10 @@ public class Block implements Serializable {
         return prevHash;
     }
 
+    public List<String> getData() {
+        return data;
+    }
+
     public long getGenerationTime() {
         return generationTime;
     }
@@ -42,6 +48,10 @@ public class Block implements Serializable {
         this.hash = hash;
     }
 
+    public void setData(List<String> data) {
+        this.data = data;
+    }
+
     public void setGenerationTime(long generationTime) {
         this.generationTime = generationTime;
     }
@@ -51,7 +61,11 @@ public class Block implements Serializable {
     }
 
     public String asStringForHash() {
-        return "" + id + timestamp + magicNumber + prevHash;
+        return "" + id
+                + timestamp
+                + magicNumber
+                + prevHash
+                + String.join("\n", data);
     }
 
     @Override
@@ -63,6 +77,19 @@ public class Block implements Serializable {
                 "\nMagic number: " + magicNumber +
                 "\nHash of the previous block:\n" + prevHash +
                 "\nHash of the block:\n" + hash +
+                "\nBlock data:" + getBlockDataString() +
                 "\nBlock was generating for " + generationTime + " seconds";
+    }
+
+    private String getBlockDataString() {
+        if (data.isEmpty()) {
+            return " no messages";
+        } else {
+            StringBuilder blockData = new StringBuilder("\n");
+            for (String d : data) {
+                blockData.append(d).append("\n");
+            }
+            return blockData.deleteCharAt(blockData.length() - 1).toString();
+        }
     }
 }

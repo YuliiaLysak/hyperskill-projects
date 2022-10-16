@@ -2,6 +2,7 @@ package edu.lysak.blockchain;
 
 import java.security.SecureRandom;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -38,6 +39,7 @@ public class Miner implements Runnable {
 
         String hash;
         do {
+            setData(prevHash, block);
             block.setMagicNumber(secureRandom.nextInt());
             hash = StringUtil.applySha256(block.asStringForHash());
         } while (!hash.startsWith(blockchain.getLeadingZerosString()));
@@ -46,5 +48,13 @@ public class Miner implements Runnable {
         long end = System.currentTimeMillis();
         block.setGenerationTime(TimeUnit.MILLISECONDS.toSeconds(end - start));
         return block;
+    }
+
+    private void setData(String prevHash, Block block) {
+        if ("0".equals(prevHash)) {
+            block.setData(List.of());
+        } else {
+            block.setData(blockchain.getNonCommittedMessages());
+        }
     }
 }

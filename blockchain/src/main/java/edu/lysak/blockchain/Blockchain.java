@@ -2,7 +2,9 @@ package edu.lysak.blockchain;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Blockchain implements Serializable {
@@ -13,6 +15,7 @@ public class Blockchain implements Serializable {
     private static final long FEW_SECONDS = 10;
 
     private final ConcurrentLinkedDeque<Block> blockchainDeque = new ConcurrentLinkedDeque<>();
+    private final CopyOnWriteArrayList<String> nonCommittedMessages = new CopyOnWriteArrayList<>();
     private final AtomicInteger leadingZerosCount = new AtomicInteger(0);
 
     public String getPrevHash() {
@@ -35,6 +38,8 @@ public class Blockchain implements Serializable {
         }
 
         blockchainDeque.offerLast(block);
+        // TODO: 16.10.2022 change message from String to custom class (fields: id, text)
+        nonCommittedMessages.removeAll(block.getData());
 
         int difficultyBefore = leadingZerosCount.get();
         long generationTime = block.getGenerationTime();
@@ -68,5 +73,13 @@ public class Blockchain implements Serializable {
         String prevHash = currentBlock.getPrevHash();
         return prevHash.equals(prevBlockHash)
                 && hash.startsWith(leadingZeros);
+    }
+
+    public synchronized void addMessage(String message) {
+        nonCommittedMessages.add(message);
+    }
+
+    public List<String> getNonCommittedMessages() {
+        return List.copyOf(nonCommittedMessages);
     }
 }
