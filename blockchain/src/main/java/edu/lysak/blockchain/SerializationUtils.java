@@ -7,8 +7,24 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class SerializationUtils {
+    private static final String FILENAME = "blockchain/src/main/resources/my-blockchain.txt";
+
+    public static boolean isBlockchainFileExist() {
+        return Files.exists(Path.of(FILENAME));
+    }
+
+    public static Blockchain loadFromFile() throws IOException, ClassNotFoundException {
+        return (Blockchain) deserialize(FILENAME);
+    }
+
+    public static void saveToFile(Blockchain blockchain) throws IOException {
+        serialize(blockchain, FILENAME);
+    }
+
     /**
      * Serialize the given object to the file
      */

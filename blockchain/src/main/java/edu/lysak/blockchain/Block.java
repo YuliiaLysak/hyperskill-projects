@@ -14,6 +14,7 @@ public class Block implements Serializable {
     private int magicNumber;
     private String hash;
     private long generationTime;
+    private long minerId;
 
     public Block(int id, long timestamp, String prevHash) {
         this.id = id;
@@ -29,6 +30,10 @@ public class Block implements Serializable {
         return prevHash;
     }
 
+    public long getGenerationTime() {
+        return generationTime;
+    }
+
     public void setMagicNumber(int magicNumber) {
         this.magicNumber = magicNumber;
     }
@@ -41,6 +46,10 @@ public class Block implements Serializable {
         this.generationTime = generationTime;
     }
 
+    public void setMinerId(long minerId) {
+        this.minerId = minerId;
+    }
+
     public String asStringForHash() {
         return "" + id + timestamp + magicNumber + prevHash;
     }
@@ -48,12 +57,12 @@ public class Block implements Serializable {
     @Override
     public String toString() {
         return "Block:" +
+                "\nCreated by miner # " + minerId +
                 "\nId: " + id +
                 "\nTimestamp: " + timestamp +
                 "\nMagic number: " + magicNumber +
                 "\nHash of the previous block:\n" + prevHash +
                 "\nHash of the block:\n" + hash +
-                "\nBlock was generating for " + generationTime + " seconds" +
-                '\n';
+                "\nBlock was generating for " + generationTime + " seconds";
     }
 }

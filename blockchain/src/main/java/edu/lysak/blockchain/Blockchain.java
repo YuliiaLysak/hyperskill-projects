@@ -2,62 +2,71 @@ package edu.lysak.blockchain;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.security.SecureRandom;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Blockchain implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private final Map<Integer, Block> blockchain = new HashMap<>();
+    private static final long ONE_MINUTE = 60;
+    private static final long FEW_SECONDS = 10;
 
-    private final SecureRandom secureRandom;
+    private final ConcurrentLinkedDeque<Block> blockchainDeque = new ConcurrentLinkedDeque<>();
+    private final AtomicInteger leadingZerosCount = new AtomicInteger(0);
 
-    public Blockchain(SecureRandom secureRandom) {
-        this.secureRandom = secureRandom;
+    public String getPrevHash() {
+        Block prevBlock = blockchainDeque.peekLast();
+        return prevBlock == null ? "0" : prevBlock.getHash();
     }
 
-    public void generateBlock(int id, String leadingZeros) {
-        long start = System.currentTimeMillis();
-        long timeStamp = new Date().getTime();
-        String prevHash = getPrevHash(id);
-        Block block = new Block(id, timeStamp, prevHash);
-
-        String hash;
-        do {
-            block.setMagicNumber(secureRandom.nextInt());
-            hash = StringUtil.applySha256(block.asStringForHash());
-        } while (!hash.startsWith(leadingZeros));
-        block.setHash(hash);
-
-        long end = System.currentTimeMillis();
-        block.setGenerationTime(TimeUnit.MILLISECONDS.toSeconds(end - start));
-        blockchain.put(id, block);
+    public int nextId() {
+        return blockchainDeque.size() + 1;
     }
 
-    private String getPrevHash(int id) {
-        if (id == 1) {
-            return "0";
-        } else {
-            return blockchain.get(id - 1).getHash();
+    public String getLeadingZerosString() {
+        return "0".repeat(leadingZerosCount.get());
+    }
+
+    public synchronized boolean addBlock(Block block) {
+        String leadingZeros = getLeadingZerosString();
+        if (!isValidBlock(block, leadingZeros)) {
+            return false;
         }
-    }
 
-    public boolean isValid() {
-        for (int i = 1; i < blockchain.size(); i++) {
-            String blockHash = blockchain.get(i).getHash();
-            String prevBlockHash = blockchain.get(i + 1).getPrevHash();
-            if (!blockHash.equals(prevBlockHash)) {
-                return false;
-            }
+        blockchainDeque.offerLast(block);
+
+        int difficultyBefore = leadingZerosCount.get();
+        long generationTime = block.getGenerationTime();
+        if (generationTime > ONE_MINUTE) {
+            leadingZerosCount.decrementAndGet();
+        } else if (generationTime < FEW_SECONDS) {
+            leadingZerosCount.incrementAndGet();
         }
+        int difficultyAfter = leadingZerosCount.get();
+
+        printBlock(block, difficultyBefore, difficultyAfter);
         return true;
     }
 
-    public Map<Integer, Block> getBlockchain() {
-        return blockchain;
+    private void printBlock(Block block, int difficultyBefore, int difficultyAfter) {
+        System.out.println(block);
+        if (difficultyAfter > difficultyBefore) {
+            System.out.println("N was increased to " + difficultyAfter);
+        } else if (difficultyAfter < difficultyBefore) {
+            System.out.println("N was decreased by 1");
+        } else {
+            System.out.println("N stays the same");
+        }
+        System.out.println();
+    }
+
+    private boolean isValidBlock(Block currentBlock, String leadingZeros) {
+        Block prevBlock = blockchainDeque.peekLast();
+        String prevBlockHash = prevBlock == null ? "0" : prevBlock.getHash();
+        String hash = currentBlock.getHash();
+        String prevHash = currentBlock.getPrevHash();
+        return prevHash.equals(prevBlockHash)
+                && hash.startsWith(leadingZeros);
     }
 }
