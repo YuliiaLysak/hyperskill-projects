@@ -1,5 +1,7 @@
 package edu.lysak.blockchain;
 
+import edu.lysak.blockchain.security.SignedMessage;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
@@ -14,7 +16,7 @@ public class Block implements Serializable {
 
     private int magicNumber;
     private String hash;
-    private List<String> data;
+    private List<SignedMessage> data;
     private long generationTime;
     private long minerId;
 
@@ -32,7 +34,7 @@ public class Block implements Serializable {
         return prevHash;
     }
 
-    public List<String> getData() {
+    public List<SignedMessage> getData() {
         return data;
     }
 
@@ -48,7 +50,7 @@ public class Block implements Serializable {
         this.hash = hash;
     }
 
-    public void setData(List<String> data) {
+    public void setData(List<SignedMessage> data) {
         this.data = data;
     }
 
@@ -61,11 +63,16 @@ public class Block implements Serializable {
     }
 
     public String asStringForHash() {
+        StringBuilder messagesString = new StringBuilder();
+        for (SignedMessage signedMessage : data) {
+            messagesString.append(signedMessage.toString());
+        }
+
         return "" + id
                 + timestamp
                 + magicNumber
                 + prevHash
-                + String.join("\n", data);
+                + messagesString;
     }
 
     @Override
@@ -86,8 +93,8 @@ public class Block implements Serializable {
             return " no messages";
         } else {
             StringBuilder blockData = new StringBuilder("\n");
-            for (String d : data) {
-                blockData.append(d).append("\n");
+            for (SignedMessage signedMessage : data) {
+                blockData.append(signedMessage.getText()).append("\n");
             }
             return blockData.deleteCharAt(blockData.length() - 1).toString();
         }

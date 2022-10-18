@@ -7,6 +7,7 @@ import java.util.concurrent.Executors;
 public class Main {
     private static final int BLOCK_COUNT = 5;
 
+    // Before running main method generate public/private keys with KeysGenerator.class
     public static void main(String[] args) {
         Blockchain blockchain = new Blockchain();
         SecureRandom secureRandom = new SecureRandom();
@@ -25,6 +26,6 @@ public class Main {
             thread.setDaemon(true);
             return thread;
         });
-        clientExecutor.submit(new Client(blockchain));
+        clientExecutor.submit(new MessageClient(blockchain));
     }
 }

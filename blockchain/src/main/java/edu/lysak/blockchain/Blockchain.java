@@ -1,7 +1,13 @@
 package edu.lysak.blockchain;
 
+import edu.lysak.blockchain.security.SignedMessage;
+
 import java.io.Serial;
 import java.io.Serializable;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.Signature;
+import java.security.SignatureException;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -15,7 +21,7 @@ public class Blockchain implements Serializable {
     private static final long FEW_SECONDS = 10;
 
     private final ConcurrentLinkedDeque<Block> blockchainDeque = new ConcurrentLinkedDeque<>();
-    private final CopyOnWriteArrayList<String> nonCommittedMessages = new CopyOnWriteArrayList<>();
+    private final CopyOnWriteArrayList<SignedMessage> nonCommittedSignedMessages = new CopyOnWriteArrayList<>();
     private final AtomicInteger leadingZerosCount = new AtomicInteger(0);
 
     public String getPrevHash() {
@@ -38,8 +44,7 @@ public class Blockchain implements Serializable {
         }
 
         blockchainDeque.offerLast(block);
-        // TODO: 16.10.2022 change message from String to custom class (fields: id, text)
-        nonCommittedMessages.removeAll(block.getData());
+        nonCommittedSignedMessages.removeAll(block.getData());
 
         int difficultyBefore = leadingZerosCount.get();
         long generationTime = block.getGenerationTime();
@@ -75,11 +80,39 @@ public class Blockchain implements Serializable {
                 && hash.startsWith(leadingZeros);
     }
 
-    public synchronized void addMessage(String message) {
-        nonCommittedMessages.add(message);
+    public List<SignedMessage> getNonCommittedMessages() {
+        return List.copyOf(nonCommittedSignedMessages);
     }
 
-    public List<String> getNonCommittedMessages() {
-        return List.copyOf(nonCommittedMessages);
+    public synchronized void addMessage(SignedMessage signedMessage) {
+        if (isValidMessage(signedMessage)) {
+            nonCommittedSignedMessages.add(signedMessage);
+        } else {
+            System.err.println("Message signature is not valid");
+        }
     }
+
+    private boolean isValidMessage(SignedMessage signedMessage) {
+        String currentMessageId = signedMessage.getMessageId();
+        String prevMessageId = nonCommittedSignedMessages.size() == 0
+                ? "0"
+                : nonCommittedSignedMessages.get(nonCommittedSignedMessages.size() - 1).getMessageId();
+        if (Integer.parseInt(currentMessageId) <= Integer.parseInt(prevMessageId)) {
+            System.err.println("Invalid messageId - it should be in ascending order in the blockchain");
+            return false;
+        }
+
+        try {
+            Signature sig = Signature.getInstance("SHA1withRSA");
+            sig.initVerify(signedMessage.getPublicKey());
+            sig.update(signedMessage.getMessageId().getBytes());
+            sig.update(signedMessage.getText().getBytes());
+            return sig.verify(signedMessage.getSignature());
+        } catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException e) {
+            System.err.println("Error during message signature verification");
+            return false;
+        }
+    }
+
+    // TODO: 17.10.2022 add method isValidBlockchain()
 }
