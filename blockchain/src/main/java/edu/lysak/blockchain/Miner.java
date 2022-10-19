@@ -1,10 +1,16 @@
 package edu.lysak.blockchain;
 
+import edu.lysak.blockchain.security.SignedPayload;
+import edu.lysak.blockchain.security.SignedTransaction;
+import edu.lysak.blockchain.security.SigningUtils;
+
+import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 public class Miner implements Runnable {
     private final Blockchain blockchain;
@@ -21,9 +27,24 @@ public class Miner implements Runnable {
     public void run() {
         while (true) {
             Block block = generateBlock();
-            block.setMinerId(Thread.currentThread().getId());
+            int minerId = (int) Thread.currentThread().getId();
+            block.setMinerId(minerId);
             boolean isAdded = blockchain.addBlock(block);
             if (isAdded) {
+                blockchain.addMinerInfo(new MinerInfo(minerId, 100));
+                Optional<MinerInfo> senderMiner = blockchain.getMinerInfo(minerId);
+                Optional<MinerInfo> recipientMiner = blockchain.getRecipientMinerInfo(minerId);
+
+                if (senderMiner.isPresent() && recipientMiner.isPresent()) {
+                    int spentCoins = spendVirtualCoins(senderMiner.get(), recipientMiner.get());
+                    SignedPayload signedTransaction = buildSignedTransaction(
+                            UUID.randomUUID().toString(),
+                            senderMiner.get(),
+                            recipientMiner.get(),
+                            spentCoins
+                    );
+                    blockchain.addTransaction(signedTransaction);
+                }
                 break;
             }
         }
@@ -46,7 +67,7 @@ public class Miner implements Runnable {
         block.setHash(hash);
 
         long end = System.currentTimeMillis();
-        block.setGenerationTime(TimeUnit.MILLISECONDS.toSeconds(end - start));
+        block.setGenerationTime(end - start);
         return block;
     }
 
@@ -54,7 +75,37 @@ public class Miner implements Runnable {
         if ("0".equals(prevHash)) {
             block.setData(List.of());
         } else {
-            block.setData(blockchain.getNonCommittedMessages());
+            block.setData(blockchain.getNonCommittedTransactions());
         }
+    }
+
+    private int spendVirtualCoins(MinerInfo senderMiner, MinerInfo recipientMiner) {
+        int randomCoins = secureRandom.nextInt(senderMiner.getVirtualCoins());
+        senderMiner.setVirtualCoins(senderMiner.getVirtualCoins() - randomCoins);
+        recipientMiner.setVirtualCoins(recipientMiner.getVirtualCoins() + randomCoins);
+        return randomCoins;
+    }
+
+    private SignedPayload buildSignedTransaction(
+            String transactionId,
+            MinerInfo senderMiner,
+            MinerInfo recipientMiner,
+            int spentCoins
+    ) {
+        String transactionMessage = String.format(
+                "miner%s sent %s VC to miner%s",
+                senderMiner.getMinerId(),
+                spentCoins,
+                recipientMiner.getMinerId()
+        );
+        byte[] signature = SigningUtils.signMessage(
+                transactionId,
+                transactionMessage,
+                "blockchain/src/main/resources/key-pair/privateKey"
+        );
+        PublicKey publicKey = SigningUtils.getPublic(
+                "blockchain/src/main/resources/key-pair/publicKey"
+        );
+        return new SignedTransaction(transactionId, transactionMessage, signature, publicKey);
     }
 }

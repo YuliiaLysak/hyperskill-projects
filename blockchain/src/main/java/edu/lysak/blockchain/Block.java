@@ -1,6 +1,6 @@
 package edu.lysak.blockchain;
 
-import edu.lysak.blockchain.security.SignedMessage;
+import edu.lysak.blockchain.security.SignedPayload;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -16,7 +16,7 @@ public class Block implements Serializable {
 
     private int magicNumber;
     private String hash;
-    private List<SignedMessage> data;
+    private List<SignedPayload> data;
     private long generationTime;
     private long minerId;
 
@@ -34,7 +34,7 @@ public class Block implements Serializable {
         return prevHash;
     }
 
-    public List<SignedMessage> getData() {
+    public List<SignedPayload> getData() {
         return data;
     }
 
@@ -50,7 +50,7 @@ public class Block implements Serializable {
         this.hash = hash;
     }
 
-    public void setData(List<SignedMessage> data) {
+    public void setData(List<SignedPayload> data) {
         this.data = data;
     }
 
@@ -64,7 +64,7 @@ public class Block implements Serializable {
 
     public String asStringForHash() {
         StringBuilder messagesString = new StringBuilder();
-        for (SignedMessage signedMessage : data) {
+        for (SignedPayload signedMessage : data) {
             messagesString.append(signedMessage.toString());
         }
 
@@ -78,23 +78,24 @@ public class Block implements Serializable {
     @Override
     public String toString() {
         return "Block:" +
-                "\nCreated by miner # " + minerId +
+                "\nCreated by: miner" + minerId +
+                "\nminer" + minerId + " gets 100 VC" +
                 "\nId: " + id +
                 "\nTimestamp: " + timestamp +
                 "\nMagic number: " + magicNumber +
                 "\nHash of the previous block:\n" + prevHash +
                 "\nHash of the block:\n" + hash +
-                "\nBlock data:" + getBlockDataString() +
-                "\nBlock was generating for " + generationTime + " seconds";
+                "\nBlock data:\n" + getBlockDataString() +
+                "\nBlock was generating for " + generationTime + " milliseconds";
     }
 
     private String getBlockDataString() {
         if (data.isEmpty()) {
-            return " no messages";
+            return "No transactions";
         } else {
-            StringBuilder blockData = new StringBuilder("\n");
-            for (SignedMessage signedMessage : data) {
-                blockData.append(signedMessage.getText()).append("\n");
+            StringBuilder blockData = new StringBuilder();
+            for (SignedPayload signedPayload : data) {
+                blockData.append(signedPayload.getPayload()).append("\n");
             }
             return blockData.deleteCharAt(blockData.length() - 1).toString();
         }
