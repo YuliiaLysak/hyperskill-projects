@@ -1,0 +1,135 @@
+{
+	"info": {
+		"_postman_id": "10dc1668-50f9-47d4-8fca-add969407979",
+		"name": "Anti-Fraud System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12145969"
+	},
+	"item": [
+		{
+			"name": "stage-1",
+			"item": [
+				{
+					"name": "allowed",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"amount\": 150\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:28852/api/antifraud/transaction",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "28852",
+							"path": [
+								"api",
+								"antifraud",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "manual processing",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"amount\": 870\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:28852/api/antifraud/transaction",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "28852",
+							"path": [
+								"api",
+								"antifraud",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "prohibited",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"amount\": 1700\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:28852/api/antifraud/transaction",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "28852",
+							"path": [
+								"api",
+								"antifraud",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bad request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"amount\": -1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:28852/api/antifraud/transaction",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "28852",
+							"path": [
+								"api",
+								"antifraud",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
