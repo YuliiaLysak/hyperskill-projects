@@ -20,14 +20,19 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.httpBasic()
-                .authenticationEntryPoint(restAuthenticationEntryPoint) // Handles auth error
+                // TODO: 17.01.2023 review how to use this authenticationEntryPoint
+//                .authenticationEntryPoint(restAuthenticationEntryPoint) // Handles auth error
                 .and()
                 .csrf().disable().headers().frameOptions().disable() // for Postman, the H2 console
                 .and()
                 .authorizeHttpRequests()// manage access
-                .requestMatchers(HttpMethod.POST, "/api/auth/user").permitAll()
                 .requestMatchers("/actuator/shutdown").permitAll() // needs to run test
-                // other matchers
+                .requestMatchers(HttpMethod.POST, "/api/auth/user/**").permitAll()
+                .requestMatchers(HttpMethod.DELETE, "/api/auth/user/**").hasAuthority("ADMINISTRATOR")
+                .requestMatchers(HttpMethod.GET, "/api/auth/list/**").hasAnyAuthority("ADMINISTRATOR", "SUPPORT")
+                .requestMatchers(HttpMethod.POST, "/api/antifraud/transaction/**").hasAuthority("MERCHANT")
+                .requestMatchers(HttpMethod.PUT, "/api/auth/access/**").hasAuthority("ADMINISTRATOR")
+                .requestMatchers(HttpMethod.PUT, "/api/auth/role/**").hasAuthority("ADMINISTRATOR")
                 .anyRequest()
                 .authenticated()
                 .and()

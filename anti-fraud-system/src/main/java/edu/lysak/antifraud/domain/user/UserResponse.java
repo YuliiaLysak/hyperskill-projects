@@ -11,6 +11,7 @@ public class UserResponse implements Comparable<UserResponse> {
     private long id;
     private String name;
     private String username;
+    private Role role;
 
     @Override
     public int compareTo(UserResponse other) {
