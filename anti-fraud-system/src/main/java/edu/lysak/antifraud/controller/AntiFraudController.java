@@ -6,7 +6,7 @@ import edu.lysak.antifraud.domain.card.StolenCardRequest;
 import edu.lysak.antifraud.domain.ip.DeletedIpResponse;
 import edu.lysak.antifraud.domain.ip.SuspiciousIp;
 import edu.lysak.antifraud.domain.ip.SuspiciousIpRequest;
-import edu.lysak.antifraud.domain.transaction.Transaction;
+import edu.lysak.antifraud.domain.transaction.TransactionRequest;
 import edu.lysak.antifraud.domain.transaction.TransactionResponse;
 import edu.lysak.antifraud.service.StolenCardService;
 import edu.lysak.antifraud.service.SuspiciousIpService;
@@ -40,8 +40,8 @@ public class AntiFraudController {
     }
 
     @PostMapping("/api/antifraud/transaction")
-    public ResponseEntity<TransactionResponse> transaction(@RequestBody Transaction transaction) {
-        return ResponseEntity.ok(transactionService.processTransaction(transaction));
+    public ResponseEntity<TransactionResponse> transaction(@RequestBody TransactionRequest request) {
+        return ResponseEntity.ok(transactionService.processTransaction(request));
     }
 
     @PostMapping("/api/antifraud/suspicious-ip")
