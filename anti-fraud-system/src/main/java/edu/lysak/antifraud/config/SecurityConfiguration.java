@@ -11,17 +11,21 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-    private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
-    public SecurityConfiguration(RestAuthenticationEntryPoint restAuthenticationEntryPoint) {
-        this.restAuthenticationEntryPoint = restAuthenticationEntryPoint;
+    public SecurityConfiguration(
+            CustomAuthenticationEntryPoint customAuthenticationEntryPoint,
+            CustomAccessDeniedHandler customAccessDeniedHandler
+    ) {
+        this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
+        this.customAccessDeniedHandler = customAccessDeniedHandler;
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.httpBasic()
-                // TODO: 17.01.2023 review how to use this authenticationEntryPoint
-//                .authenticationEntryPoint(restAuthenticationEntryPoint) // Handles auth error
+                .authenticationEntryPoint(customAuthenticationEntryPoint) // Handles authentication error
                 .and()
                 .csrf().disable().headers().frameOptions().disable() // for Postman, the H2 console
                 .and()
@@ -38,6 +42,8 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.GET, "/api/antifraud/suspicious-ip/**", "/api/antifraud/stolencard/**").hasAuthority("SUPPORT")
                 .anyRequest()
                 .authenticated()
+                .and()
+                .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler) // Handles authorization error
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS); // no session
