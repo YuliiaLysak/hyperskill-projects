@@ -1,4 +1,4 @@
-package edu.lysak.antifraud.domain;
+package edu.lysak.antifraud.domain.transaction;
 
 public enum TransactionStatus {
     ALLOWED,

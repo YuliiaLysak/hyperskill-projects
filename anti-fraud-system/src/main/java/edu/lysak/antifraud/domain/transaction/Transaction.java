@@ -1,4 +1,4 @@
-package edu.lysak.antifraud.domain;
+package edu.lysak.antifraud.domain.transaction;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,4 +7,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Transaction {
     private long amount;
+    private String ip;
+    private String number;
 }

@@ -9,18 +9,19 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class AntiFraudExceptionHandler {
 
-    @ExceptionHandler({
-            ConstraintViolationException.class,
-            UserRoleIsNotSupportedException.class,
-            AdministratorCannotBeBlockedException.class
-    })
-    public ResponseEntity<?> handleConstraintViolationException() {
-        return ResponseEntity.badRequest().build();
-    }
-
     @ExceptionHandler(UserRoleIsAlreadyAssigned.class)
     public ResponseEntity<?> handleUserRoleIsAlreadyAssigned() {
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    }
+
+    @ExceptionHandler({
+            ConstraintViolationException.class,
+            UserRoleIsNotSupportedException.class,
+            AdministratorCannotBeBlockedException.class,
+            IllegalArgumentException.class
+    })
+    public ResponseEntity<?> handleException() {
+        return ResponseEntity.badRequest().build();
     }
 
 }
