@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class AntiFraudExceptionHandler {
 
-    @ExceptionHandler(UserRoleIsAlreadyAssigned.class)
-    public ResponseEntity<?> handleUserRoleIsAlreadyAssigned() {
+    @ExceptionHandler({
+            UserRoleIsAlreadyAssigned.class,
+            TransactionFeedbackIsAlreadyAssignedException.class
+    })
+    public ResponseEntity<?> handleConflictException() {
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
@@ -20,8 +23,15 @@ public class AntiFraudExceptionHandler {
             AdministratorCannotBeBlockedException.class,
             IllegalArgumentException.class
     })
-    public ResponseEntity<?> handleException() {
+    public ResponseEntity<?> handleBadRequestException() {
         return ResponseEntity.badRequest().build();
+    }
+
+    @ExceptionHandler({
+            UnprocessableTransactionFeedback.class
+    })
+    public ResponseEntity<?> handleUnprocessableException() {
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
     }
 
 }

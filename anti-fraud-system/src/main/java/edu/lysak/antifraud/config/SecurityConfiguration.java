@@ -35,6 +35,8 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.DELETE, "/api/auth/user/**").hasAuthority("ADMINISTRATOR")
                 .requestMatchers(HttpMethod.GET, "/api/auth/list/**").hasAnyAuthority("ADMINISTRATOR", "SUPPORT")
                 .requestMatchers(HttpMethod.POST, "/api/antifraud/transaction/**").hasAuthority("MERCHANT")
+                .requestMatchers(HttpMethod.PUT, "/api/antifraud/transaction/**").hasAuthority("SUPPORT")
+                .requestMatchers(HttpMethod.GET, "/api/antifraud/history/**").hasAuthority("SUPPORT")
                 .requestMatchers(HttpMethod.PUT, "/api/auth/access/**").hasAuthority("ADMINISTRATOR")
                 .requestMatchers(HttpMethod.PUT, "/api/auth/role/**").hasAuthority("ADMINISTRATOR")
                 .requestMatchers(HttpMethod.POST, "/api/antifraud/suspicious-ip/**", "/api/antifraud/stolencard/**").hasAuthority("SUPPORT")

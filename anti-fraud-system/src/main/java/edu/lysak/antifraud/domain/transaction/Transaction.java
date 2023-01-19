@@ -54,4 +54,7 @@ public class Transaction {
 
     @Column(name = "info")
     private String info;
+
+    @Column(name = "feedback")
+    private TransactionStatus feedback;
 }

@@ -16,8 +16,10 @@ spring:
       INDENT_OUTPUT: true
 
   datasource:
-    url: jdbc:h2:file:../service_db
+    url: jdbc:h2:file:../anti_fraud_db
     driverClassName: org.h2.Driver
+    username: username
+    password: password
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
