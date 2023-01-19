@@ -1,0 +1,2664 @@
+{
+	"info": {
+		"_postman_id": "10dc1668-50f9-47d4-8fca-add969407979",
+		"name": "Anti-Fraud System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12145969"
+	},
+	"item": [
+		{
+			"name": "stage-1",
+			"item": [
+				{
+					"name": "allowed",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"amount\": 150\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:28852/api/antifraud/transaction",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "28852",
+							"path": [
+								"api",
+								"antifraud",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "manual processing",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"amount\": 870\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:28852/api/antifraud/transaction",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "28852",
+							"path": [
+								"api",
+								"antifraud",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "prohibited",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"amount\": 1700\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:28852/api/antifraud/transaction",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "28852",
+							"path": [
+								"api",
+								"antifraud",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bad request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"amount\": -1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:28852/api/antifraud/transaction",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "28852",
+							"path": [
+								"api",
+								"antifraud",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "stage-2",
+			"item": [
+				{
+					"name": "transaction",
+					"item": [
+						{
+							"name": "allowed",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"amount\": 150\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/transaction",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "manual processing",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"amount\": 870\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/transaction",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "prohibited",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"amount\": 1700\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/transaction",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "bad request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"amount\": -1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/transaction",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "user",
+					"item": [
+						{
+							"name": "add user",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"name\": \"Yuliia\",\n   \"username\": \"JULIA252\",\n   \"password\": \"password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/auth/user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"auth",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get user list",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "JULIA25",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:28852/api/auth/list",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"auth",
+										"list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete user",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "JULIA25",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:28852/api/auth/user/JULIA252",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"auth",
+										"user",
+										"JULIA252"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "stage-3",
+			"item": [
+				{
+					"name": "transaction",
+					"item": [
+						{
+							"name": "allowed",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia3",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"amount\": 150\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/transaction",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "manual processing",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"amount\": 870\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/transaction",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "prohibited",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"amount\": 1700\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/transaction",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "bad request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"amount\": -1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/transaction",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "user",
+					"item": [
+						{
+							"name": "add user",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"name\": \"Yuliia\",\n   \"username\": \"julia2\",\n   \"password\": \"password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/auth/user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"auth",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get user list",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:28852/api/auth/list",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"auth",
+										"list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete user",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:28852/api/auth/user/julia2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"auth",
+										"user",
+										"julia2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update user role",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"username\": \"julia2\",\n   \"role\": \"SUPPORT\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/auth/role",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"auth",
+										"role"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update user access",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "julia",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"username\": \"julia2\",\n   \"operation\": \"LOCK\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/auth/access",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"auth",
+										"access"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "stage-4",
+			"item": [
+				{
+					"name": "transaction",
+					"item": [
+						{
+							"name": "allowed",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia3",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 150,\n  \"ip\": \"192.168.1.1\",\n  \"number\": \"4000008449433403\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/transaction",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "manual processing",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia3",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 800,\n  \"ip\": \"192.168.1.1\",\n  \"number\": \"4000008449433403\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/transaction",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "prohibited",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia3",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 1800,\n  \"ip\": \"132.245.4.217\",\n  \"number\": \"4000008449433403\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/transaction",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "bad request",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia3",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 800,\n  \"ip\": \"192.168.1.1\",\n  \"number\": \"4000008449433402\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/transaction",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "user",
+					"item": [
+						{
+							"name": "add user",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"name\": \"Yuliia\",\n   \"username\": \"julia2\",\n   \"password\": \"password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/auth/user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"auth",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get user list",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:28852/api/auth/list",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"auth",
+										"list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete user",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:28852/api/auth/user/julia2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"auth",
+										"user",
+										"julia2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update user role",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"username\": \"julia2\",\n   \"role\": \"SUPPORT\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/auth/role",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"auth",
+										"role"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update user access",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "julia",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"username\": \"julia2\",\n   \"operation\": \"LOCK\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/auth/access",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"auth",
+										"access"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "suspicious-ip",
+					"item": [
+						{
+							"name": "add ip",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"ip\": \"132.245.4.217\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/suspicious-ip",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"suspicious-ip"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get ip list",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/suspicious-ip",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"suspicious-ip"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete ip",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"ip\": \"132.245.4.216\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/suspicious-ip/132.245.4.216",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"suspicious-ip",
+										"132.245.4.216"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "stolen-card",
+					"item": [
+						{
+							"name": "add card",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"number\": \"4000008449433403\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/stolencard",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"stolencard"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get card list",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/stolencard",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"stolencard"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete card",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"ip\": \"132.245.4.216\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/stolencard/4000008449433403",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"stolencard",
+										"4000008449433403"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "stage-5",
+			"item": [
+				{
+					"name": "transaction",
+					"item": [
+						{
+							"name": "allowed",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia3",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 15000,\n  \"ip\": \"192.168.1.4\",\n  \"number\": \"4000008449433403\",\n  \"region\": \"SA\",\n  \"date\": \"2022-12-22T16:08:00\"\n}\n// a transaction chain\n\n// #1 request (ALLOWED):\n// {\n//   \"amount\": 150,\n//   \"ip\": \"192.168.1.1\",\n//   \"number\": \"4000008449433403\",\n//   \"region\": \"EAP\",\n//   \"date\": \"2022-12-22T16:04:00\"\n// }\n\n// #2 request (ALLOWED):\n// {\n//   \"amount\": 150,\n//   \"ip\": \"192.168.1.2\",\n//   \"number\": \"4000008449433403\",\n//   \"region\": \"EAP\",\n//   \"date\": \"2022-12-22T16:05:00\"\n// }\n\n// #3 request (ALLOWED):\n// {\n//   \"amount\": 150,\n//   \"ip\": \"192.168.1.2\",\n//   \"number\": \"4000008449433403\",\n//   \"region\": \"EAP\",\n//   \"date\": \"2022-12-22T16:06:00\"\n// }\n\n// #4 request (MANUAL_PROCESSING):\n// {\n//   \"amount\": 150,\n//   \"ip\": \"192.168.1.3\",\n//   \"number\": \"4000008449433403\",\n//   \"region\": \"EAP\",\n//   \"date\": \"2022-12-22T16:07:00\"\n// }\n\n// #5 request (PROHIBITTED):\n// {\n//   \"amount\": 150,\n//   \"ip\": \"192.168.1.4\",\n//   \"number\": \"4000008449433403\",\n//   \"region\": \"EAP\",\n//   \"date\": \"2022-12-22T16:08:00\"\n// }\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/transaction",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "manual processing",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia3",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 800,\n  \"ip\": \"192.168.1.1\",\n  \"number\": \"4000008449433403\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/transaction",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "prohibited",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia3",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 1800,\n  \"ip\": \"132.245.4.217\",\n  \"number\": \"4000008449433403\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/transaction",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "bad request",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia3",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 800,\n  \"ip\": \"192.168.1.1\",\n  \"number\": \"4000008449433402\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/transaction",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "user",
+					"item": [
+						{
+							"name": "add user",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"name\": \"Yuliia\",\n   \"username\": \"julia2\",\n   \"password\": \"password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/auth/user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"auth",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get user list",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:28852/api/auth/list",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"auth",
+										"list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete user",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:28852/api/auth/user/julia2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"auth",
+										"user",
+										"julia2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update user role",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"username\": \"julia2\",\n   \"role\": \"SUPPORT\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/auth/role",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"auth",
+										"role"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update user access",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "julia",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"username\": \"julia2\",\n   \"operation\": \"LOCK\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/auth/access",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"auth",
+										"access"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "suspicious-ip",
+					"item": [
+						{
+							"name": "add ip",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"ip\": \"132.245.4.217\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/suspicious-ip",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"suspicious-ip"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get ip list",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/suspicious-ip",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"suspicious-ip"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete ip",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"ip\": \"132.245.4.216\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/suspicious-ip/132.245.4.216",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"suspicious-ip",
+										"132.245.4.216"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "stolen-card",
+					"item": [
+						{
+							"name": "add card",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"number\": \"4000008449433403\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/stolencard",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"stolencard"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get card list",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/stolencard",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"stolencard"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete card",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"ip\": \"132.245.4.216\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/stolencard/4000008449433403",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"stolencard",
+										"4000008449433403"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "stage-6",
+			"item": [
+				{
+					"name": "transaction",
+					"item": [
+						{
+							"name": "add transaction 1",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia3",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 15000,\n  \"ip\": \"192.168.1.4\",\n  \"number\": \"4000008449433403\",\n  \"region\": \"SA\",\n  \"date\": \"2022-12-22T16:08:00\"\n}\n// a transaction chain\n\n// #1 request (ALLOWED):\n// {\n//   \"amount\": 150,\n//   \"ip\": \"192.168.1.1\",\n//   \"number\": \"4000008449433403\",\n//   \"region\": \"EAP\",\n//   \"date\": \"2022-12-22T16:04:00\"\n// }\n\n// #2 request (ALLOWED):\n// {\n//   \"amount\": 150,\n//   \"ip\": \"192.168.1.2\",\n//   \"number\": \"4000008449433403\",\n//   \"region\": \"EAP\",\n//   \"date\": \"2022-12-22T16:05:00\"\n// }\n\n// #3 request (ALLOWED):\n// {\n//   \"amount\": 150,\n//   \"ip\": \"192.168.1.2\",\n//   \"number\": \"4000008449433403\",\n//   \"region\": \"EAP\",\n//   \"date\": \"2022-12-22T16:06:00\"\n// }\n\n// #4 request (MANUAL_PROCESSING):\n// {\n//   \"amount\": 150,\n//   \"ip\": \"192.168.1.3\",\n//   \"number\": \"4000008449433403\",\n//   \"region\": \"EAP\",\n//   \"date\": \"2022-12-22T16:07:00\"\n// }\n\n// #5 request (PROHIBITTED):\n// {\n//   \"amount\": 150,\n//   \"ip\": \"192.168.1.4\",\n//   \"number\": \"4000008449433403\",\n//   \"region\": \"EAP\",\n//   \"date\": \"2022-12-22T16:08:00\"\n// }\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/transaction",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add transaction 2",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "merchant",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "merchant",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 210,\n  \"ip\": \"192.168.1.1\",\n  \"number\": \"4000008449433403\",\n  \"region\": \"EAP\",\n  \"date\": \"2022-01-22T16:04:00\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/transaction",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "history by card",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "support",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "support",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/history/4000008449433403",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"history",
+										"4000008449433403"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add feedback",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "support",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "support",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"transactionId\": 1,\n   \"feedback\": \"PROHIBITED\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/transaction",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "user",
+					"item": [
+						{
+							"name": "add user",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"name\": \"support\",\n   \"username\": \"support\",\n   \"password\": \"support\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/auth/user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"auth",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get user list",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:28852/api/auth/list",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"auth",
+										"list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete user",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:28852/api/auth/user/julia2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"auth",
+										"user",
+										"julia2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update user role",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"username\": \"support\",\n   \"role\": \"SUPPORT\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/auth/role",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"auth",
+										"role"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update user access",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"username\": \"merchant\",\n   \"operation\": \"UNLOCK\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/auth/access",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"auth",
+										"access"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "suspicious-ip",
+					"item": [
+						{
+							"name": "add ip",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"ip\": \"132.245.4.217\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/suspicious-ip",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"suspicious-ip"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get ip list",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/suspicious-ip",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"suspicious-ip"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete ip",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"ip\": \"132.245.4.216\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/suspicious-ip/132.245.4.216",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"suspicious-ip",
+										"132.245.4.216"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "stolen-card",
+					"item": [
+						{
+							"name": "add card",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"number\": \"4000008449433403\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/stolencard",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"stolencard"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get card list",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/stolencard",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"stolencard"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete card",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "julia2",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"ip\": \"132.245.4.216\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:28852/api/antifraud/stolencard/4000008449433403",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "28852",
+									"path": [
+										"api",
+										"antifraud",
+										"stolencard",
+										"4000008449433403"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
