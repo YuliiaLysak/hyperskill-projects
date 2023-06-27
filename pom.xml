@@ -9,6 +9,7 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
+        <module>account-service</module>
         <module>amazing-numbers</module>
         <module>anti-fraud-system</module>
         <module>blockchain</module>
