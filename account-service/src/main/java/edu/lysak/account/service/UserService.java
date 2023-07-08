@@ -49,16 +49,12 @@ public class UserService implements UserDetailsService {
         Optional<User> userFromDb = userRepository.findByEmail(userRequest.getEmail());
         if (userFromDb.isPresent()) {
             log.warn("User with email [{}] already exists", userRequest.getEmail());
-            throw new UserAlreadyExistsException();
+            throw new UserAlreadyExistsException("User exist!");
         }
 
         User user = mapToUserEntity(userRequest);
         User savedUser = userRepository.save(user);
         return Optional.of(mapToUserResponse(savedUser));
-    }
-
-    public UserResponse findUser(User user) {
-        return mapToUserResponse(user);
     }
 
     public PasswordResponse changePassword(User user, String newPassword) {
@@ -68,7 +64,7 @@ public class UserService implements UserDetailsService {
         }
         SecurityUtil.validatePassword(newPassword);
 
-        userRepository.changeUserPassword(user.getId(), passwordEncoder.encode(newPassword));
+        userRepository.changeUserPassword(user.getUserId(), passwordEncoder.encode(newPassword));
         return PasswordResponse.builder()
             .email(user.getEmail())
             .status("The password has been updated successfully")
@@ -95,7 +91,7 @@ public class UserService implements UserDetailsService {
 
     private UserResponse mapToUserResponse(User user) {
         return UserResponse.builder()
-            .id(user.getId())
+            .id(user.getUserId())
             .name(user.getName())
             .lastname(user.getLastname())
             .email(user.getEmail())

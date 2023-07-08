@@ -20,10 +20,19 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("""
         UPDATE User user
         SET user.password = :newPassword
-        WHERE user.id = :userId
+        WHERE user.userId = :userId
         """)
     void changeUserPassword(
         @Param("userId") long userId,
         @Param("newPassword") String newPassword
+    );
+
+    @Query("""
+        SELECT u FROM User u
+        LEFT JOIN FETCH u.payments payments
+        WHERE u.userId = :userId
+        """)
+    Optional<User> findUserWithPaymentsByUserId(
+        @Param("userId") Long userId
     );
 }

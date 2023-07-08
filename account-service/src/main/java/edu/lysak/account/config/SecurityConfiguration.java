@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
@@ -36,7 +38,9 @@ public class SecurityConfiguration {
                 // permit "/error/**" to return 400 instead of 401 for open endpoints
                 // (endpoints redirecting to the /error/** in case of error and /error/ is secured by spring security)
                 auth.requestMatchers("/actuator/shutdown", "/error/**").permitAll();
-                auth.requestMatchers(HttpMethod.POST, "/api/auth/signup").permitAll();
+                auth.requestMatchers(toH2Console()).permitAll();
+                auth.requestMatchers(HttpMethod.POST, "/api/acct/payments", "/api/auth/signup").permitAll();
+                auth.requestMatchers(HttpMethod.PUT, "/api/acct/payments").permitAll();
                 auth.anyRequest().authenticated();
             })
             .sessionManagement(sm -> {
