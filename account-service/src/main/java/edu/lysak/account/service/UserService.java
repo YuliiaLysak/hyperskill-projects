@@ -11,6 +11,9 @@ import edu.lysak.account.exception.UserNotFoundException;
 import edu.lysak.account.exception.UserRoleNotFoundException;
 import edu.lysak.account.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -80,6 +83,24 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll().stream()
             .map(this::mapToUserResponse)
             .sorted(Comparator.comparing(UserResponse::getId))
+            .toList();
+    }
+
+    public List<UserResponse> getAllUsersSorted() {
+        Sort sort = Sort.by("userId").descending()
+            .and(Sort.by(Sort.Direction.ASC, "name"));
+        return userRepository.findAll(sort)
+            .stream()
+            .map(this::mapToUserResponse)
+            .toList();
+    }
+
+    public List<UserResponse> getAllUsersPageable() {
+        Pageable pageable = PageRequest.of(0, 1);
+        Pageable pageableWithSort = PageRequest.of(0, 1, Sort.by(Sort.Direction.ASC, "userId"));
+        return userRepository.findAll(pageable)
+            .stream()
+            .map(this::mapToUserResponse)
             .toList();
     }
 
