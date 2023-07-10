@@ -16,6 +16,6 @@ public class PaymentRequest {
     @JsonFormat(pattern = "MM-yyyy")
     private YearMonth period;
 
-    @Positive(message = "Salary must be non negative!")
+    @Positive(message = "'salary' must be non negative!")
     private long salary;
 }

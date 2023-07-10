@@ -1,13 +1,11 @@
 package edu.lysak.account.controller;
 
-import edu.lysak.account.exception.InsecurePasswordException;
-import edu.lysak.account.exception.InvalidPaymentException;
-import edu.lysak.account.exception.UserAlreadyExistsException;
+import edu.lysak.account.exception.InvalidRequestException;
+import edu.lysak.account.exception.UserNotFoundException;
+import edu.lysak.account.exception.UserRoleNotFoundException;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -18,9 +16,7 @@ import java.util.Set;
 public class AccountServiceExceptionHandler {
 
     @ExceptionHandler({
-        UserAlreadyExistsException.class,
-        InsecurePasswordException.class,
-        InvalidPaymentException.class
+        InvalidRequestException.class
     })
     public void handleBadRequestException(
         RuntimeException exception,
@@ -29,16 +25,35 @@ public class AccountServiceExceptionHandler {
         response.sendError(HttpServletResponse.SC_BAD_REQUEST, exception.getMessage());
     }
 
+    @ExceptionHandler({
+        UserNotFoundException.class,
+        UserRoleNotFoundException.class
+    })
+    public void handleNotFoundException(
+        RuntimeException exception,
+        HttpServletResponse response
+    ) throws IOException {
+        response.sendError(HttpServletResponse.SC_NOT_FOUND, exception.getMessage());
+    }
+
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<?> handleValidationError(ConstraintViolationException exception) {
+    public void handleValidationError(
+        ConstraintViolationException exception,
+        HttpServletResponse response
+    ) throws IOException {
         Set<ConstraintViolation<?>> violations = exception.getConstraintViolations();
         String errorMessage = "Error";
         if (!violations.isEmpty()) {
             StringBuilder builder = new StringBuilder();
-            violations.forEach(violation -> builder.append(" ").append(violation.getMessage()));
+            violations.forEach(violation -> {
+                builder.append(violation.getMessageTemplate());
+                builder.append("; ");
+            });
+            builder.delete(builder.length() - 2, builder.length());
             errorMessage = builder.toString();
         }
-        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+
+        response.sendError(HttpServletResponse.SC_BAD_REQUEST, errorMessage);
     }
 
 }

@@ -4,7 +4,7 @@ import edu.lysak.account.domain.Payment;
 import edu.lysak.account.domain.User;
 import edu.lysak.account.dto.PaymentRequest;
 import edu.lysak.account.dto.PaymentResponse;
-import edu.lysak.account.exception.InvalidPaymentException;
+import edu.lysak.account.exception.InvalidRequestException;
 import edu.lysak.account.repository.PaymentRepository;
 import edu.lysak.account.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -40,8 +39,8 @@ public class PaymentService {
 
         for (var entry : paymentsByUser.entrySet()) {
             String userEmail = entry.getKey();
-            Optional<User> user = userRepository.findByEmail(userEmail);
-            validateUserExistence(user);
+            User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new InvalidRequestException("An employee must be among the users of our service"));
 
             List<PaymentRequest> userPayments = entry.getValue();
             List<YearMonth> periods = userPayments.stream()
@@ -49,11 +48,11 @@ public class PaymentService {
                 .collect(Collectors.toList());
             if (containsDuplicatePeriods(periods)) {
                 log.warn("The period for which the salary is paid must be unique for each employee");
-                throw new InvalidPaymentException("The period for which the salary is paid must be unique for each employee");
+                throw new InvalidRequestException("The period for which the salary is paid must be unique for each employee");
             }
 
             for (PaymentRequest userPayment : userPayments) {
-                Payment payment = mapToPaymentEntity(user.get().getUserId(), userPayment);
+                Payment payment = mapToPaymentEntity(user.getUserId(), userPayment);
                 paymentRepository.save(payment);
             }
         }
@@ -63,17 +62,17 @@ public class PaymentService {
 
     @Transactional
     public PaymentResponse updatePayment(PaymentRequest paymentRequest) {
-        Optional<User> user = userRepository.findByEmail(paymentRequest.getEmployee());
-        validateUserExistence(user);
+        User user = userRepository.findByEmail(paymentRequest.getEmployee())
+            .orElseThrow(() -> new InvalidRequestException("An employee must be among the users of our service"));
 
         int updateCount = paymentRepository.updatePayment(
-            user.get().getUserId(),
+            user.getUserId(),
             paymentRequest.getPeriod(),
             paymentRequest.getSalary()
         );
         if (updateCount <= 0) {
             log.warn("No payment record found for provided period");
-            throw new InvalidPaymentException("No payment record found for provided period");
+            throw new InvalidRequestException("No payment record found for provided period");
         }
 
         return PaymentResponse.builder().status("Updated successfully!").build();
@@ -103,7 +102,7 @@ public class PaymentService {
         try {
             return YearMonth.parse(period, formatter);
         } catch (DateTimeParseException ex) {
-            throw new InvalidPaymentException("Wrong date!");
+            throw new InvalidRequestException("Wrong date!");
         }
     }
 
@@ -123,13 +122,6 @@ public class PaymentService {
 
     private String mapToSalaryString(long salary) {
         return String.format("%s dollar(s) %s cent(s)", salary / 100, salary % 100);
-    }
-
-    private void validateUserExistence(Optional<User> user) {
-        if (user.isEmpty()) {
-            log.warn("An employee must be among the users of our service");
-            throw new InvalidPaymentException("An employee must be among the users of our service");
-        }
     }
 
     private Payment mapToPaymentEntity(long userId, PaymentRequest paymentRequest) {

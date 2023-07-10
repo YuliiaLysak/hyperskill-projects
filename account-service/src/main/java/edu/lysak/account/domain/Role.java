@@ -1,14 +1,22 @@
 package edu.lysak.account.domain;
 
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Optional;
 
+@Getter
 public enum Role implements GrantedAuthority {
-    ANONYMOUS,
-    USER,
-    ACCOUNTANT,
-    ADMINISTRATOR;
+    ANONYMOUS("ROLE_ANONYMOUS"),
+    USER("ROLE_USER"),
+    ACCOUNTANT("ROLE_ACCOUNTANT"),
+    ADMINISTRATOR("ROLE_ADMINISTRATOR");
+
+    private final String roleName;
+
+    Role(String roleName) {
+        this.roleName = roleName;
+    }
 
     @Override
     public String getAuthority() {
