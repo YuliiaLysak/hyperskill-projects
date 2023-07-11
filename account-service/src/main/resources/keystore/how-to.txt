@@ -1,0 +1,8 @@
+How to generate a private key and a certificate
+
+To do this, you can use the <keytool> utility that is included in the JDK.
+Save the certificate file in the keystore directory in the resource folder
+of the Spring Boot application:
+
+
+keytool -genkeypair -alias accountant_service -keyalg RSA -keysize 2048 -storetype PKCS12 -keystore service.p12 -validity 3650
