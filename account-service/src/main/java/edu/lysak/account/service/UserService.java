@@ -1,8 +1,9 @@
 package edu.lysak.account.service;
 
 import edu.lysak.account.domain.Role;
+import edu.lysak.account.domain.SecurityEventType;
 import edu.lysak.account.domain.User;
-import edu.lysak.account.dto.ChangeUserRoleRequest;
+import edu.lysak.account.dto.ChangeRoleAccessRequest;
 import edu.lysak.account.dto.PasswordResponse;
 import edu.lysak.account.dto.UserRequest;
 import edu.lysak.account.dto.UserResponse;
@@ -32,15 +33,18 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final ValidationService validationService;
+    private final SecurityEventService securityEventService;
 
     public UserService(
         UserRepository userRepository,
         PasswordEncoder passwordEncoder,
-        ValidationService validationService
+        ValidationService validationService,
+        SecurityEventService securityEventService
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.validationService = validationService;
+        this.securityEventService = securityEventService;
     }
 
     @Override
@@ -49,7 +53,12 @@ public class UserService implements UserDetailsService {
             .orElseThrow(() -> new UsernameNotFoundException("User with provided email not found."));
     }
 
-    public UserResponse signupUser(UserRequest userRequest) {
+    public User findByEmail(String userEmail) {
+        return userRepository.findByEmail(userEmail.toLowerCase(Locale.ROOT))
+            .orElseThrow(() -> new UserNotFoundException("User not found!"));
+    }
+
+    public UserResponse signupUser(UserRequest userRequest, String path) {
         validationService.validatePassword(userRequest.getPassword());
 
         Optional<User> userFromDb = userRepository.findByEmail(
@@ -67,12 +76,24 @@ public class UserService implements UserDetailsService {
         }
 
         User savedUser = userRepository.save(user);
+        securityEventService.saveEvent(
+            "Anonymous",
+            savedUser.getEmail(),
+            path,
+            SecurityEventType.CREATE_USER
+        );
         return mapToUserResponse(savedUser);
     }
 
-    public PasswordResponse changePassword(User user, String newPassword) {
+    public PasswordResponse changePassword(User user, String newPassword, String path) {
         validatePassword(user, newPassword);
         userRepository.changeUserPassword(user.getUserId(), passwordEncoder.encode(newPassword));
+        securityEventService.saveEvent(
+            user.getEmail(),
+            user.getEmail(),
+            path,
+            SecurityEventType.CHANGE_PASSWORD
+        );
         return PasswordResponse.builder()
             .email(user.getEmail())
             .status("The password has been updated successfully")
@@ -104,44 +125,120 @@ public class UserService implements UserDetailsService {
             .toList();
     }
 
-    public UserResponse deleteUser(String userEmail) {
-        User user = userRepository.findByEmail(userEmail.toLowerCase(Locale.ROOT))
-            .orElseThrow(() -> new UserNotFoundException("User not found!"));
-
-        validationService.validateForAdminRole(userEmail, user.getRoles());
+    public UserResponse deleteUser(String userEmail, String currentUserEmail, String path) {
+        User user = findByEmail(userEmail);
+        validationService.validateForAdminRole(user.getRoles(), "Can't remove ADMINISTRATOR role!");
 
         userRepository.delete(user);
+        securityEventService.saveEvent(
+            currentUserEmail,
+            user.getEmail(),
+            path,
+            SecurityEventType.DELETE_USER
+        );
         return UserResponse.builder()
             .user(userEmail)
             .status("Deleted successfully!")
             .build();
     }
 
-    public UserResponse changeUserRole(ChangeUserRoleRequest request) {
-        User user = userRepository.findByEmail(request.getUser().toLowerCase(Locale.ROOT))
-            .orElseThrow(() -> new UserNotFoundException("User not found!"));
+    public UserResponse changeUserRole(
+        ChangeRoleAccessRequest request,
+        String currentUserEmail,
+        String path
+    ) {
+        User user = findByEmail(request.getUser());
 
         Role role = Role.fromName(request.getRole())
             .orElseThrow(() -> new UserRoleNotFoundException("Role not found!"));
 
         switch (request.getOperation()) {
-            case GRANT -> addRole(user, role);
-            case REMOVE -> deleteRole(user, role);
+            case GRANT -> addRole(user, role, currentUserEmail, path);
+            case REMOVE -> removeRole(user, role, currentUserEmail, path);
         }
         return mapToUserResponse(user);
     }
 
-    private void addRole(User user, Role role) {
-        validationService.validateForAdminAndBusinessRolesCombination(user, role);
-        user.getRoles().add(role);
+    public UserResponse changeUserAccess(
+        ChangeRoleAccessRequest request,
+        String currentUserEmail,
+        String path
+    ) {
+        User user = findByEmail(request.getUser());
+        validationService.validateForAdminRole(user.getRoles(), "Can't lock the ADMINISTRATOR!");
+
+        String statusMsg = "";
+        String operationMsg = "";
+        SecurityEventType eventType = null;
+        switch (request.getOperation()) {
+            case LOCK -> {
+                lock(user);
+                eventType = SecurityEventType.LOCK_USER;
+                statusMsg = "locked";
+                operationMsg = "Lock";
+            }
+            case UNLOCK -> {
+                unlock(user);
+                eventType = SecurityEventType.UNLOCK_USER;
+                statusMsg = "unlocked";
+                operationMsg = "Unlock";
+            }
+        }
+
+        securityEventService.saveEvent(
+            currentUserEmail,
+            String.format("%s user %s", operationMsg, user.getEmail()),
+            path,
+            eventType
+        );
+        return UserResponse.builder()
+            .status(String.format("User %s %s!", user.getEmail(), statusMsg))
+            .build();
+    }
+
+    public void increaseFailedAttempts(User user) {
+        int newFailAttempts = user.getFailedAttempt() + 1;
+        userRepository.updateFailedAttempts(newFailAttempts, user.getEmail());
+    }
+
+    public void resetFailedAttempts(String email) {
+        userRepository.updateFailedAttempts(0, email);
+    }
+
+    public void lock(User user) {
+        user.setAccountNonLocked(false);
         userRepository.save(user);
     }
 
-    private void deleteRole(User user, Role role) {
+    public void unlock(User user) {
+        user.setAccountNonLocked(true);
+        user.setFailedAttempt(0);
+        userRepository.save(user);
+    }
+
+    private void addRole(User user, Role role, String currentUserEmail, String path) {
+        validationService.validateForAdminAndBusinessRolesCombination(user, role);
+        user.getRoles().add(role);
+        userRepository.save(user);
+        securityEventService.saveEvent(
+            currentUserEmail,
+            String.format("Grant role %s to %s", role, user.getEmail()),
+            path,
+            SecurityEventType.GRANT_ROLE
+        );
+    }
+
+    private void removeRole(User user, Role role, String currentUserEmail, String path) {
         Set<Role> userRoles = user.getRoles();
         validationService.validateRoleForDeletion(user, role, userRoles);
         userRoles.remove(role);
         userRepository.save(user);
+        securityEventService.saveEvent(
+            currentUserEmail,
+            String.format("Remove role %s from %s", role, user.getEmail()),
+            path,
+            SecurityEventType.REMOVE_ROLE
+        );
     }
 
     private User mapToUserEntity(UserRequest userRequest) {
@@ -150,6 +247,7 @@ public class UserService implements UserDetailsService {
             .lastname(userRequest.getLastname())
             .email(userRequest.getEmail().toLowerCase(Locale.ROOT))
             .password(passwordEncoder.encode(userRequest.getPassword()))
+            .accountNonLocked(true)
             .roles(Set.of(Role.USER))
             .build();
     }

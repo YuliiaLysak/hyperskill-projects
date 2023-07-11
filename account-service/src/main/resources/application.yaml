@@ -30,3 +30,7 @@ spring:
       settings:
         trace: false
         web-allow-others: false
+
+login:
+  max-failed-attempts: 5
+  breached-passwords-file: breached-passwords.txt

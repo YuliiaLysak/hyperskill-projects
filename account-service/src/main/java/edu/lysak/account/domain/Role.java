@@ -10,7 +10,8 @@ public enum Role implements GrantedAuthority {
     ANONYMOUS("ROLE_ANONYMOUS"),
     USER("ROLE_USER"),
     ACCOUNTANT("ROLE_ACCOUNTANT"),
-    ADMINISTRATOR("ROLE_ADMINISTRATOR");
+    ADMINISTRATOR("ROLE_ADMINISTRATOR"),
+    AUDITOR("ROLE_AUDITOR");
 
     private final String roleName;
 

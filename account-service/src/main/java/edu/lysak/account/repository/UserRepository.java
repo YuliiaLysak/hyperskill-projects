@@ -35,4 +35,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findUserWithPaymentsByUserId(
         @Param("userId") Long userId
     );
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE User u SET u.failedAttempt = :failAttempts WHERE u.email = :email")
+    void updateFailedAttempts(@Param("failAttempts") int failAttempts, @Param("email") String email);
 }

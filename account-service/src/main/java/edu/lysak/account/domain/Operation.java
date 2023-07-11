@@ -4,7 +4,9 @@ import java.util.Optional;
 
 public enum Operation {
     GRANT,
-    REMOVE;
+    REMOVE,
+    LOCK,
+    UNLOCK;
 
     public static Optional<Operation> fromName(String name) {
         for (Operation role : values()) {

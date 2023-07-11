@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class ChangeUserRoleRequest {
+public class ChangeRoleAccessRequest {
     @NotBlank(message = "'user' should not be blank")
     private String user;
     private String role;

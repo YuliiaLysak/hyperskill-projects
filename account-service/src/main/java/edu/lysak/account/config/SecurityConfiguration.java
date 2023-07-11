@@ -17,6 +17,7 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 @EnableWebSecurity
 public class SecurityConfiguration {
     private static final String USER_ROLE = Role.USER.name();
+    private static final String AUDITOR_ROLE = Role.AUDITOR.name();
     private static final String ACCOUNTANT_ROLE = Role.ACCOUNTANT.name();
     private static final String ADMINISTRATOR_ROLE = Role.ADMINISTRATOR.name();
 
@@ -67,6 +68,11 @@ public class SecurityConfiguration {
                     .hasAuthority(ADMINISTRATOR_ROLE);
                 auth.requestMatchers(HttpMethod.DELETE, "/api/admin/user/**")
                     .hasAuthority(ADMINISTRATOR_ROLE);
+                auth.requestMatchers(HttpMethod.PUT, "/api/admin/user/access")
+                    .hasAuthority(ADMINISTRATOR_ROLE);
+
+                auth.requestMatchers(HttpMethod.GET, "/api/security/events/**")
+                    .hasAuthority(AUDITOR_ROLE);
 
                 auth.anyRequest().authenticated();
             })

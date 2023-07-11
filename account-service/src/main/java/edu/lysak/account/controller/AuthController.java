@@ -29,7 +29,7 @@ public class AuthController {
         @RequestBody @Valid UserRequest userRequest,
         BindingResult bindingResult
     ) {
-        return ResponseEntity.ok(userService.signupUser(userRequest));
+        return ResponseEntity.ok(userService.signupUser(userRequest, "/api/auth/signup"));
     }
 
     @PostMapping("/api/auth/changepass")
@@ -37,8 +37,7 @@ public class AuthController {
         @AuthenticationPrincipal User user,
         @RequestBody PasswordRequest passwordRequest
     ) {
-        return ResponseEntity.ok(
-            userService.changePassword(user, passwordRequest.getNewPassword())
-        );
+        PasswordResponse response = userService.changePassword(user, passwordRequest.getNewPassword(), "/api/auth/changepass");
+        return ResponseEntity.ok(response);
     }
 }
