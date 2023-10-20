@@ -14,23 +14,11 @@ print_success_response() {
   echo "${responses[$idx]}"
 }
 
-retrieve_question() {
-#  curl --request GET -sL \
-#       --url 'http://127.0.0.1:8000/download/file.txt'\
-#       --silent \
-#       --output 'ID_card.txt'
-#
-#  cat 'ID_card.txt'
-#
-#  curl --request GET -sL \
-#       --url 'http://127.0.0.1:8000/login'\
-#       --silent \
-#       --output 'cookie.txt' \
-#       --cookie-jar "$(cat cookie.txt)" \
-#       --user "$(cat ID_card.txt)"
-#
-#  echo "Login message: $?"
+save_score_to_file() {
+  echo "User: $1, Score: $2, Date: $(date '+%Y-%m-%d')" >> $file_name
+}
 
+retrieve_question() {
   curl --request GET -sL \
        --url 'http://127.0.0.1:8000/game'\
        --silent \
@@ -46,6 +34,7 @@ retrieve_question() {
     print_success_response
     correct_answers=$((correct_answers+1))
     score=$((score+10))
+    save_score_to_file $1 $score
   else
     echo "Wrong answer, sorry!"
     echo "$1 you have $correct_answers correct answer(s)."
@@ -60,7 +49,24 @@ play_game() {
   while true; do
     retrieve_question "$player_name"
   done
+}
 
+print_score() {
+  if [ ! -f $file_name ]; then
+    echo "File not found or no scores in it!"
+  else
+    echo "Player scores"
+    cat $file_name
+  fi
+}
+
+reset_score() {
+  if [ ! -f $file_name ]; then
+    echo "File not found or no scores in it!"
+  else
+    rm $file_name
+    echo "File deleted successfully!"
+  fi
 }
 
 read_input() {
@@ -76,9 +82,11 @@ read_input() {
       ;;
     "2")
       echo "Displaying scores"
+      print_score
       ;;
     "3")
       echo "Resetting scores;"
+      reset_score
       ;;
     *)
       echo "Invalid option!"
@@ -89,6 +97,7 @@ read_input() {
 
 RANDOM=$RANDOM
 score=0
+file_name="scores.txt"
 echo "Welcome to the True or False Game!"
 while true; do
   print_menu
