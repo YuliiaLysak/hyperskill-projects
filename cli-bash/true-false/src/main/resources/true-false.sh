@@ -16,3 +16,10 @@ curl --request GET -sL \
      --user "$(cat ID_card.txt)"
 
 echo "Login message: $?"
+
+curl --request GET -sL \
+     --url 'http://127.0.0.1:8000/game'\
+     --silent \
+     --cookie "$(cat cookie.txt)"
+
+echo "Response: $?;"
