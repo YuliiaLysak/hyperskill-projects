@@ -32,6 +32,7 @@
         <module>simple-search-engine</module>
         <module>smart-calculator</module>
         <module>sorting-tool</module>
+        <module>tic-tac-toe-ai</module>
         <module>web-quiz-engine</module>
     </modules>
 
