@@ -1,16 +1,19 @@
 package edu.lysak.tictactoe;
 
 import java.util.Random;
+import java.util.Scanner;
 
 public class ComputerAI implements Player {
-    private final char element;
+    private char element;
 
-    public ComputerAI(char element) {
+    @Override
+    public void setElement(char element) {
         this.element = element;
     }
 
+
     @Override
-    public void move() {
+    public void move(Scanner scanner) {
         System.out.println("Making move level \"easy\"");
         Random random = new Random();
         int x;
@@ -18,33 +21,9 @@ public class ComputerAI implements Player {
         do {
             x = random.nextInt(3) + 1;
             y = random.nextInt(3) + 1;
-        } while (!isCorrectInput(x + " " + y));
+        } while (GameField.isCorrectInput(x + " " + y));
 
         GameField.matrix[3 - y][x - 1] = element;
         GameField.moveCount++;
-    }
-
-    @Override
-    public boolean isCorrectInput(String coordinates) {
-        try {
-            int x = Integer.parseInt(coordinates.substring(0, 1));
-            int y = Integer.parseInt(coordinates.substring(2));
-
-            if (x > 3 || x < 1 || y > 3 || y < 1) {
-                System.out.println("Coordinates should be from 1 to 3!");
-                return false;
-            }
-
-            if (GameField.matrix[3 - y][x - 1] != ' ') {
-                System.out.println("This cell is occupied! Choose another one!");
-                return false;
-            }
-
-            return true;
-
-        } catch (NumberFormatException e) {
-            System.out.println("You should enter numbers!");
-            return false;
-        }
     }
 }

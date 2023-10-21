@@ -1,18 +1,20 @@
 package edu.lysak.tictactoe;
 
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         GameField gameField = new GameField();
-        User user = new User('X');
-        ComputerAI computer = new ComputerAI('O');
+        Player[] players = gameField.getPlayers(scanner);
 
         gameField.drawMatrix();
 
         while (!gameField.isGameFinished()) {
             if (gameField.getMoveCount() % 2 == 0) {
-                user.move();
+                players[0].move(scanner);
             } else {
-                computer.move();
+                players[1].move(scanner);
             }
             gameField.drawMatrix();
             gameField.checkResult();

@@ -1,6 +1,8 @@
 package edu.lysak.tictactoe;
 
+import java.util.Scanner;
+
 public interface Player {
-    void move();
-    boolean isCorrectInput(String coordinates);
+    void setElement(char element);
+    void move(Scanner scanner);
 }

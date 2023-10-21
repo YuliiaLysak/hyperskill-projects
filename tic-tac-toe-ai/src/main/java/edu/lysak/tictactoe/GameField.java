@@ -1,6 +1,7 @@
 package edu.lysak.tictactoe;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class GameField {
     public static final char[][] matrix = new char[][]{
@@ -34,6 +35,65 @@ public class GameField {
             System.out.println("|");
         }
         System.out.println("---------");
+    }
+
+    public Player[] getPlayers(Scanner scanner) {
+        String command;
+        do {
+            System.out.print("Input command: ");
+            command = scanner.nextLine();
+        } while (!GameField.isCorrectCommand(command));
+        String[] parts = command.split(" ");
+        Player[] players = new Player[2];
+        for (int i = 1; i < parts.length; i++) {
+            if ("user".equals(parts[i])) {
+                players[i - 1] = new User();
+            }
+            if ("easy".equals(parts[i])) {
+                players[i - 1] = new ComputerAI();
+            }
+        }
+        players[0].setElement('X');
+        players[1].setElement('O');
+        return players;
+    }
+
+    private static boolean isCorrectCommand(String command) {
+        String[] parts = command.split(" ");
+        if (parts.length != 3 || !"start".equals(parts[0])) {
+            System.out.println("Bad parameters!");
+            return false;
+        }
+        if (("easy".equals(parts[1]) || "user".equals(parts[1]))
+            && ("easy".equals(parts[2]) || "user".equals(parts[2]))) {
+            return true;
+        } else {
+            System.out.println("Bad parameters!");
+            return false;
+        }
+    }
+
+    public static boolean isCorrectInput(String coordinates) {
+        try {
+            int x = Integer.parseInt(coordinates.substring(0, 1));
+            int y = Integer.parseInt(coordinates.substring(2));
+
+            if (x > 3 || x < 1 || y > 3 || y < 1) {
+                System.out.println("Coordinates should be from 1 to 3!");
+                return true;
+            }
+
+            if (GameField.matrix[3 - y][x - 1] != ' ') {
+                System.out.println("This cell is occupied! Choose another one!");
+                return true;
+            }
+
+            return false;
+
+        } catch (NumberFormatException e) {
+            System.out.println("You should enter numbers!");
+            return true;
+        }
     }
 
     public void checkResult() {
