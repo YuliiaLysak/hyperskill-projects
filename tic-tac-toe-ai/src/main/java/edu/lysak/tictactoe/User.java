@@ -1,27 +1,23 @@
 package edu.lysak.tictactoe;
 
-import java.util.Scanner;
-
 public class User implements Player {
+    private InputHandler inputHandler;
+    private final GameField gameField;
     private char element;
+
+    public User(GameField gameField, InputHandler inputHandler) {
+        this.gameField = gameField;
+        this.inputHandler = inputHandler;
+    }
 
     @Override
     public void setElement(char element) {
         this.element = element;
     }
 
-
     @Override
-    public void move(Scanner scanner) {
-        String coordinates;
-        do {
-            System.out.print("Enter the coordinates: ");
-            coordinates = scanner.nextLine();
-        } while (GameField.isCorrectInput(coordinates));
-
-        int x = Integer.parseInt(coordinates.substring(0, 1));
-        int y = Integer.parseInt(coordinates.substring(2));
-        GameField.matrix[3 - y][x - 1] = element;
-        GameField.moveCount++;
+    public void move() {
+        Cell cell = inputHandler.getCell();
+        gameField.putElementIntoCell(cell.getX(), cell.getY(), element);
     }
 }

@@ -1,23 +1,27 @@
 package edu.lysak.tictactoe;
 
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         GameField gameField = new GameField();
-        Player[] players = gameField.getPlayers(scanner);
+        InputHandler inputHandler = new InputHandler(gameField);
 
-        gameField.drawMatrix();
+        String command = inputHandler.getCommand();
 
-        while (!gameField.isGameFinished()) {
-            if (gameField.getMoveCount() % 2 == 0) {
-                players[0].move(scanner);
-            } else {
-                players[1].move(scanner);
-            }
+        while (!inputHandler.isExitGame()) {
+            Player[] players = inputHandler.getPlayers(gameField, command);
             gameField.drawMatrix();
-            gameField.checkResult();
+
+            while (!gameField.isGameFinished()) {
+                if (gameField.getMoveCount() % 2 == 0) {
+                    players[0].move();
+                } else {
+                    players[1].move();
+                }
+                gameField.drawMatrix();
+                gameField.checkResult();
+            }
+            command = inputHandler.getCommand();
+            gameField.setGameFinished(false);
         }
     }
 }
