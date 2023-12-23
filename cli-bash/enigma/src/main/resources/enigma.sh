@@ -140,7 +140,7 @@ decrypt() {
   echo "$result"
 }
 
-stage_4_5() {
+stage_4_5_6() {
   echo "Welcome to the Enigma!"
   while true; do
     print_menu
@@ -184,10 +184,11 @@ stage_4_5() {
       echo "Enter the filename:"
       read -r file_name
       if [ -s "$file_name" ]; then
+        echo "Enter password:"
+        read -r password
         output_file="${file_name}.enc"
-        content=$(<"$file_name")
-        encrypted_content=$(encrypt "$content")
-        echo "$encrypted_content" > "$output_file"
+        openssl enc -aes-256-cbc -e -pbkdf2 -nosalt -in "$file_name" -out "$output_file" -pass pass:"$password" &>/dev/null
+        # &>/dev/null is used for not showing error in the stdout (like decrypt error)
         exit_code=$?
         if [[ $exit_code -eq 0 ]]; then
           echo "Success"
@@ -203,10 +204,11 @@ stage_4_5() {
       echo "Enter the filename:"
       read -r file_name
       if [ -s "$file_name" ]; then
+        echo "Enter password:"
+        read -r password
         output_file=$(echo "$file_name" | rev | cut -c5- | rev)
-        content=$(<"$file_name")
-        decrypted_content=$(decrypt "$content")
-        echo "$decrypted_content" > "$output_file"
+        openssl enc -aes-256-cbc -d -pbkdf2 -nosalt -in "$file_name" -out "$output_file" -pass pass:"$password" &>/dev/null
+        # &>/dev/null is used for not showing error in the stdout (like decrypt error)
         exit_code=$?
         if [[ $exit_code -eq 0 ]]; then
           echo "Success"
@@ -245,4 +247,4 @@ check_filename() {
 #stage_1
 #stage_2
 #stage_3
-stage_4_5
+stage_4_5_6
