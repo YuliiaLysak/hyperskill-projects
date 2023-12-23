@@ -106,10 +106,8 @@ encrypt() {
 
     encrypted_letter=$(chr "$shifted_value")
     result+=$encrypted_letter
-    # TODO: uncomment next line for check at hyperskill.org
-    #echo ""
   done
-  echo "Encrypted message:"
+#  echo "Encrypted message:"
   echo "$result"
 }
 
@@ -137,10 +135,8 @@ decrypt() {
 
     decrypted_letter=$(chr "$shifted_value")
     result+=$decrypted_letter
-    # TODO: uncomment next line for check at hyperskill.org
-    #echo ""
   done
-  echo "Decrypted message:"
+#  echo "Decrypted message:"
   echo "$result"
 }
 
@@ -159,10 +155,16 @@ stage_4_5() {
       read -r filename
       is_valid_filename=$(check_filename $filename)
       if $is_valid_filename; then
-        echo "Enter message:"
+        echo "Enter a message:"
         read -r message
-        touch "$filename"
-        echo "$message" >> "$filename"
+        is_valid_message=$(check_message "$message")
+        if $is_valid_message; then
+          touch "$filename"
+          echo "$message" >> "$filename"
+          echo "The file was created successfully!"
+        else
+          echo "This is not a valid message!"
+        fi
       else
         echo "File name can contain letters and dots only!"
       fi
@@ -172,6 +174,7 @@ stage_4_5() {
       read -r filename
       if [ -s "$filename" ]; then
         read -r file_content < "$filename"
+        echo "File content:"
         echo "$file_content"
       else
         echo "File not found!"
@@ -181,13 +184,10 @@ stage_4_5() {
       echo "Enter the filename:"
       read -r file_name
       if [ -s "$file_name" ]; then
-        echo "Enter password:"
-        read -r password
         output_file="${file_name}.enc"
-        # TODO: code example from hyperskill, doesn't work for me locally
-        #openssl enc -aes-256-cbc -e -pbkdf2 -nosalt -in "$file_name" -out "${file_name}.enc" -pass pass:"$password" &>/dev/null
-        openssl enc -aes-256-cbc -nosalt -in "$file_name" -out "$output_file" -pass pass:"$password" &>/dev/null
-        # &>/dev/null is used for not showing error in the stdout (like decrypt error)
+        content=$(<"$file_name")
+        encrypted_content=$(encrypt "$content")
+        echo "$encrypted_content" > "$output_file"
         exit_code=$?
         if [[ $exit_code -eq 0 ]]; then
           echo "Success"
@@ -203,13 +203,10 @@ stage_4_5() {
       echo "Enter the filename:"
       read -r file_name
       if [ -s "$file_name" ]; then
-        echo "Enter password:"
-        read -r password
         output_file=$(echo "$file_name" | rev | cut -c5- | rev)
-        # TODO: code example from hyperskill, doesn't work for me locally
-        #openssl enc -aes-256-cbc -d -pbkdf2 -nosalt -in "$file_name" -out "$output_file" -pass pass:"$password" &>/dev/null
-        openssl enc -d -aes-256-cbc -nosalt -in "$file_name" -out "$output_file" -pass pass:"$password" &>/dev/null
-        # &>/dev/null is used for not showing error in the stdout (like decrypt error)
+        content=$(<"$file_name")
+        decrypted_content=$(decrypt "$content")
+        echo "$decrypted_content" > "$output_file"
         exit_code=$?
         if [[ $exit_code -eq 0 ]]; then
           echo "Success"
