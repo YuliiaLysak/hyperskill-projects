@@ -30,18 +30,20 @@ public class QRCodeController {
     @GetMapping("/api/qrcode")
     public ResponseEntity<BufferedImage> generateQRCode(
         @RequestParam("size") int size,
-        @RequestParam("type") String type
+        @RequestParam("type") String type,
+        @RequestParam("contents") String contents
     ) {
+        validationService.validateContent(contents);
         validationService.validateSize(size);
         validationService.validateImageType(type);
         return ResponseEntity.ok()
             .contentType(ImageType.mediaTypeOf(type))
-            .body(imageService.createImage(size, size));
+            .body(imageService.createImage(contents, size, size));
     }
 
     // Custom serialization
     @GetMapping("/api/qrcode-bytes")
-    public ResponseEntity<byte[]> generateQRCode2() {
+    public ResponseEntity<byte[]> generateQRCodeBytes() {
         BufferedImage image = imageService.createImage(250, 250);
         return ResponseEntity
             .ok()
