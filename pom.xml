@@ -28,6 +28,7 @@
         <module>music-advisor</module>
         <module>number-base-converter</module>
         <module>phone-book</module>
+        <module>qrcode-service</module>
         <module>recipes</module>
         <module>simple-search-engine</module>
         <module>smart-calculator</module>

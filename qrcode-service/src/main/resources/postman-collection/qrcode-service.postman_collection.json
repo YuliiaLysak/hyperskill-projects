@@ -1,0 +1,73 @@
+{
+	"info": {
+		"_postman_id": "1cbf2ce6-f069-481e-9f6f-486e3c8f3c0a",
+		"name": "qrcode-service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12145969"
+	},
+	"item": [
+		{
+			"name": "stage-1",
+			"item": [
+				{
+					"name": "health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/health",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "QR code",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/qrcode?size=250&type=png&contents=Hello World&correction=L",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"qrcode"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "250"
+								},
+								{
+									"key": "type",
+									"value": "png"
+								},
+								{
+									"key": "contents",
+									"value": "Hello World"
+								},
+								{
+									"key": "correction",
+									"value": "L"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
