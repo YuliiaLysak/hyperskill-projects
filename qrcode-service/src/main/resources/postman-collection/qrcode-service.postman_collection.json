@@ -35,7 +35,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/qrcode",
+							"raw": "http://localhost:8080/api/qrcode?size=250&type=png",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -44,6 +44,16 @@
 							"path": [
 								"api",
 								"qrcode"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "250"
+								},
+								{
+									"key": "type",
+									"value": "png"
+								}
 							]
 						}
 					},
