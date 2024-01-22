@@ -35,7 +35,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/qrcode?size=250&type=png&contents=Hello World",
+							"raw": "http://localhost:8080/api/qrcode?size=250&type=png&contents=Hello World&correction=L",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -57,6 +57,10 @@
 								{
 									"key": "contents",
 									"value": "Hello World"
+								},
+								{
+									"key": "correction",
+									"value": "L"
 								}
 							]
 						}

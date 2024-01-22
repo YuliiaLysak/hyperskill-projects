@@ -1,6 +1,7 @@
 package edu.lysak.qrcodeapi.service;
 
 import edu.lysak.qrcodeapi.domain.ImageType;
+import edu.lysak.qrcodeapi.domain.QRCodeCorrection;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -23,6 +24,13 @@ public class ValidationService {
     public void validateContent(String contents) {
         if (!StringUtils.hasText(contents)) {
             throw new IllegalArgumentException("Contents cannot be null or blank");
+        }
+    }
+
+    public void validateQRCodeCorrection(String correction) {
+        QRCodeCorrection qrCodeCorrection = QRCodeCorrection.fromValue(correction);
+        if (qrCodeCorrection == QRCodeCorrection.UNKNOWN) {
+            throw new IllegalArgumentException("Permitted error correction levels are L, M, Q, H");
         }
     }
 }

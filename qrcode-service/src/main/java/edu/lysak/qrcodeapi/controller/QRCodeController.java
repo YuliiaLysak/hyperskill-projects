@@ -29,16 +29,18 @@ public class QRCodeController {
     // Spring Boot serialization (with HttpMessageConverter<BufferedImage> bean)
     @GetMapping("/api/qrcode")
     public ResponseEntity<BufferedImage> generateQRCode(
-        @RequestParam("size") int size,
-        @RequestParam("type") String type,
-        @RequestParam("contents") String contents
+        @RequestParam(value = "size", required = false, defaultValue = "250") int size,
+        @RequestParam(value = "type", required = false, defaultValue = "png") String type,
+        @RequestParam("contents") String contents,
+        @RequestParam(value = "correction", required = false, defaultValue = "L") String correction
     ) {
         validationService.validateContent(contents);
         validationService.validateSize(size);
+        validationService.validateQRCodeCorrection(correction);
         validationService.validateImageType(type);
         return ResponseEntity.ok()
             .contentType(ImageType.mediaTypeOf(type))
-            .body(imageService.createImage(contents, size, size));
+            .body(imageService.createImage(contents, size, size, correction));
     }
 
     // Custom serialization
